@@ -1,0 +1,398 @@
+/**
+ * Funções de busca e filtros para Algolia
+ * Interface de busca para o frontend
+ */
+
+import { searchClient, INDICES, buildAlgoliaFilters } from './client';
+import type { SearchOptions, SearchFilters } from './client';
+
+/**
+ * Interface para resultados de busca
+ */
+export interface SearchResult<T = any> {
+  hits: T[];
+  nbHits: number;
+  page: number;
+  nbPages: number;
+  hitsPerPage: number;
+  exhaustiveNbHits: boolean;
+  query: string;
+  params: string;
+  processingTimeMS: number;
+  facets?: Record<string, Record<string, number>>;
+  facets_stats?: Record<string, { min: number; max: number; avg: number; sum: number }>;
+}
+
+/**
+ * Interface para sugestões de busca
+ */
+export interface SearchSuggestion {
+  query: string;
+  highlighted: string;
+  nbHits: number;
+}
+
+/**
+ * Busca produtos no Algolia
+ */
+export async function searchProdutos(options: SearchOptions = {}): Promise<SearchResult | null> {
+  if (!searchClient) {
+    console.warn('Cliente de busca Algolia não configurado');
+    return null;
+  }
+
+  try {
+    const {
+      query = '',
+      filters = {},
+      page = 0,
+      hitsPerPage = 20,
+      facets = ['categoria', 'disponibilidade', 'associacao.nome', 'associacao.cidade', 'preco.range'],
+      sortBy,
+    } = options;
+
+    const algoliaFilters = buildAlgoliaFilters(filters);
+    const indexName = sortBy ? `${INDICES.produtos}_${sortBy}` : INDICES.produtos;
+
+    const searchParams = {
+      requests: [{
+        indexName,
+        params: {
+          query,
+          page,
+          hitsPerPage,
+          facets,
+          filters: algoliaFilters || undefined,
+          highlightPreTag: '<mark>',
+          highlightPostTag: '</mark>',
+          snippetEllipsisText: '...',
+          attributesToSnippet: ['descricao:20'],
+          getRankingInfo: true,
+          analytics: true,
+          analyticsTags: ['produtos-search'],
+          clickAnalytics: true,
+        }
+      }]
+    };
+
+    const { results } = await searchClient.searchMultipleQueries(searchParams);
+
+    return results[0] as SearchResult;
+  } catch (error) {
+    console.error('Erro na busca de produtos:', error);
+    return null;
+  }
+}
+
+/**
+ * Busca associações no Algolia
+ */
+export async function searchAssociacoes(options: SearchOptions = {}): Promise<SearchResult | null> {
+  if (!searchClient) {
+    console.warn('Cliente de busca Algolia não configurado');
+    return null;
+  }
+
+  try {
+    const {
+      query = '',
+      filters = {},
+      page = 0,
+      hitsPerPage = 20,
+      facets = ['cidade', 'ativa', 'especialidades'],
+    } = options;
+
+    const algoliaFilters = buildAlgoliaFilters(filters);
+
+    const searchParams: any = {
+      query,
+      page,
+      hitsPerPage,
+      facets,
+      filters: algoliaFilters || undefined,
+      highlightPreTag: '<mark>',
+      highlightPostTag: '</mark>',
+      attributesToSnippet: ['descricao:20'],
+      analytics: true,
+      analyticsTags: ['associacoes-search'],
+    };
+
+    const { results } = await searchClient.search([{
+      indexName: INDICES.associacoes,
+      ...searchParams,
+    }]);
+
+    return results[0] as SearchResult;
+  } catch (error) {
+    console.error('Erro na busca de associações:', error);
+    return null;
+  }
+}
+
+/**
+ * Busca multi-índice (produtos e associações)
+ */
+export async function multiSearch(query: string, options: Partial<SearchOptions> = {}) {
+  if (!searchClient) {
+    console.warn('Cliente de busca Algolia não configurado');
+    return null;
+  }
+
+  try {
+    const {
+      page = 0,
+      hitsPerPage = 10,
+    } = options;
+
+    const queries = [
+      {
+        indexName: INDICES.produtos,
+        query,
+        page,
+        hitsPerPage,
+        facets: ['categoria', 'disponibilidade'],
+        attributesToSnippet: ['descricao:15'],
+        analyticsTags: ['multi-search-produtos'],
+      },
+      {
+        indexName: INDICES.associacoes,
+        query,
+        page,
+        hitsPerPage: Math.ceil(hitsPerPage / 2),
+        facets: ['cidade', 'especialidades'],
+        attributesToSnippet: ['descricao:15'],
+        analyticsTags: ['multi-search-associacoes'],
+      },
+    ];
+
+    const { results } = await searchClient.search(queries);
+
+    return {
+      produtos: results[0] as SearchResult,
+      associacoes: results[1] as SearchResult,
+      total: (results[0].nbHits || 0) + (results[1].nbHits || 0),
+    };
+  } catch (error) {
+    console.error('Erro na busca multi-índice:', error);
+    return null;
+  }
+}
+
+/**
+ * Busca por geolocalização
+ */
+export async function searchByLocation(
+  query: string,
+  lat: number,
+  lng: number,
+  radius: number = 50000, // 50km em metros
+  options: Partial<SearchOptions> = {}
+): Promise<SearchResult | null> {
+  if (!searchClient) {
+    return null;
+  }
+
+  try {
+    const { hitsPerPage = 20, page = 0 } = options;
+
+    const { results } = await searchClient.search([{
+      indexName: INDICES.produtos,
+      query,
+      page,
+      hitsPerPage,
+      aroundLatLng: `${lat},${lng}`,
+      aroundRadius: radius,
+      facets: ['categoria', 'disponibilidade', 'associacao.cidade'],
+      getRankingInfo: true,
+      analytics: true,
+      analyticsTags: ['geo-search'],
+    }]);
+
+    return results[0] as SearchResult;
+  } catch (error) {
+    console.error('Erro na busca por localização:', error);
+    return null;
+  }
+}
+
+/**
+ * Obter sugestões de busca (autocomplete)
+ */
+export async function getSearchSuggestions(query: string, maxSuggestions: number = 5): Promise<SearchSuggestion[]> {
+  if (!searchClient || !query.trim()) {
+    return [];
+  }
+
+  try {
+    const { results } = await searchClient.search([{
+      indexName: INDICES.produtos,
+      query,
+      hitsPerPage: 0, // Não precisamos dos hits, só das facetas
+      facets: ['nome'],
+      maxValuesPerFacet: maxSuggestions,
+      analytics: false,
+    }]);
+
+    const result = results[0];
+    const suggestions: SearchSuggestion[] = [];
+
+    // Extrair sugestões das facetas
+    if (result.facets?.nome) {
+      Object.entries(result.facets.nome).forEach(([facetValue, count]) => {
+        if (facetValue.toLowerCase().includes(query.toLowerCase())) {
+          suggestions.push({
+            query: facetValue,
+            highlighted: facetValue.replace(
+              new RegExp(`(${query})`, 'gi'),
+              '<mark>$1</mark>'
+            ),
+            nbHits: count,
+          });
+        }
+      });
+    }
+
+    return suggestions.slice(0, maxSuggestions);
+  } catch (error) {
+    console.error('Erro ao obter sugestões:', error);
+    return [];
+  }
+}
+
+/**
+ * Obter facetas disponíveis para filtros
+ */
+export async function getFacets(indexName: keyof typeof INDICES, facetName: string): Promise<Record<string, number> | null> {
+  if (!searchClient) {
+    return null;
+  }
+
+  try {
+    const { results } = await searchClient.search([{
+      indexName: INDICES[indexName],
+      query: '',
+      hitsPerPage: 0,
+      facets: [facetName],
+      maxValuesPerFacet: 100,
+    }]);
+
+    return results[0].facets?.[facetName] || null;
+  } catch (error) {
+    console.error(`Erro ao obter facetas ${facetName}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Buscar produtos similares
+ */
+export async function getSimilarProdutos(produtoId: string, maxResults: number = 4): Promise<any[] | null> {
+  if (!searchClient) {
+    return null;
+  }
+
+  try {
+    // Primeiro, buscar o produto para obter seus atributos
+    const { results } = await searchClient.search([{
+      indexName: INDICES.produtos,
+      query: '',
+      filters: `objectID:${produtoId}`,
+      hitsPerPage: 1,
+    }]);
+
+    const produto = results[0].hits[0];
+    if (!produto) return null;
+
+    // Buscar produtos similares baseado em categoria e associação
+    const similarQuery = {
+      indexName: INDICES.produtos,
+      query: produto.nome,
+      filters: `NOT objectID:${produtoId} AND categoria:"${produto.categoria}"`,
+      hitsPerPage: maxResults,
+      optionalFilters: [
+        `associacao.nome:"${produto.associacao?.nome}"`,
+      ],
+      analytics: true,
+      analyticsTags: ['produtos-similares'],
+    };
+
+    const { results: similarResults } = await searchClient.search([similarQuery]);
+    return similarResults[0].hits;
+  } catch (error) {
+    console.error('Erro ao buscar produtos similares:', error);
+    return null;
+  }
+}
+
+/**
+ * Rastrear clique em resultado de busca
+ */
+export async function trackSearchClick(
+  query: string,
+  objectID: string,
+  position: number,
+  indexName: keyof typeof INDICES = 'produtos'
+) {
+  if (!searchClient) {
+    return;
+  }
+
+  try {
+    // O Algolia rastreia automaticamente com clickAnalytics: true
+    // Esta função serve para tracking adicional se necessário
+    console.log('Clique rastreado:', { query, objectID, position, indexName });
+  } catch (error) {
+    console.error('Erro ao rastrear clique:', error);
+  }
+}
+
+/**
+ * Buscar produtos populares/em destaque
+ */
+export async function getFeaturedProdutos(limit: number = 8): Promise<any[] | null> {
+  if (!searchClient) {
+    return null;
+  }
+
+  try {
+    const { results } = await searchClient.search([{
+      indexName: INDICES.produtos,
+      query: '',
+      filters: 'disponibilidade:"DISPONIVEL"',
+      hitsPerPage: limit,
+      // Ordenar por popularidade (customRanking configurado no índice)
+      analytics: true,
+      analyticsTags: ['produtos-destaque'],
+    }]);
+
+    return results[0].hits;
+  } catch (error) {
+    console.error('Erro ao buscar produtos em destaque:', error);
+    return null;
+  }
+}
+
+/**
+ * Estatísticas de busca
+ */
+export async function getSearchStats(period: string = 'last-7-days') {
+  // Esta função seria implementada com a API de Analytics do Algolia
+  // Por enquanto, retorna mock data
+  return {
+    totalSearches: 0,
+    topQueries: [],
+    noResultsQueries: [],
+    clickThroughRate: 0,
+    avgResultsPerSearch: 0,
+  };
+}
+
+/**
+ * Utilitário para highlighting de texto
+ */
+export function extractHighlights(hit: any, attribute: string): string {
+  const highlighted = hit._highlightResult?.[attribute];
+  if (!highlighted) return hit[attribute] || '';
+  
+  return highlighted.value || hit[attribute] || '';
+}

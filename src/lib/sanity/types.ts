@@ -40,7 +40,13 @@ export interface Produto {
   descricao: string;
   descricaoBreve: string;
   imagens: SanityImage[];
-  categoria: 'decoracao' | 'vestuario' | 'religioso' | 'bebe' | 'acessorios' | 'personalizado';
+  categoria:
+    | 'decoracao'
+    | 'vestuario'
+    | 'religioso'
+    | 'bebe'
+    | 'acessorios'
+    | 'personalizado';
   disponibilidade: 'disponivel' | 'sob-encomenda';
   preco?: number;
   precoPromocional?: number;
@@ -119,7 +125,13 @@ export interface Evento {
   organizador?: string;
   capacidade?: number;
   destaque: boolean;
-  status: 'programado' | 'inscricoes-abertas' | 'lotado' | 'em-andamento' | 'finalizado' | 'cancelado';
+  status:
+    | 'programado'
+    | 'inscricoes-abertas'
+    | 'lotado'
+    | 'em-andamento'
+    | 'finalizado'
+    | 'cancelado';
 }
 
 export interface HeroSection {

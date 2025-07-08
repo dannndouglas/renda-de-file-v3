@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineField, defineType } from 'sanity';
 
 export const evento = defineType({
   name: 'evento',
@@ -166,7 +166,7 @@ export const evento = defineType({
         title,
         subtitle: subtitle || 'Evento',
         media,
-      }
+      };
     },
   },
-})
+});

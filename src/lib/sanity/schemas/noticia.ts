@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineField, defineType } from 'sanity';
 
 export const noticia = defineType({
   name: 'noticia',
@@ -161,7 +161,7 @@ export const noticia = defineType({
         title,
         subtitle: subtitle || 'Sem categoria',
         media,
-      }
+      };
     },
   },
-})
+});

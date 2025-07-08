@@ -1,14 +1,16 @@
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
+import { SessionProvider } from '@/components/auth/session-provider';
+import { QueryProvider } from '@/components/providers/query-provider';
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
 });
 
-const playfairDisplay = Playfair_Display({ 
+const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
   display: 'swap',
@@ -19,8 +21,16 @@ export const metadata: Metadata = {
     default: 'Renda de Filé de Jaguaribe',
     template: '%s | Renda de Filé de Jaguaribe',
   },
-  description: 'Artesanato tradicional de Jaguaribe, Ceará. Mais de 300 anos de tradição em renda de filé feita à mão pelas artesãs locais.',
-  keywords: ['renda de filé', 'artesanato', 'jaguaribe', 'ceará', 'tradição', 'cultura'],
+  description:
+    'Artesanato tradicional de Jaguaribe, Ceará. Mais de 300 anos de tradição em renda de filé feita à mão pelas artesãs locais.',
+  keywords: [
+    'renda de filé',
+    'artesanato',
+    'jaguaribe',
+    'ceará',
+    'tradição',
+    'cultura',
+  ],
   authors: [{ name: 'Renda de Filé de Jaguaribe' }],
   creator: 'Renda de Filé de Jaguaribe',
   publisher: 'Renda de Filé de Jaguaribe',
@@ -38,13 +48,15 @@ export const metadata: Metadata = {
     locale: 'pt_BR',
     url: '/',
     title: 'Renda de Filé de Jaguaribe',
-    description: 'Artesanato tradicional de Jaguaribe, Ceará. Mais de 300 anos de tradição em renda de filé feita à mão.',
+    description:
+      'Artesanato tradicional de Jaguaribe, Ceará. Mais de 300 anos de tradição em renda de filé feita à mão.',
     siteName: 'Renda de Filé de Jaguaribe',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Renda de Filé de Jaguaribe',
-    description: 'Artesanato tradicional de Jaguaribe, Ceará. Mais de 300 anos de tradição.',
+    description:
+      'Artesanato tradicional de Jaguaribe, Ceará. Mais de 300 anos de tradição.',
   },
   robots: {
     index: true,
@@ -68,9 +80,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${playfairDisplay.variable}`}>
+    <html
+      lang="pt-BR"
+      className={`${inter.variable} ${playfairDisplay.variable}`}
+    >
       <body className={`${inter.className} antialiased`}>
-        {children}
+        <SessionProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </SessionProvider>
       </body>
     </html>
   );

@@ -53,7 +53,6 @@ model Produto {
   
   @@index([categoria, disponibilidade])
   @@index([associacaoId])
-  @@fulltext([nome, descricao])
   @@map("produtos")
 }
 

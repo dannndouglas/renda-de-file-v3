@@ -1,11 +1,13 @@
 # Construir um Site Moderno para Renda de Filé - Artesanato Tradicional de Jaguaribe, CE
 
 ## Visão Geral do Projeto
+
 Criar um site moderno, responsivo e escalável para mostrar e comercializar a Renda de Filé, artesanato tradicional de Jaguaribe, Ceará, Brasil. O site deve honrar a herança cultural enquanto proporciona uma experiência digital contemporânea com sistema de gestão de conteúdo flexível e alta performance.
 
 ## Requisitos Técnicos
 
 ### Stack Principal
+
 - **Framework**: Next.js 14 com App Router
 - **Linguagem**: TypeScript (modo strict)
 - **Estilização**: Tailwind CSS com design system customizado
@@ -22,6 +24,7 @@ Criar um site moderno, responsivo e escalável para mostrar e comercializar a Re
 - **Deploy**: Vercel (frontend) + Supabase (backend)
 
 ### Estrutura do Projeto
+
 ```
 src/
   app/
@@ -96,19 +99,18 @@ public/
 ## Funcionalidades Principais
 
 ### 1. Página Inicial
+
 - **Seção Hero**: Banner em largura total com imagens deslumbrantes da renda
   - Conteúdo gerenciado via Sanity CMS
   - Texto animado: "Renda de Filé de Jaguaribe - Tradição que Atravessa Gerações"
   - Indicador de rolagem suave
   - Botões de ação: "Conheça Nossa História" e "Veja o Catálogo"
   - Imagens otimizadas com next/image e blur placeholder
-  
 - **Seção de Introdução**: Visão geral do artesanato
   - Layout dividido com texto e imagem
   - Título: "A Arte Que Define Jaguaribe"
   - Ênfase na herança cultural e tradição artesanal
   - Conteúdo editável via Sanity
-  
 - **Produtos em Destaque**: Carrossel mostrando as melhores peças
   - Título da seção: "Peças em Destaque"
   - Imagens com lazy loading e zoom ao passar o mouse
@@ -117,7 +119,6 @@ public/
   - Informação da associação: "Associação [Nome]"
   - Badge de disponibilidade: "Disponível" ou "Sob Encomenda"
   - Botão "Conversar no WhatsApp"
-  
 - **Impacto Cultural**: Estatísticas e conquistas
   - "300+ anos de tradição"
   - "500+ artesãs ativas"
@@ -126,16 +127,15 @@ public/
   - Dados atualizáveis via Sanity
 
 ### 2. Página de História (/historia)
+
 - **Componente de Linha do Tempo**: Timeline histórica interativa
   - Marcos principais do século XVII até o presente
   - Efeitos hover revelando informações detalhadas
   - Conteúdo gerenciado via Sanity
-  
 - **Seção de Patrimônio**: Mergulho profundo nas origens
   - Conexão com tradições egípcias e europeias
   - Chegada ao Brasil e a Jaguaribe
   - Evolução das técnicas
-  
 - **Galeria de Fotos**: Imagens históricas
   - Comparações antes/depois com slider
   - Funcionalidade lightbox
@@ -143,13 +143,13 @@ public/
   - Upload e gestão via Sanity
 
 ### 3. Página de Associações (/associacoes)
+
 - **Diretório de Associações**: Layout em grade de todas as associações
   - Logo/foto de cada associação
   - Informações de contato
   - Número de membros
   - Especialidades
   - Dados sincronizados com Sanity
-  
 - **Páginas Individuais das Associações**: Perfis detalhados
   - História e fundação
   - Equipe de liderança
@@ -158,6 +158,7 @@ public/
   - Galeria de produtos da associação
 
 ### 4. Catálogo de Produtos (/catalogo)
+
 - **Sistema de Busca Avançado**: Powered by Algolia/MeiliSearch
   - Busca instantânea com sugestões
   - Correção ortográfica automática
@@ -173,7 +174,6 @@ public/
   - Tempo de produção: Pronta entrega, 7 dias, 15 dias, 30 dias
   - Associação: Filtro por associação específica
   - Estado dos filtros mantido via Zustand
-  
 - **Grade de Produtos**: Layout masonry responsivo
   - Lazy loading com intersection observer
   - Virtual scrolling para grandes listas
@@ -181,13 +181,12 @@ public/
   - Botão com ícone do WhatsApp: "Consultar"
   - Ícone de coração "Salvar nos Favoritos"
   - Imagens otimizadas automaticamente
-  
 - **Modal de Detalhes do Produto**: Informações ricas do produto
   - Galeria de imagens com zoom
   - Descrição detalhada
   - "Associação: [Nome]" com link para perfil
   - Badge "Personalização disponível"
-  - **Indicador de Disponibilidade**: 
+  - **Indicador de Disponibilidade**:
     - Verde: "Produto Disponível - Pronta Entrega"
     - Laranja: "Sob Encomenda - Consulte Prazo"
   - **Botão de Ação WhatsApp**:
@@ -198,11 +197,11 @@ public/
   - Seção "Produtos Relacionados"
 
 ### 5. Página Individual do Produto (/produto/[id])
+
 - **Layout Detalhado**:
   - Galeria de imagens em alta resolução
   - Zoom on hover
   - Otimização automática de imagens
-  
 - **Informações do Produto**:
   - Nome e descrição completa
   - Especificações técnicas
@@ -210,41 +209,41 @@ public/
   - Cuidados e manutenção
   - História da peça (quando relevante)
   - Preço sugerido ou faixa de preço
-  
 - **Status de Disponibilidade Destacado**:
   - Banner visual indicando status
   - Mensagem clara sobre disponibilidade
-  
 - **Integração WhatsApp via Link Direto**:
   - **Botão Principal de Contato**:
     - Ícone do WhatsApp + texto dinâmico
     - Se disponível: "💬 Comprar via WhatsApp"
     - Se sob encomenda: "💬 Encomendar via WhatsApp"
   - **Mensagem Pré-formatada**:
+
     ```
     Olá! Vi o produto [Nome do Produto] no site da Renda de Filé.
-    
+
     Código: [ID]
     Associação: [Nome da Associação]
     Status: [Disponível/Sob Encomenda]
-    
+
     Gostaria de mais informações sobre este produto.
     ```
+
   - **Link Dinâmico**: Abre WhatsApp da associação responsável
-  
+
 - **Seção Social**:
   - Botões de compartilhamento em redes sociais
   - Produtos similares da mesma associação
   - Galeria "Quem comprou também viu"
 
 ### 6. Notícias e Eventos (/noticias)
+
 - **Sistema de Blog**: Gerenciamento via Sanity
   - Editor visual no Sanity Studio
   - Categorias e tags
   - Artigos relacionados
   - Compartilhamento social
   - RSS feed
-  
 - **Calendário de Eventos**: Calendário interativo
   - Destaques do Festival da Renda de Filé
   - Agendas de workshops
@@ -253,6 +252,7 @@ public/
   - Sincronização com Google Calendar
 
 ### 7. Página de Contato (/contato)
+
 - **Contato Multicanal**: Vários métodos de contato
   - Formulário de contato com validação
     - Campos: Nome, Email, Telefone, Assunto, Mensagem
@@ -263,25 +263,23 @@ public/
     - Endereço: "Jaguaribe, Ceará, Brasil"
   - Exibição de horário comercial
     - "Horário de Funcionamento: Segunda a Sexta, 8h às 17h"
-  
 - **Sistema de Consultas**: Consultas específicas de produtos
   - Link direto para WhatsApp com produto pré-selecionado
   - Opção de enviar foto de referência via WhatsApp
   - QR Code para facilitar acesso mobile
 
 ### 8. Dashboard de Analytics (/analytics) - Protegido por autenticação
+
 - **Visão Geral**: Métricas principais do negócio
   - Total de visualizações
   - Produtos mais vistos
   - Taxa de cliques WhatsApp
   - Horários de pico
-  
 - **Métricas WhatsApp**: Análise de conversões
   - Taxa de conversão por produto
   - Associações mais procuradas
   - Tipos de consulta (compra vs encomenda)
   - Gráficos temporais
-  
 - **Relatórios**: Exportação de dados
   - Exportar para Excel/CSV
   - Filtros por período
@@ -290,6 +288,7 @@ public/
 ## Sistema de Gestão de Conteúdo (Sanity CMS)
 
 ### Configuração do Sanity Studio
+
 O Sanity Studio será a interface administrativa completa para gestão de conteúdo, eliminando a necessidade de um dashboard customizado.
 
 ```typescript
@@ -354,23 +353,28 @@ export default defineType({
 ```
 
 ### Sistema de Permissões no Sanity
+
 ```typescript
 // sanity/desk/structure.ts
 export const structure = (S, context) => {
   const { currentUser } = context;
-  
+
   return S.list()
     .title('Conteúdo')
     .items([
       // Admin vê tudo
-      ...(currentUser.roles.find(r => r.name === 'administrator') ? [
-        S.listItem()
-          .title('Configurações')
-          .icon(CogIcon)
-          .child(S.document().schemaType('configuracoes').documentId('global')),
-        S.divider(),
-      ] : []),
-      
+      ...(currentUser.roles.find((r) => r.name === 'administrator')
+        ? [
+            S.listItem()
+              .title('Configurações')
+              .icon(CogIcon)
+              .child(
+                S.document().schemaType('configuracoes').documentId('global')
+              ),
+            S.divider(),
+          ]
+        : []),
+
       // Todos veem produtos
       S.listItem()
         .title('Produtos')
@@ -380,18 +384,21 @@ export const structure = (S, context) => {
             .title('Produtos')
             .filter('_type == "produto"')
             // Filtro por associação se necessário
-            .filter(currentUser.roles.find(r => r.name === 'associacao') 
-              ? '_type == "produto" && associacao._ref == $associacaoId'
-              : '_type == "produto"')
+            .filter(
+              currentUser.roles.find((r) => r.name === 'associacao')
+                ? '_type == "produto" && associacao._ref == $associacaoId'
+                : '_type == "produto"'
+            )
             .params({ associacaoId: currentUser.associacaoId })
         ),
-      
+
       // ... outros itens do menu
     ]);
 };
 ```
 
 ### Tipos de Usuários no Sanity
+
 1. **Administrador**: Acesso total ao sistema
 2. **Editor**: Gerencia todo conteúdo público
 3. **Associação**: Gerencia apenas produtos da sua associação
@@ -399,20 +406,21 @@ export const structure = (S, context) => {
 ## Sistema de Autenticação
 
 ### Configuração do NextAuth.js
+
 ```typescript
 // lib/auth/config.ts
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
-import { sanityClient } from "@/lib/sanity/client";
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
+import { sanityClient } from '@/lib/sanity/client';
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Senha", type: "password" }
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Senha', type: 'password' },
       },
       async authorize(credentials) {
         // Verificar credenciais no Sanity
@@ -420,23 +428,26 @@ export const authOptions = {
           `*[_type == "usuario" && email == $email][0]`,
           { email: credentials?.email }
         );
-        
-        if (user && await verifyPassword(credentials?.password, user.password)) {
+
+        if (
+          user &&
+          (await verifyPassword(credentials?.password, user.password))
+        ) {
           return {
             id: user._id,
             email: user.email,
             name: user.nome,
             role: user.papel,
-            associacaoId: user.associacao?._ref
+            associacaoId: user.associacao?._ref,
           };
         }
         return null;
-      }
+      },
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    })
+    }),
   ],
   callbacks: {
     async jwt({ token, user }) {
@@ -452,19 +463,20 @@ export const authOptions = {
         session.user.associacaoId = token.associacaoId;
       }
       return session;
-    }
+    },
   },
   pages: {
     signIn: '/auth/login',
     error: '/auth/error',
-  }
+  },
 };
 ```
 
 ### Middleware de Proteção
+
 ```typescript
 // middleware.ts
-import { withAuth } from "next-auth/middleware";
+import { withAuth } from 'next-auth/middleware';
 
 export default withAuth({
   callbacks: {
@@ -479,13 +491,14 @@ export default withAuth({
 });
 
 export const config = {
-  matcher: ['/analytics/:path*']
+  matcher: ['/analytics/:path*'],
 };
 ```
 
 ## PWA (Progressive Web App)
 
 ### Configuração do PWA
+
 ```javascript
 // next.config.js
 const withPWA = require('next-pwa')({
@@ -504,6 +517,7 @@ module.exports = withPWA({
 ```
 
 ### Manifest.json
+
 ```json
 {
   "name": "Renda de Filé de Jaguaribe",
@@ -529,6 +543,7 @@ module.exports = withPWA({
 ```
 
 ### Componente de Instalação PWA
+
 ```typescript
 // components/pwa/InstallPrompt.tsx
 export function InstallPrompt() {
@@ -579,6 +594,7 @@ export function InstallPrompt() {
 ## Sistema de Otimização de Imagens
 
 ### Configuração de Otimização
+
 ```typescript
 // lib/images/optimization.ts
 export const imageOptimizationConfig = {
@@ -591,11 +607,11 @@ export const imageOptimizationConfig = {
 };
 
 // Componente de imagem otimizada
-export function OptimizedImage({ 
-  src, 
-  alt, 
+export function OptimizedImage({
+  src,
+  alt,
   priority = false,
-  ...props 
+  ...props
 }: OptimizedImageProps) {
   const [isLoading, setLoading] = useState(true);
 
@@ -621,6 +637,7 @@ export function OptimizedImage({
 ```
 
 ### Pipeline de Processamento no Upload
+
 ```typescript
 // sanity/plugins/image-optimization.ts
 export const imageOptimizationPlugin = definePlugin({
@@ -641,7 +658,7 @@ function OptimizeImagesAction(props) {
     label: 'Otimizar Imagens',
     onHandle: async () => {
       const images = props.draft?.imagens || [];
-      
+
       for (const image of images) {
         await processImage(image, {
           sizes: [400, 800, 1200],
@@ -657,6 +674,7 @@ function OptimizeImagesAction(props) {
 ## Sistema de Busca Avançado
 
 ### Implementação com Algolia/MeiliSearch
+
 ```typescript
 // Índices de busca
 - Produtos (principal)
@@ -673,6 +691,7 @@ function OptimizeImagesAction(props) {
 ```
 
 ### Integração no Frontend
+
 ```typescript
 // Componentes de busca
 - SearchBar global
@@ -684,13 +703,14 @@ function OptimizeImagesAction(props) {
 ## Gestão de Estado Global
 
 ### Stores Zustand
+
 ```typescript
 // useFavoritesStore
 - Produtos favoritos
 - Sincronização com localStorage
 - Contador de favoritos
 
-// useFilterStore  
+// useFilterStore
 - Filtros ativos
 - Ordenação
 - View mode (grid/list)
@@ -709,6 +729,7 @@ function OptimizeImagesAction(props) {
 ```
 
 ### TanStack Query
+
 ```typescript
 // Queries
 - Produtos (com cache)
@@ -725,6 +746,7 @@ function OptimizeImagesAction(props) {
 ## Estratégia de CDN e Cache
 
 ### CDN Configuration
+
 ```typescript
 // Cloudflare + Next.js Image Optimization
 - Assets estáticos
@@ -739,6 +761,7 @@ function OptimizeImagesAction(props) {
 ```
 
 ### Cache Strategy
+
 ```typescript
 // Redis
 - Session data
@@ -754,6 +777,7 @@ function OptimizeImagesAction(props) {
 ```
 
 ### Edge Caching
+
 ```typescript
 // Vercel Edge Functions
 - Geolocalização
@@ -765,6 +789,7 @@ function OptimizeImagesAction(props) {
 ## Sistema de Monitoramento
 
 ### Error Tracking (Sentry)
+
 ```typescript
 // Configuração
 - Source maps
@@ -775,6 +800,7 @@ function OptimizeImagesAction(props) {
 ```
 
 ### Analytics
+
 ```typescript
 // Vercel Analytics
 - Web Vitals
@@ -790,6 +816,7 @@ function OptimizeImagesAction(props) {
 ```
 
 ### Logs Estruturados
+
 ```typescript
 // Winston/Pino
 - API requests
@@ -801,19 +828,20 @@ function OptimizeImagesAction(props) {
 ## Requisitos de Design
 
 ### Identidade Visual
+
 - **Paleta de Cores**:
   - Primária: Tons terrosos quentes refletindo a paisagem do Ceará
   - Secundária: Pastéis suaves inspirados nos padrões da renda
   - Destaque: Tons de joias ricos para CTAs
   - Neutro: Off-white e cinzas claros
   - Status: Verde (disponível), Laranja (sob encomenda), Vermelho (indisponível)
-  
 - **Tipografia**:
   - Títulos: Fonte serif elegante (Playfair Display ou similar)
   - Corpo: Sans-serif limpa (Inter ou similar)
   - Especial: Fonte script para elementos decorativos
 
 ### Princípios UI/UX
+
 - **Mobile-First**: Otimizado para smartphones (público principal)
 - **Acessibilidade**: Conformidade WCAG 2.1 AA
 - **Performance**: Lighthouse score > 90
@@ -823,6 +851,7 @@ function OptimizeImagesAction(props) {
   - Skeletons de carregamento para melhor performance percebida
 
 ### Design de Componentes
+
 - **Cards**: Elevados com sombras sutis
 - **Botões**: Cantos arredondados com estados hover
 - **Imagens**: Lazy loading com efeito blur-up
@@ -869,7 +898,7 @@ model Produto {
   sanityId        String?         @unique // Referência ao documento no Sanity
   criadoEm        DateTime        @default(now())
   atualizadoEm    DateTime        @updatedAt
-  
+
   @@index([categoria, disponibilidade])
   @@index([associacaoId])
   @@fulltext([nome, descricao])
@@ -908,7 +937,7 @@ model Favorito {
   produtoId String
   produto   Produto  @relation(fields: [produtoId], references: [id])
   criadoEm  DateTime @default(now())
-  
+
   @@unique([sessionId, produtoId])
   @@index([sessionId])
 }
@@ -921,7 +950,7 @@ model ConsultaWhatsApp {
   tipo        TipoConsulta @default(COMPRA)
   origem      String?  // página de origem do clique
   criadoEm    DateTime @default(now())
-  
+
   @@index([produtoId])
   @@index([criadoEm])
 }
@@ -946,7 +975,7 @@ model MetricaAcesso {
   userAgent   String?
   referer     String?
   criadoEm    DateTime @default(now())
-  
+
   @@index([produtoId])
   @@index([criadoEm])
   @@index([pagina])
@@ -984,16 +1013,17 @@ enum TipoConsulta {
 ## Integração WhatsApp (Link Direto)
 
 ### Configuração de Links WhatsApp
+
 ```typescript
 // lib/whatsapp/utils.ts
 export function gerarLinkWhatsApp(produto: Produto, associacao: Associacao) {
   const numero = associacao.whatsapp?.replace(/\D/g, '');
-  
+
   if (!numero) {
     console.error('Associação sem número de WhatsApp:', associacao.nome);
     return null;
   }
-  
+
   const mensagem = `Olá! Vi o produto "${produto.nome}" no site da Renda de Filé.
 
 📦 Código: ${produto.id}
@@ -1002,19 +1032,22 @@ export function gerarLinkWhatsApp(produto: Produto, associacao: Associacao) {
 💰 Valor: ${produto.preco ? `R$ ${produto.preco}` : 'Consultar'}
 
 Gostaria de mais informações sobre este produto.`;
-  
+
   const mensagemCodificada = encodeURIComponent(mensagem);
   return `https://wa.me/55${numero}?text=${mensagemCodificada}`;
 }
 
 // Tracking de cliques (analytics)
-export async function trackWhatsAppClick(produtoId: string, tipo: TipoConsulta) {
+export async function trackWhatsAppClick(
+  produtoId: string,
+  tipo: TipoConsulta
+) {
   try {
     await api.post('/api/v1/consultas-whatsapp', {
       produtoId,
       tipo,
       sessionId: getSessionId(),
-      origem: window.location.pathname
+      origem: window.location.pathname,
     });
   } catch (error) {
     console.error('Erro ao registrar clique WhatsApp:', error);
@@ -1023,6 +1056,7 @@ export async function trackWhatsAppClick(produtoId: string, tipo: TipoConsulta) 
 ```
 
 ### Componente WhatsApp Button
+
 ```typescript
 // components/whatsapp/WhatsAppButton.tsx
 interface WhatsAppButtonProps {
@@ -1044,24 +1078,24 @@ export function WhatsAppButton({
 }: WhatsAppButtonProps) {
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
-    
+
     if (trackingEnabled) {
       await trackWhatsAppClick(
         produto.id,
         variant === 'disponivel' ? 'COMPRA' : 'ENCOMENDA'
       );
     }
-    
+
     const link = gerarLinkWhatsApp(produto, associacao);
     if (link) {
       window.open(link, '_blank');
     }
   };
-  
-  const texto = variant === 'disponivel' 
-    ? 'Comprar via WhatsApp' 
+
+  const texto = variant === 'disponivel'
+    ? 'Comprar via WhatsApp'
     : 'Encomendar via WhatsApp';
-  
+
   return (
     <Button
       onClick={handleClick}
@@ -1080,13 +1114,14 @@ export function WhatsAppButton({
 ```
 
 ### QR Code para Mobile
+
 ```typescript
 // components/whatsapp/WhatsAppQRCode.tsx
 export function WhatsAppQRCode({ produto, associacao, size = 200 }) {
   const link = gerarLinkWhatsApp(produto, associacao);
-  
+
   if (!link) return null;
-  
+
   return (
     <div className="flex flex-col items-center gap-2">
       <QRCodeSVG value={link} size={size} />
@@ -1101,6 +1136,7 @@ export function WhatsAppQRCode({ produto, associacao, size = 200 }) {
 ## Webhooks e Sincronização
 
 ### Webhook Handler para Sanity
+
 ```typescript
 // app/api/webhooks/sanity/route.ts
 import { revalidatePath, revalidateTag } from 'next/cache';
@@ -1126,23 +1162,23 @@ export async function POST(req: Request) {
         revalidatePath('/catalogo');
         revalidatePath(`/produto/${_id}`);
         revalidateTag('produtos');
-        
+
         // Atualizar índice de busca
         if (operation !== 'delete') {
           await updateSearchIndex('produto', _id);
         }
         break;
-        
+
       case 'associacao':
         revalidatePath('/associacoes');
         revalidateTag('associacoes');
         break;
-        
+
       case 'noticia':
         revalidatePath('/noticias');
         revalidateTag('noticias');
         break;
-        
+
       case 'configuracoes':
         revalidateTag('configuracoes');
         break;
@@ -1162,7 +1198,7 @@ async function updateSearchIndex(type: string, id: string) {
     `*[_type == $type && _id == $id][0]`,
     { type, id }
   );
-  
+
   if (documento) {
     // Atualizar no Algolia/MeiliSearch
     await searchClient.saveObject({
@@ -1176,6 +1212,7 @@ async function updateSearchIndex(type: string, id: string) {
 ## Diretrizes de Implementação
 
 ### Otimização de Performance
+
 - Usar o componente Image do Next.js para todas as imagens
 - Implementar estratégias adequadas de cache
 - Code-splitting para componentes pesados
@@ -1186,6 +1223,7 @@ async function updateSearchIndex(type: string, id: string) {
 - Otimização automática de imagens no upload
 
 ### SEO e Marketing
+
 - Implementar dados estruturados (JSON-LD)
 - Meta tags com suporte Open Graph
 - Geração de sitemap dinâmico
@@ -1195,6 +1233,7 @@ async function updateSearchIndex(type: string, id: string) {
 - Breadcrumbs estruturados
 
 ### Segurança
+
 - Validação de input com Zod
 - Proteção CSRF
 - Rate limiting em formulários
@@ -1204,6 +1243,7 @@ async function updateSearchIndex(type: string, id: string) {
 - Autenticação segura com NextAuth.js
 
 ### Preparação para Internacionalização
+
 - Estruturar código para suporte futuro de i18n
 - Usar chaves de tradução ao invés de strings hardcoded
 - Utilitários de formatação de moeda
@@ -1211,6 +1251,7 @@ async function updateSearchIndex(type: string, id: string) {
 - URLs amigáveis para SEO multilíngue
 
 ### Estratégia de Testes
+
 - Testes unitários para utilitários
 - Testes de integração para rotas de API
 - Testes E2E para caminhos críticos do usuário
@@ -1221,17 +1262,20 @@ async function updateSearchIndex(type: string, id: string) {
 ## Diretrizes de Conteúdo
 
 ### Linguagem e Localização
+
 - **Idioma Principal**: Português Brasileiro (pt-BR)
 - **Todo texto da UI, conteúdo e mensagens devem estar em português**
 - **Comentários de código e nomes de variáveis**: Inglês (padrão da indústria)
 
 ### Tom de Voz
+
 - Respeitoso com a tradição
 - Caloroso e acolhedor
 - Educacional mas acessível
 - Orgulho da herança cultural
 
 ### Mensagens-Chave
+
 - "Tradição de mais de três séculos"
 - "Feito à mão com amor e dedicação"
 - "Apoiando nossas artesãs locais"
@@ -1241,6 +1285,7 @@ async function updateSearchIndex(type: string, id: string) {
 ## Fases de Desenvolvimento
 
 ### Fase 1: Fundação e Alta Prioridade
+
 1. Setup do projeto com Next.js 14 e TypeScript
 2. Configurar Tailwind CSS e shadcn/ui
 3. Configurar Supabase e Prisma
@@ -1254,6 +1299,7 @@ async function updateSearchIndex(type: string, id: string) {
 11. Implementar design system responsivo
 
 ### Fase 2: Páginas Principais e Integração
+
 1. **Configurar webhooks Sanity para revalidação de cache**
 2. **Implementar páginas protegidas de analytics**
 3. Integrar CMS com todas as páginas públicas
@@ -1265,6 +1311,7 @@ async function updateSearchIndex(type: string, id: string) {
 9. Formulário de contato integrado
 
 ### Fase 3: Funcionalidades Avançadas
+
 1. Sistema de favoritos (sem necessidade de login)
 2. Integração de links WhatsApp para cada associação
 3. Sistema de notícias/blog via CMS
@@ -1274,6 +1321,7 @@ async function updateSearchIndex(type: string, id: string) {
 7. Sistema de newsletters
 
 ### Fase 4: Otimização e Performance
+
 1. Configurar CDN e estratégias de cache avançadas
 2. Implementar Redis para cache
 3. **Otimização avançada de imagens com múltiplos formatos**
@@ -1282,6 +1330,7 @@ async function updateSearchIndex(type: string, id: string) {
 6. **Melhorias de PWA (offline completo)**
 
 ### Fase 5: Polimento e Lançamento
+
 1. Refinamento de UI/UX
 2. Implementação completa de SEO
 3. Setup de analytics avançado

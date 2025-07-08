@@ -12,7 +12,8 @@
       "Bash(git add:*)",
       "Bash(npx shadcn@latest add:*)",
       "Bash(npx shadcn:*)",
-      "Bash(sanity init:*)"
+      "Bash(sanity init:*)",
+      "Bash(npm run:*)"
     ],
     "deny": []
   }

@@ -3,6 +3,7 @@
 ## 🎯 Comandos Obrigatórios para Cada Sessão
 
 ### Antes de Fazer Commits
+
 ```bash
 # SEMPRE executar antes de finalizar uma sessão
 npm run lint        # Verificar ESLint
@@ -12,6 +13,7 @@ npm run build       # Testar build de produção
 ```
 
 ### Comandos de Desenvolvimento
+
 ```bash
 # Iniciar ambiente de desenvolvimento
 npm run dev         # Next.js dev server (porta 3000)
@@ -26,6 +28,7 @@ npm run db:push     # Aplicar mudanças no schema
 ## 📁 Estrutura do Projeto e Convenções
 
 ### Organização de Arquivos
+
 ```
 src/
 ├── app/              # App Router - roteamento e páginas
@@ -38,6 +41,7 @@ src/
 ```
 
 ### Convenções de Nomenclatura
+
 - **Arquivos de componentes:** PascalCase (`ProductCard.tsx`)
 - **Arquivos de utilitários:** camelCase (`imageUtils.ts`)
 - **Páginas:** lowercase (`page.tsx`, `layout.tsx`)
@@ -45,11 +49,12 @@ src/
 - **Tipos:** PascalCase com sufixo (`ProductType`, `UserProps`)
 
 ### Imports
+
 ```typescript
 // Sempre usar paths absolutos
-import { Button } from "@/components/ui/button"
-import { ProductCard } from "@/components/catalog/ProductCard"
-import { supabase } from "@/lib/supabase/client"
+import { Button } from '@/components/ui/button';
+import { ProductCard } from '@/components/catalog/ProductCard';
+import { supabase } from '@/lib/supabase/client';
 
 // Ordem dos imports:
 // 1. React e Next.js
@@ -62,6 +67,7 @@ import { supabase } from "@/lib/supabase/client"
 ## 🔧 Padrões de Desenvolvimento
 
 ### Componentes React
+
 ```typescript
 // Template padrão para componentes
 interface ComponentNameProps {
@@ -84,6 +90,7 @@ export function ComponentName({
 ```
 
 ### Páginas Next.js (App Router)
+
 ```typescript
 // Template para páginas
 import type { Metadata } from 'next';
@@ -103,6 +110,7 @@ export default function PageName() {
 ```
 
 ### API Routes
+
 ```typescript
 // Template para API routes
 import { NextRequest, NextResponse } from 'next/server';
@@ -124,13 +132,14 @@ export async function GET(request: NextRequest) {
 ## 🗃️ Gestão de Estado
 
 ### Zustand Stores
+
 ```typescript
 // Template para stores
 interface StoreState {
   // estado
   items: Item[];
   loading: boolean;
-  
+
   // ações
   addItem: (item: Item) => void;
   removeItem: (id: string) => void;
@@ -140,20 +149,23 @@ interface StoreState {
 export const useStore = create<StoreState>((set, get) => ({
   items: [],
   loading: false,
-  
-  addItem: (item) => set((state) => ({
-    items: [...state.items, item]
-  })),
-  
-  removeItem: (id) => set((state) => ({
-    items: state.items.filter(item => item.id !== id)
-  })),
-  
+
+  addItem: (item) =>
+    set((state) => ({
+      items: [...state.items, item],
+    })),
+
+  removeItem: (id) =>
+    set((state) => ({
+      items: state.items.filter((item) => item.id !== id),
+    })),
+
   setLoading: (loading) => set({ loading }),
 }));
 ```
 
 ### TanStack Query
+
 ```typescript
 // Hooks para dados do servidor
 export function useProducts() {
@@ -171,6 +183,7 @@ export function useProducts() {
 ## 🎨 Estilização com Tailwind
 
 ### Classes Utilitárias Principais
+
 ```css
 /* Layout */
 container mx-auto px-4
@@ -194,17 +207,19 @@ border-amber-200
 ```
 
 ### Componentes shadcn/ui
+
 ```typescript
 // Sempre usar os componentes do shadcn
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 ```
 
 ## 📊 Integração com CMS (Sanity)
 
 ### Queries GROQ
+
 ```typescript
 // Exemplos de queries Sanity
 export const PRODUTOS_QUERY = `*[_type == "produto"] {
@@ -246,6 +261,7 @@ export const PRODUTO_BY_SLUG_QUERY = `*[_type == "produto" && slug.current == $s
 ```
 
 ### Cliente Sanity
+
 ```typescript
 // Configuração do cliente
 import { createClient } from '@sanity/client';
@@ -261,6 +277,7 @@ export const sanityClient = createClient({
 ## 🛡️ Autenticação e Segurança
 
 ### NextAuth.js
+
 ```typescript
 // Verificação de autenticação
 import { getServerSession } from 'next-auth';
@@ -281,9 +298,10 @@ if (!session) return <LoginButton />;
 ```
 
 ### Middleware de Proteção
+
 ```typescript
 // middleware.ts
-import { withAuth } from "next-auth/middleware";
+import { withAuth } from 'next-auth/middleware';
 
 export default withAuth({
   callbacks: {
@@ -300,6 +318,7 @@ export default withAuth({
 ## 📱 PWA e Performance
 
 ### Otimização de Imagens
+
 ```typescript
 // Usar sempre o componente Image do Next.js
 import Image from 'next/image';
@@ -317,6 +336,7 @@ import Image from 'next/image';
 ```
 
 ### Lazy Loading
+
 ```typescript
 // Componentes pesados
 import dynamic from 'next/dynamic';
@@ -330,6 +350,7 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 ## 📈 Analytics e Tracking
 
 ### WhatsApp Tracking
+
 ```typescript
 // Sempre rastrear cliques no WhatsApp
 import { trackWhatsAppClick } from '@/lib/analytics/whatsapp';
@@ -341,6 +362,7 @@ const handleWhatsAppClick = async () => {
 ```
 
 ### Métricas de Performance
+
 ```typescript
 // Web Vitals
 export function reportWebVitals(metric: NextWebVitalsMetric) {
@@ -352,6 +374,7 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
 ## 🔍 Busca e Filtros
 
 ### Integração Algolia
+
 ```typescript
 // Cliente de busca
 import { algoliasearch } from 'algoliasearch';
@@ -362,17 +385,19 @@ const searchClient = algoliasearch(
 );
 
 // Busca instantânea
-const { hits, nbHits } = await searchClient
-  .search([{
+const { hits, nbHits } = await searchClient.search([
+  {
     indexName: 'produtos',
     query: searchTerm,
-    filters: 'categoria:decoracao AND disponibilidade:disponivel'
-  }]);
+    filters: 'categoria:decoracao AND disponibilidade:disponivel',
+  },
+]);
 ```
 
 ## 📱 Integração WhatsApp
 
 ### Links Diretos
+
 ```typescript
 // Gerar link WhatsApp
 export function gerarLinkWhatsApp(produto: Produto, associacao: Associacao) {
@@ -392,6 +417,7 @@ Gostaria de mais informações.`;
 ## 🐛 Debugging e Logs
 
 ### Logs Estruturados
+
 ```typescript
 // Usar console estruturado
 console.log('[PRODUTO]', 'Carregando produto:', { id, slug });
@@ -400,6 +426,7 @@ console.warn('[PERFORMANCE]', 'Query lenta detectada:', { query, duration });
 ```
 
 ### Error Boundaries
+
 ```typescript
 // Sempre ter error boundaries
 import { ErrorBoundary } from 'react-error-boundary';
@@ -417,6 +444,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 ## 📝 Comentários e Documentação
 
 ### JSDoc para Funções Públicas
+
 ```typescript
 /**
  * Gera um link direto para WhatsApp com mensagem pré-formatada
@@ -424,23 +452,29 @@ import { ErrorBoundary } from 'react-error-boundary';
  * @param associacao - Associação responsável pelo produto
  * @returns URL do WhatsApp ou null se não houver número
  */
-export function gerarLinkWhatsApp(produto: Produto, associacao: Associacao): string | null {
+export function gerarLinkWhatsApp(
+  produto: Produto,
+  associacao: Associacao
+): string | null {
   // implementação
 }
 ```
 
 ### Comentários Inline
+
 ```typescript
 // Usar comentários para lógica complexa
 // Calcular preço com desconto baseado na disponibilidade
-const precoFinal = produto.disponibilidade === 'DISPONIVEL' 
-  ? produto.preco 
-  : produto.preco * 0.9; // 10% desconto para encomendas
+const precoFinal =
+  produto.disponibilidade === 'DISPONIVEL'
+    ? produto.preco
+    : produto.preco * 0.9; // 10% desconto para encomendas
 ```
 
 ## 🚀 Deploy e CI/CD
 
 ### Checklist Pré-Deploy
+
 - [ ] `npm run lint` passou
 - [ ] `npm run type-check` passou
 - [ ] `npm run build` passou
@@ -449,6 +483,7 @@ const precoFinal = produto.disponibilidade === 'DISPONIVEL'
 - [ ] Sanity Studio deployado
 
 ### Comandos de Deploy
+
 ```bash
 # Build de produção
 npm run build
@@ -463,8 +498,10 @@ git push origin main
 ## 🔄 Atualização dos Arquivos de Progresso
 
 ### Sempre Atualizar DESENVOLVIMENTO.md
+
 ```markdown
 ### Sessão X - DD/MM/AAAA
+
 **Objetivos:** O que foi planejado para a sessão
 **Realizações:** ✅ Tarefas concluídas
 **Próximos Passos:** O que fazer na próxima sessão
@@ -474,6 +511,7 @@ git push origin main
 ## 📚 Links Úteis
 
 ### Documentação Rápida
+
 - [Next.js App Router](https://nextjs.org/docs/app)
 - [Tailwind CSS Classes](https://tailwindcss.com/docs)
 - [shadcn/ui Components](https://ui.shadcn.com/docs/components)
@@ -481,6 +519,7 @@ git push origin main
 - [Prisma Schema](https://www.prisma.io/docs/concepts/components/prisma-schema)
 
 ### Ferramentas de Desenvolvimento
+
 - http://localhost:3000 - Aplicação Next.js
 - http://localhost:3333 - Sanity Studio
 - http://localhost:5555 - Prisma Studio

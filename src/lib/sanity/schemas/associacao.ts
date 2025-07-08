@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineField, defineType } from 'sanity';
 
 export const associacao = defineType({
   name: 'associacao',
@@ -171,7 +171,7 @@ export const associacao = defineType({
         title,
         subtitle: subtitle || 'Jaguaribe',
         media,
-      }
+      };
     },
   },
-})
+});

@@ -1,0 +1,51 @@
+{
+  "name": "Renda de Filé de Jaguaribe",
+  "short_name": "Renda de Filé",
+  "description": "Artesanato tradicional de Jaguaribe, Ceará",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8B4513",
+  "lang": "pt-BR",
+  "categories": ["shopping", "lifestyle", "culture"],
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Catálogo",
+      "short_name": "Catálogo",
+      "description": "Ver produtos disponíveis",
+      "url": "/catalogo",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Associações",
+      "short_name": "Associações",
+      "description": "Conhecer as associações",
+      "url": "/associacoes",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

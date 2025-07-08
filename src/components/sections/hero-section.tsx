@@ -15,30 +15,28 @@ export function HeroSection({
   primaryButtonText,
   secondaryButtonText,
   onPrimaryClick,
-  onSecondaryClick
+  onSecondaryClick,
 }: HeroSectionProps) {
   return (
-    <section className="relative bg-gradient-to-br from-renda-50 via-areia-50 to-renda-100 section-padding">
+    <section className="section-padding relative bg-gradient-to-br from-renda-50 via-areia-50 to-renda-100">
       <div className="container">
         <div className="text-center">
-          <h1 className="heading-1 mb-6 text-balance">
-            {title}
-          </h1>
-          <p className="body-large mx-auto max-w-3xl mb-8 text-balance">
+          <h1 className="heading-1 mb-6 text-balance">{title}</h1>
+          <p className="body-large mx-auto mb-8 max-w-3xl text-balance">
             {subtitle}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="bg-renda-600 hover:bg-renda-700 px-8"
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
+            <Button
+              size="lg"
+              className="bg-renda-600 px-8 hover:bg-renda-700"
               onClick={onPrimaryClick}
             >
               {primaryButtonText}
             </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-renda-600 text-renda-600 hover:bg-renda-50 px-8"
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-renda-600 px-8 text-renda-600 hover:bg-renda-50"
               onClick={onSecondaryClick}
             >
               {secondaryButtonText}

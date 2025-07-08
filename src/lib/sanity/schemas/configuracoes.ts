@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineField, defineType } from 'sanity';
 
 export const configuracoes = defineType({
   name: 'configuracoes',
@@ -239,4 +239,4 @@ export const configuracoes = defineType({
       media: 'logo',
     },
   },
-})
+});

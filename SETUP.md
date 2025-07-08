@@ -3,12 +3,14 @@
 ## 📋 Pré-requisitos
 
 ### Software Necessário
+
 - **Node.js** >= 18.17.0 (recomendado: v20+)
 - **npm** >= 9.0.0 ou **yarn** >= 1.22.0 ou **pnpm** >= 8.0.0
 - **Git** >= 2.30.0
 - **PostgreSQL** >= 14.0 (local ou remoto)
 
 ### Contas e Serviços
+
 - [Vercel](https://vercel.com) - Deploy do frontend
 - [Supabase](https://supabase.com) - Banco PostgreSQL e Storage
 - [Sanity](https://sanity.io) - CMS Headless
@@ -339,6 +341,7 @@ vercel
 ### Problemas Comuns
 
 1. **Erro de conexão com banco**
+
    ```bash
    # Verificar DATABASE_URL
    # Testar conexão com Prisma
@@ -346,6 +349,7 @@ vercel
    ```
 
 2. **Erro no Sanity**
+
    ```bash
    # Verificar project ID e dataset
    # Regenerar API token
@@ -374,6 +378,7 @@ printenv | grep NEXT
 ## 📚 Recursos Adicionais
 
 ### Documentação Oficial
+
 - [Next.js 14](https://nextjs.org/docs)
 - [Prisma](https://www.prisma.io/docs)
 - [Sanity](https://www.sanity.io/docs)
@@ -382,11 +387,13 @@ printenv | grep NEXT
 - [shadcn/ui](https://ui.shadcn.com/)
 
 ### Ferramentas de Desenvolvimento
+
 - [Prisma Studio](http://localhost:5555) - Interface do banco
 - [Sanity Studio](http://localhost:3333) - CMS interface
 - [Next.js Dev](http://localhost:3000) - Aplicação
 
 ### Monitoramento
+
 - [Vercel Dashboard](https://vercel.com/dashboard)
 - [Supabase Dashboard](https://app.supabase.com)
 - [Sanity Desk](https://www.sanity.io/manage)

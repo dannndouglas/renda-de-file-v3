@@ -1,0 +1,323 @@
+/**
+ * Funções para indexação de dados no Algolia
+ * Sincronização de dados do Sanity para Algolia
+ */
+
+import { adminClient, INDICES, formatProdutoForAlgolia, formatAssociacaoForAlgolia, PRODUTOS_INDEX_SETTINGS, ASSOCIACOES_INDEX_SETTINGS } from './client';
+import { sanityClient } from '@/lib/sanity/client';
+
+// Queries GROQ para buscar dados do Sanity
+const PRODUTOS_QUERY = `*[_type == "produto"] {
+  _id,
+  _createdAt,
+  _updatedAt,
+  nome,
+  slug,
+  descricao,
+  categoria,
+  disponibilidade,
+  preco,
+  tecnica,
+  material,
+  dimensoes,
+  cor,
+  tags,
+  imagens,
+  visualizacoes,
+  associacao->{
+    _id,
+    nome,
+    endereco
+  }
+}`;
+
+const ASSOCIACOES_QUERY = `*[_type == "associacao"] {
+  _id,
+  _createdAt,
+  _updatedAt,
+  nome,
+  slug,
+  descricao,
+  ativa,
+  endereco,
+  especialidades,
+  numero_artesas,
+  presidente,
+  telefone,
+  whatsapp,
+  imagens,
+  "produtos_count": count(*[_type == "produto" && references(^._id)])
+}`;
+
+/**
+ * Inicializa os índices Algolia com configurações
+ */
+export async function initializeAlgoliaIndices() {
+  if (!adminClient) {
+    console.warn('Cliente admin do Algolia não configurado');
+    return false;
+  }
+
+  try {
+    console.log('Inicializando índices Algolia...');
+
+    // Configurar índice de produtos
+    const produtosIndex = adminClient.initIndex(INDICES.produtos);
+    await produtosIndex.setSettings(PRODUTOS_INDEX_SETTINGS);
+    console.log('✅ Índice de produtos configurado');
+
+    // Configurar índice de associações
+    const associacoesIndex = adminClient.initIndex(INDICES.associacoes);
+    await associacoesIndex.setSettings(ASSOCIACOES_INDEX_SETTINGS);
+    console.log('✅ Índice de associações configurado');
+
+    return true;
+  } catch (error) {
+    console.error('Erro ao inicializar índices Algolia:', error);
+    return false;
+  }
+}
+
+/**
+ * Indexa todos os produtos do Sanity no Algolia
+ */
+export async function indexAllProdutos() {
+  if (!adminClient) {
+    console.warn('Cliente admin do Algolia não configurado');
+    return false;
+  }
+
+  try {
+    console.log('Buscando produtos do Sanity...');
+    const produtos = await sanityClient.fetch(PRODUTOS_QUERY);
+    
+    if (!produtos || produtos.length === 0) {
+      console.log('Nenhum produto encontrado no Sanity');
+      return true;
+    }
+
+    console.log(`Encontrados ${produtos.length} produtos para indexar`);
+
+    // Formatar produtos para Algolia
+    const algoliaObjects = produtos.map(formatProdutoForAlgolia);
+
+    // Indexar em lotes
+    const index = adminClient.initIndex(INDICES.produtos);
+    const batchSize = 100;
+    
+    for (let i = 0; i < algoliaObjects.length; i += batchSize) {
+      const batch = algoliaObjects.slice(i, i + batchSize);
+      await index.saveObjects(batch);
+      console.log(`✅ Lote ${Math.floor(i / batchSize) + 1} indexado (${batch.length} produtos)`);
+    }
+
+    console.log(`✅ Todos os ${produtos.length} produtos foram indexados`);
+    return true;
+  } catch (error) {
+    console.error('Erro ao indexar produtos:', error);
+    return false;
+  }
+}
+
+/**
+ * Indexa todas as associações do Sanity no Algolia
+ */
+export async function indexAllAssociacoes() {
+  if (!adminClient) {
+    console.warn('Cliente admin do Algolia não configurado');
+    return false;
+  }
+
+  try {
+    console.log('Buscando associações do Sanity...');
+    const associacoes = await sanityClient.fetch(ASSOCIACOES_QUERY);
+    
+    if (!associacoes || associacoes.length === 0) {
+      console.log('Nenhuma associação encontrada no Sanity');
+      return true;
+    }
+
+    console.log(`Encontradas ${associacoes.length} associações para indexar`);
+
+    // Formatar associações para Algolia
+    const algoliaObjects = associacoes.map(formatAssociacaoForAlgolia);
+
+    // Indexar
+    const index = adminClient.initIndex(INDICES.associacoes);
+    await index.saveObjects(algoliaObjects);
+
+    console.log(`✅ Todas as ${associacoes.length} associações foram indexadas`);
+    return true;
+  } catch (error) {
+    console.error('Erro ao indexar associações:', error);
+    return false;
+  }
+}
+
+/**
+ * Indexa um único produto
+ */
+export async function indexSingleProduto(produtoId: string) {
+  if (!adminClient) {
+    console.warn('Cliente admin do Algolia não configurado');
+    return false;
+  }
+
+  try {
+    const produto = await sanityClient.fetch(
+      `*[_type == "produto" && _id == $id][0] {
+        ${PRODUTOS_QUERY.split('{')[1].split('}')[0]}
+      }`,
+      { id: produtoId }
+    );
+
+    if (!produto) {
+      console.warn(`Produto ${produtoId} não encontrado no Sanity`);
+      return false;
+    }
+
+    const algoliaObject = formatProdutoForAlgolia(produto);
+    const index = adminClient.initIndex(INDICES.produtos);
+    await index.saveObject(algoliaObject);
+
+    console.log(`✅ Produto ${produtoId} indexado com sucesso`);
+    return true;
+  } catch (error) {
+    console.error(`Erro ao indexar produto ${produtoId}:`, error);
+    return false;
+  }
+}
+
+/**
+ * Indexa uma única associação
+ */
+export async function indexSingleAssociacao(associacaoId: string) {
+  if (!adminClient) {
+    console.warn('Cliente admin do Algolia não configurado');
+    return false;
+  }
+
+  try {
+    const associacao = await sanityClient.fetch(
+      `*[_type == "associacao" && _id == $id][0] {
+        ${ASSOCIACOES_QUERY.split('{')[1].split('}')[0]}
+      }`,
+      { id: associacaoId }
+    );
+
+    if (!associacao) {
+      console.warn(`Associação ${associacaoId} não encontrada no Sanity`);
+      return false;
+    }
+
+    const algoliaObject = formatAssociacaoForAlgolia(associacao);
+    const index = adminClient.initIndex(INDICES.associacoes);
+    await index.saveObject(algoliaObject);
+
+    console.log(`✅ Associação ${associacaoId} indexada com sucesso`);
+    return true;
+  } catch (error) {
+    console.error(`Erro ao indexar associação ${associacaoId}:`, error);
+    return false;
+  }
+}
+
+/**
+ * Remove um objeto do índice
+ */
+export async function removeFromIndex(indexName: keyof typeof INDICES, objectId: string) {
+  if (!adminClient) {
+    console.warn('Cliente admin do Algolia não configurado');
+    return false;
+  }
+
+  try {
+    const index = adminClient.initIndex(INDICES[indexName]);
+    await index.deleteObject(objectId);
+    
+    console.log(`✅ Objeto ${objectId} removido do índice ${indexName}`);
+    return true;
+  } catch (error) {
+    console.error(`Erro ao remover objeto ${objectId} do índice ${indexName}:`, error);
+    return false;
+  }
+}
+
+/**
+ * Limpa completamente um índice
+ */
+export async function clearIndex(indexName: keyof typeof INDICES) {
+  if (!adminClient) {
+    console.warn('Cliente admin do Algolia não configurado');
+    return false;
+  }
+
+  try {
+    const index = adminClient.initIndex(INDICES[indexName]);
+    await index.clearObjects();
+    
+    console.log(`✅ Índice ${indexName} limpo com sucesso`);
+    return true;
+  } catch (error) {
+    console.error(`Erro ao limpar índice ${indexName}:`, error);
+    return false;
+  }
+}
+
+/**
+ * Executa uma sincronização completa
+ */
+export async function fullSync() {
+  console.log('🚀 Iniciando sincronização completa com Algolia...');
+  
+  const initSuccess = await initializeAlgoliaIndices();
+  if (!initSuccess) {
+    console.error('❌ Falha na inicialização dos índices');
+    return false;
+  }
+
+  const produtosSuccess = await indexAllProdutos();
+  const associacoesSuccess = await indexAllAssociacoes();
+
+  if (produtosSuccess && associacoesSuccess) {
+    console.log('🎉 Sincronização completa realizada com sucesso!');
+    return true;
+  } else {
+    console.error('❌ Sincronização falhou parcialmente');
+    return false;
+  }
+}
+
+/**
+ * Estatísticas dos índices
+ */
+export async function getIndexStats() {
+  if (!adminClient) {
+    return null;
+  }
+
+  try {
+    const stats = await Promise.all([
+      adminClient.initIndex(INDICES.produtos).getStats(),
+      adminClient.initIndex(INDICES.associacoes).getStats(),
+    ]);
+
+    return {
+      produtos: {
+        numberOfRecords: stats[0].numberOfRecords,
+        dataSize: stats[0].dataSize,
+        fileSize: stats[0].fileSize,
+        lastBuildTimeS: stats[0].lastBuildTimeS,
+      },
+      associacoes: {
+        numberOfRecords: stats[1].numberOfRecords,
+        dataSize: stats[1].dataSize,
+        fileSize: stats[1].fileSize,
+        lastBuildTimeS: stats[1].lastBuildTimeS,
+      },
+    };
+  } catch (error) {
+    console.error('Erro ao obter estatísticas dos índices:', error);
+    return null;
+  }
+}
