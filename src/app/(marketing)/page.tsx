@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 export const metadata: Metadata = {
   title: 'Início',
@@ -20,12 +22,12 @@ export default function HomePage() {
               patrimônio cultural imaterial de Jaguaribe, Ceará.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="btn-primary">
+              <Button size="lg" className="bg-renda-600 hover:bg-renda-700 px-8">
                 Conheça Nossa História
-              </button>
-              <button className="btn-secondary">
+              </Button>
+              <Button variant="outline" size="lg" className="border-renda-600 text-renda-600 hover:bg-renda-50 px-8">
                 Veja o Catálogo
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -86,13 +88,15 @@ export default function HomePage() {
               <div className="p-6">
                 <h3 className="heading-4 mb-2">Toalha de Mesa</h3>
                 <p className="body-small mb-3">Associação das Rendeiras</p>
-                <div className="flex items-center justify-between">
-                  <span className="badge-disponivel">Disponível</span>
+                <div className="flex items-center justify-between mb-4">
+                  <Badge variant="secondary" className="bg-green-100 text-green-800">
+                    Disponível
+                  </Badge>
                   <span className="font-semibold text-renda-600">A partir de R$ 250,00</span>
                 </div>
-                <button className="btn-whatsapp w-full mt-4">
+                <Button className="btn-whatsapp w-full">
                   💬 Conversar no WhatsApp
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -106,13 +110,15 @@ export default function HomePage() {
               <div className="p-6">
                 <h3 className="heading-4 mb-2">Cortina Decorativa</h3>
                 <p className="body-small mb-3">Associação Mãos de Ouro</p>
-                <div className="flex items-center justify-between">
-                  <span className="badge-encomenda">Sob Encomenda</span>
+                <div className="flex items-center justify-between mb-4">
+                  <Badge variant="secondary" className="bg-orange-100 text-orange-800">
+                    Sob Encomenda
+                  </Badge>
                   <span className="font-semibold text-renda-600">A partir de R$ 180,00</span>
                 </div>
-                <button className="btn-whatsapp w-full mt-4">
+                <Button className="btn-whatsapp w-full">
                   💬 Encomendar via WhatsApp
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -124,23 +130,25 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="heading-4 mb-2">Conjunto de Bebe</h3>
+                <h3 className="heading-4 mb-2">Conjunto de Bebê</h3>
                 <p className="body-small mb-3">Associação Arte e Tradição</p>
-                <div className="flex items-center justify-between">
-                  <span className="badge-disponivel">Disponível</span>
+                <div className="flex items-center justify-between mb-4">
+                  <Badge variant="secondary" className="bg-green-100 text-green-800">
+                    Disponível
+                  </Badge>
                   <span className="font-semibold text-renda-600">A partir de R$ 120,00</span>
                 </div>
-                <button className="btn-whatsapp w-full mt-4">
+                <Button className="btn-whatsapp w-full">
                   💬 Conversar no WhatsApp
-                </button>
+                </Button>
               </div>
             </div>
           </div>
 
           <div className="text-center mt-12">
-            <button className="btn-primary">
+            <Button size="lg" className="bg-renda-600 hover:bg-renda-700 px-8">
               Ver Catálogo Completo
-            </button>
+            </Button>
           </div>
         </div>
       </section>
