@@ -1,0 +1,170 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id            String       @id @default(cuid())
+  email         String       @unique
+  nome          String
+  papel         PapelUsuario @default(EDITOR)
+  associacaoId  String?
+  sanityUserId  String?      @unique // Link com usuário do Sanity
+  ativo         Boolean      @default(true)
+  criadoEm      DateTime     @default(now())
+  atualizadoEm  DateTime     @updatedAt
+
+  @@map("usuarios")
+}
+
+model Produto {
+  id              String          @id @default(cuid())
+  nome            String
+  slug            String          @unique
+  descricao       String          @db.Text
+  descricaoBreve  String
+  categoria       Categoria
+  preco           Decimal?        @db.Decimal(10, 2)
+  precoPromocional Decimal?       @db.Decimal(10, 2)
+  imagens         String[]
+  imagemPrincipal String
+  disponibilidade Disponibilidade @default(DISPONIVEL)
+  tempoProducao   Int?            // em dias
+  destaque        Boolean         @default(false)
+  personalizavel  Boolean         @default(false)
+  associacaoId    String
+  associacao      Associacao      @relation(fields: [associacaoId], references: [id])
+  favoritos       Favorito[]
+  consultas       ConsultaWhatsApp[]
+  metricas        MetricaAcesso[]
+  tags            String[]
+  metaTitle       String?
+  metaDescription String?
+  sanityId        String?         @unique // Referência ao documento no Sanity
+  criadoEm        DateTime        @default(now())
+  atualizadoEm    DateTime        @updatedAt
+  
+  @@index([categoria, disponibilidade])
+  @@index([associacaoId])
+  @@fulltext([nome, descricao])
+  @@map("produtos")
+}
+
+model Associacao {
+  id           String     @id @default(cuid())
+  nome         String
+  slug         String     @unique
+  descricao    String     @db.Text
+  historia     String?    @db.Text
+  logo         String?
+  banner       String?
+  endereco     String
+  cidade       String     @default("Jaguaribe")
+  estado       String     @default("CE")
+  cep          String?
+  telefone     String
+  email        String?
+  whatsapp     String?
+  instagram    String?
+  facebook     String?
+  website      String?
+  numeroMembros Int?
+  especialidades String[]
+  produtos     Produto[]
+  ativo        Boolean    @default(true)
+  sanityId     String?    @unique // Referência ao documento no Sanity
+  criadoEm     DateTime   @default(now())
+  atualizadoEm DateTime   @updatedAt
+
+  @@map("associacoes")
+}
+
+model Favorito {
+  id        String   @id @default(cuid())
+  sessionId String   // ID da sessão do navegador
+  produtoId String
+  produto   Produto  @relation(fields: [produtoId], references: [id])
+  criadoEm  DateTime @default(now())
+  
+  @@unique([sessionId, produtoId])
+  @@index([sessionId])
+  @@map("favoritos")
+}
+
+model ConsultaWhatsApp {
+  id          String   @id @default(cuid())
+  sessionId   String   // ID da sessão do navegador
+  produtoId   String
+  produto     Produto  @relation(fields: [produtoId], references: [id])
+  tipo        TipoConsulta @default(COMPRA)
+  origem      String?  // página de origem do clique
+  criadoEm    DateTime @default(now())
+  
+  @@index([produtoId])
+  @@index([criadoEm])
+  @@map("consultas_whatsapp")
+}
+
+model FormularioContato {
+  id          String   @id @default(cuid())
+  nome        String
+  email       String
+  telefone    String?
+  assunto     String
+  mensagem    String   @db.Text
+  respondido  Boolean  @default(false)
+  criadoEm    DateTime @default(now())
+
+  @@map("formularios_contato")
+}
+
+model MetricaAcesso {
+  id          String   @id @default(cuid())
+  sessionId   String
+  pagina      String
+  produtoId   String?
+  produto     Produto? @relation(fields: [produtoId], references: [id])
+  userAgent   String?
+  referer     String?
+  criadoEm    DateTime @default(now())
+  
+  @@index([produtoId])
+  @@index([criadoEm])
+  @@index([pagina])
+  @@map("metricas_acesso")
+}
+
+// Enums
+enum PapelUsuario {
+  ADMIN
+  EDITOR
+  ASSOCIACAO
+}
+
+enum Categoria {
+  DECORACAO
+  VESTUARIO
+  RELIGIOSO
+  BEBE
+  ACESSORIOS
+  PERSONALIZADO
+}
+
+enum Disponibilidade {
+  DISPONIVEL
+  SOB_ENCOMENDA
+}
+
+enum TipoConsulta {
+  COMPRA
+  ENCOMENDA
+  DUVIDA
+  ORCAMENTO
+}
