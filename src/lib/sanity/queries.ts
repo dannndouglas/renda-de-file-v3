@@ -139,12 +139,13 @@ export const NOTICIAS_QUERY = `*[_type == "noticia"] | order(dataPublicacao desc
   titulo,
   slug,
   resumo,
-  imagemDestaque,
+  imagemPrincipal,
   categoria,
   tags,
   autor,
   dataPublicacao,
-  destaque
+  destaque,
+  tempoLeitura
 }`;
 
 export const NOTICIAS_DESTAQUE_QUERY = `*[_type == "noticia" && destaque == true] | order(dataPublicacao desc) [0...3] {
@@ -163,14 +164,28 @@ export const NOTICIA_BY_SLUG_QUERY = `*[_type == "noticia" && slug.current == $s
   titulo,
   slug,
   resumo,
-  imagemDestaque,
+  imagemPrincipal,
   conteudo,
   categoria,
   tags,
   autor,
   dataPublicacao,
+  tempoLeitura,
+  galeria,
   metaTitle,
   metaDescription
+}`;
+
+export const NOTICIAS_RELACIONADAS_QUERY = `*[_type == "noticia" && categoria == $categoria && _id != $atualId] | order(dataPublicacao desc) [0...3] {
+  _id,
+  titulo,
+  slug,
+  resumo,
+  imagemPrincipal,
+  categoria,
+  autor,
+  dataPublicacao,
+  tempoLeitura
 }`;
 
 export const EVENTOS_QUERY = `*[_type == "evento"] | order(dataInicio desc) {

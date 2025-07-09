@@ -167,3 +167,47 @@ enum TipoConsulta {
   DUVIDA
   ORCAMENTO
 }
+
+model NewsletterSubscription {
+  id               String   @id @default(cuid())
+  email            String   @unique
+  nome             String?
+  ativo            Boolean  @default(true)
+  origem           String   @default("website")
+  unsubscribeToken String?  @unique
+  dataCriacao      DateTime @default(now())
+  dataAtualizacao  DateTime @updatedAt
+
+  @@map("newsletter_subscriptions")
+}
+
+model WebVitals {
+  id             String   @id @default(cuid())
+  name           String   // CLS, FID, FCP, LCP, TTFB, etc.
+  value          Float
+  rating         String   // good, needs-improvement, poor
+  delta          Float    @default(0)
+  metricId       String   // ID único da métrica
+  navigationType String   @default("navigate")
+  url            String
+  userAgent      String?
+  ipAddress      String?
+  timestamp      DateTime @default(now())
+
+  @@index([name, timestamp])
+  @@index([url])
+  @@index([timestamp])
+  @@map("web_vitals")
+}
+
+model PushSubscription {
+  id         String   @id @default(cuid())
+  endpoint   String   @unique
+  p256dh     String
+  auth       String
+  userAgent  String?
+  ativo      Boolean  @default(true)
+  criadoEm   DateTime @default(now())
+  
+  @@map("push_subscriptions")
+}

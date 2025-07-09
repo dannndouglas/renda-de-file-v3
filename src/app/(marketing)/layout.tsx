@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function MarketingLayout({
   children,
 }: {
@@ -15,24 +17,27 @@ export default function MarketingLayout({
               </h1>
             </div>
             <nav className="hidden space-x-8 md:flex">
-              <span className="cursor-pointer text-gray-700 hover:text-renda-600">
+              <Link href="/" className="cursor-pointer text-gray-700 hover:text-renda-600">
                 Início
-              </span>
-              <span className="cursor-pointer text-gray-700 hover:text-renda-600">
+              </Link>
+              <Link href="/historia" className="cursor-pointer text-gray-700 hover:text-renda-600">
                 História
-              </span>
-              <span className="cursor-pointer text-gray-700 hover:text-renda-600">
+              </Link>
+              <Link href="/associacoes" className="cursor-pointer text-gray-700 hover:text-renda-600">
                 Associações
-              </span>
-              <span className="cursor-pointer text-gray-700 hover:text-renda-600">
+              </Link>
+              <Link href="/catalogo" className="cursor-pointer text-gray-700 hover:text-renda-600">
                 Catálogo
-              </span>
-              <span className="cursor-pointer text-gray-700 hover:text-renda-600">
+              </Link>
+              <Link href="/noticias" className="cursor-pointer text-gray-700 hover:text-renda-600">
                 Notícias
-              </span>
-              <span className="cursor-pointer text-gray-700 hover:text-renda-600">
-                Contato
-              </span>
+              </Link>
+              <Link href="/eventos" className="cursor-pointer text-gray-700 hover:text-renda-600">
+                Eventos
+              </Link>
+              <Link href="/favoritos" className="cursor-pointer text-gray-700 hover:text-renda-600">
+                Favoritos
+              </Link>
             </nav>
           </div>
         </div>

@@ -3,6 +3,8 @@ import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { SessionProvider } from '@/components/auth/session-provider';
 import { QueryProvider } from '@/components/providers/query-provider';
+import { WebVitalsTracker } from '@/components/analytics/web-vitals-tracker';
+import { Toaster } from 'sonner';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -86,7 +88,11 @@ export default function RootLayout({
     >
       <body className={`${inter.className} antialiased`}>
         <SessionProvider>
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            <WebVitalsTracker />
+            {children}
+            <Toaster richColors position="top-right" />
+          </QueryProvider>
         </SessionProvider>
       </body>
     </html>
