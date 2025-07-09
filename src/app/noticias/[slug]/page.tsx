@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { PortableText } from '@portabletext/react';
+import { PublicLayout } from '@/components/layouts/PublicLayout';
 
 interface NoticiaDetalhes {
   _id: string;
@@ -98,8 +99,9 @@ export default async function NoticiaPage({ params }: Props) {
   );
 
   return (
-    <div className="min-h-screen bg-amber-50 py-12">
-      <div className="container mx-auto px-4">
+    <PublicLayout>
+      <div className="min-h-screen bg-amber-50 py-12">
+        <div className="container mx-auto px-4">
         {/* Breadcrumb */}
         <nav className="mb-8">
           <Link
@@ -286,7 +288,8 @@ export default async function NoticiaPage({ params }: Props) {
             </div>
           </section>
         )}
+        </div>
       </div>
-    </div>
+    </PublicLayout>
   );
 }

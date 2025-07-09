@@ -8,6 +8,7 @@ import { CalendarDays, Clock, User } from 'lucide-react';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { PublicLayout } from '@/components/layouts/PublicLayout';
 
 export const metadata: Metadata = {
   title: 'Notícias | Renda de Filé',
@@ -46,31 +47,33 @@ export default async function NoticiasPage() {
 
   if (noticias.length === 0) {
     return (
-      <div className="min-h-screen bg-amber-50 py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-amber-900 mb-4">
-              Notícias da Renda de Filé
-            </h1>
-            <p className="text-amber-700 mb-8">
-              Em breve, novidades sobre a tradição da Renda de Filé
-            </p>
-            <Card className="max-w-md mx-auto">
-              <CardContent className="p-6">
-                <div className="text-center text-amber-600">
-                  <CalendarDays className="w-12 h-12 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">
-                    Novidades em Breve
-                  </h3>
-                  <p className="text-sm">
-                    Estamos preparando conteúdo especial sobre a história, técnicas e eventos da Renda de Filé.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+      <PublicLayout>
+        <div className="min-h-screen bg-amber-50 py-12">
+          <div className="container mx-auto px-4">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-amber-900 mb-4">
+                Notícias da Renda de Filé
+              </h1>
+              <p className="text-amber-700 mb-8">
+                Em breve, novidades sobre a tradição da Renda de Filé
+              </p>
+              <Card className="max-w-md mx-auto">
+                <CardContent className="p-6">
+                  <div className="text-center text-amber-600">
+                    <CalendarDays className="w-12 h-12 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">
+                      Novidades em Breve
+                    </h3>
+                    <p className="text-sm">
+                      Estamos preparando conteúdo especial sobre a história, técnicas e eventos da Renda de Filé.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
-      </div>
+      </PublicLayout>
     );
   }
 
@@ -79,8 +82,9 @@ export default async function NoticiasPage() {
   const noticiasRegulares = noticias.filter(n => !n.destaque);
 
   return (
-    <div className="min-h-screen bg-amber-50 py-12">
-      <div className="container mx-auto px-4">
+    <PublicLayout>
+      <div className="min-h-screen bg-amber-50 py-12">
+        <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-amber-900 mb-4">
@@ -240,7 +244,8 @@ export default async function NoticiasPage() {
             </Link>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </PublicLayout>
   );
 }

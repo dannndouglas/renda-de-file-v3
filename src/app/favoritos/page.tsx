@@ -7,50 +7,54 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heart, ShoppingBag, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { PublicLayout } from '@/components/layouts/PublicLayout';
 
 export default function FavoritosPage() {
   const { items, limparFavoritos, getQuantidadeFavoritos } = useFavoritesStore();
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-amber-50 py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-amber-900 mb-4">
-              Seus Favoritos
-            </h1>
-            <p className="text-amber-700 mb-8">
-              Você ainda não tem produtos favoritos
-            </p>
-            <Card className="max-w-md mx-auto">
-              <CardContent className="p-6">
-                <div className="text-center text-amber-600">
-                  <Heart className="w-12 h-12 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">
-                    Nenhum Favorito Ainda
-                  </h3>
-                  <p className="text-sm mb-4">
-                    Explore nosso catálogo e adicione produtos aos seus favoritos para acessá-los rapidamente depois.
-                  </p>
-                  <Link
-                    href="/catalogo"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
-                  >
-                    <ShoppingBag className="w-4 h-4" />
-                    Explorar Catálogo
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
+      <PublicLayout>
+        <div className="min-h-screen bg-amber-50 py-12">
+          <div className="container mx-auto px-4">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-amber-900 mb-4">
+                Seus Favoritos
+              </h1>
+              <p className="text-amber-700 mb-8">
+                Você ainda não tem produtos favoritos
+              </p>
+              <Card className="max-w-md mx-auto">
+                <CardContent className="p-6">
+                  <div className="text-center text-amber-600">
+                    <Heart className="w-12 h-12 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">
+                      Nenhum Favorito Ainda
+                    </h3>
+                    <p className="text-sm mb-4">
+                      Explore nosso catálogo e adicione produtos aos seus favoritos para acessá-los rapidamente depois.
+                    </p>
+                    <Link
+                      href="/catalogo"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+                    >
+                      <ShoppingBag className="w-4 h-4" />
+                      Explorar Catálogo
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
-      </div>
+      </PublicLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-amber-50 py-12">
-      <div className="container mx-auto px-4">
+    <PublicLayout>
+      <div className="min-h-screen bg-amber-50 py-12">
+        <div className="container mx-auto px-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -120,7 +124,8 @@ export default function FavoritosPage() {
             </Link>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </PublicLayout>
   );
 }
