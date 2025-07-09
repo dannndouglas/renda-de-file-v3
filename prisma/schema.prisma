@@ -118,10 +118,26 @@ model FormularioContato {
   telefone    String?
   assunto     String
   mensagem    String   @db.Text
+  status      StatusContato @default(NOVO)
   respondido  Boolean  @default(false)
   criadoEm    DateTime @default(now())
 
   @@map("formularios_contato")
+}
+
+model Contato {
+  id          String   @id @default(cuid())
+  nome        String
+  email       String
+  telefone    String?
+  assunto     String
+  mensagem    String   @db.Text
+  status      StatusContato @default(NOVO)
+  respondido  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("contatos")
 }
 
 model MetricaAcesso {
@@ -166,6 +182,13 @@ enum TipoConsulta {
   ENCOMENDA
   DUVIDA
   ORCAMENTO
+}
+
+enum StatusContato {
+  NOVO
+  LIDO
+  RESPONDIDO
+  ARQUIVADO
 }
 
 model NewsletterSubscription {

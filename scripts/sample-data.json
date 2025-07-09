@@ -1,0 +1,154 @@
+{
+  "configuracoes": {
+    "_type": "configuracoes",
+    "_id": "configuracoes",
+    "titulo": "Renda de Filé de Jaguaribe",
+    "descricao": "Artesanato tradicional de Jaguaribe, Ceará. Mais de 300 anos de tradição em renda de filé feita à mão pelas artesãs locais.",
+    "contato": {
+      "email": "contato@rendadefile.org.br",
+      "telefone": "(88) 3555-1234",
+      "whatsapp": "5588999887766",
+      "endereco": {
+        "rua": "Centro de Artesanato",
+        "numero": "123",
+        "bairro": "Centro",
+        "cidade": "Jaguaribe",
+        "estado": "CE",
+        "cep": "63475-000"
+      }
+    },
+    "redesSociais": {
+      "instagram": "@rendadefilejaguaribe",
+      "facebook": "https://facebook.com/rendadefilejaguaribe",
+      "youtube": "https://youtube.com/@rendadefilejaguaribe"
+    }
+  },
+  
+  "paginaInicial": {
+    "_type": "paginaInicial",
+    "_id": "paginaInicial",
+    "hero": {
+      "titulo": "Tradição que se Renova",
+      "subtitulo": "Descubra a beleza e história da Renda de Filé de Jaguaribe. Mais de 300 anos de tradição preservada pelas mãos habilidosas de nossas artesãs.",
+      "cta": {
+        "texto": "Explore o Catálogo",
+        "link": "/catalogo"
+      }
+    },
+    "sobre": {
+      "titulo": "Nossa História",
+      "texto": "A renda de filé é uma técnica artesanal tradicional que chegou ao Ceará no século XVIII. Em Jaguaribe, essa arte se desenvolveu e se tornou patrimônio cultural da região, sendo passada de geração em geração."
+    },
+    "estatisticas": [
+      {
+        "numero": "300+",
+        "label": "Anos de Tradição",
+        "descricao": "Técnica preservada há séculos"
+      },
+      {
+        "numero": "150+",
+        "label": "Artesãs Ativas",
+        "descricao": "Mulheres dedicadas à arte"
+      },
+      {
+        "numero": "8",
+        "label": "Associações",
+        "descricao": "Grupos organizados"
+      },
+      {
+        "numero": "500+",
+        "label": "Produtos Únicos",
+        "descricao": "Peças artesanais exclusivas"
+      }
+    ],
+    "produtosDestaque": {
+      "titulo": "Produtos em Destaque",
+      "mostrarAutomatico": true
+    }
+  },
+
+  "exemplos": {
+    "associacoes": [
+      {
+        "nome": "Associação das Rendeiras de Jaguaribe",
+        "slug": "rendeiras-jaguaribe",
+        "descricao": "Principal associação de artesãs da região",
+        "historia": "Fundada em 1975, é a mais antiga associação da região",
+        "endereco": {
+          "rua": "Rua das Flores",
+          "numero": "123",
+          "bairro": "Centro",
+          "cidade": "Jaguaribe",
+          "estado": "CE"
+        },
+        "telefone": "(88) 3555-1234",
+        "whatsapp": "5588999887766",
+        "numeroMembros": 45,
+        "especialidades": ["Renda de Filé", "Labirinto", "Bordado"]
+      }
+    ],
+    
+    "produtos": [
+      {
+        "nome": "Toalha de Mesa Flores do Cerrado",
+        "slug": "toalha-flores-cerrado",
+        "descricao": "Linda toalha de mesa em renda de filé com motivos florais típicos do cerrado cearense. Peça única feita artesanalmente.",
+        "descricaoBreve": "Toalha de mesa em renda de filé com motivos florais",
+        "categoria": "decoracao",
+        "preco": 185.00,
+        "disponibilidade": "disponivel",
+        "tempoProducao": 15,
+        "destaque": true,
+        "personalizavel": true,
+        "tags": ["toalha", "mesa", "flores", "decoracao", "cerrado"]
+      },
+      {
+        "nome": "Caminho de Mesa Tradicional",
+        "slug": "caminho-mesa-tradicional", 
+        "descricao": "Elegante caminho de mesa feito em técnica tradicional de renda de filé, perfeito para decorar sua mesa.",
+        "descricaoBreve": "Caminho de mesa em renda de filé tradicional",
+        "categoria": "decoracao",
+        "preco": 95.00,
+        "disponibilidade": "disponivel",
+        "tempoProducao": 8,
+        "destaque": false,
+        "personalizavel": false,
+        "tags": ["caminho", "mesa", "tradicional", "decoracao"]
+      },
+      {
+        "nome": "Blusa Feminina com Renda",
+        "slug": "blusa-feminina-renda",
+        "descricao": "Blusa feminina delicada com detalhes em renda de filé no decote e mangas. Peça elegante e confortável.",
+        "descricaoBreve": "Blusa feminina com detalhes em renda de filé",
+        "categoria": "vestuario",
+        "preco": 120.00,
+        "disponibilidade": "sob-encomenda",
+        "tempoProducao": 20,
+        "destaque": true,
+        "personalizavel": true,
+        "tags": ["blusa", "feminina", "vestuario", "renda", "elegante"]
+      }
+    ],
+    
+    "noticias": [
+      {
+        "titulo": "Feira de Artesanato Movimenta Economia Local",
+        "slug": "feira-artesanato-economia-local",
+        "resumo": "A tradicional feira de artesanato de Jaguaribe registrou recorde de vendas este mês.",
+        "categoria": "novidades",
+        "autor": "Equipe Renda de Filé",
+        "destaque": true,
+        "tags": ["feira", "economia", "vendas", "jaguaribe"]
+      },
+      {
+        "titulo": "Nova Geração Preserva Tradição da Renda",
+        "slug": "nova-geracao-preserva-tradicao",
+        "resumo": "Jovens artesãs se dedicam a aprender e inovar a técnica milenar.",
+        "categoria": "cultura", 
+        "autor": "Maria Silva",
+        "destaque": false,
+        "tags": ["jovens", "tradicao", "inovacao", "cultura"]
+      }
+    ]
+  }
+}

@@ -12,6 +12,7 @@ import { trackWhatsAppClick } from '@/lib/analytics/whatsapp';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PublicLayout } from '@/components/layouts/PublicLayout';
+import { generateMetadata as generateSEOMetadata, generateJsonLd } from '@/components/seo/SEOMetadata';
 
 const PRODUTO_QUERY = `*[_type == "produto" && slug.current == $slug][0] {
   _id,
@@ -78,16 +79,27 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   const { produto } = data;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rendadefile.org.br';
 
-  return {
-    title: `${produto.nome} - Renda de Filé`,
+  return generateSEOMetadata({
+    title: produto.nome,
     description: produto.descricao,
-    openGraph: {
-      title: produto.nome,
-      description: produto.descricao,
-      images: produto.imagens?.[0]?.asset?.url ? [produto.imagens[0].asset.url] : [],
+    keywords: [
+      'renda de filé',
+      'artesanato',
+      'ceará',
+      produto.categoria,
+      ...produto.tags || [],
+    ],
+    ogImage: produto.imagens?.[0]?.asset?.url,
+    ogType: 'product',
+    canonicalUrl: `${siteUrl}/produto/${resolvedParams.slug}`,
+    productData: {
+      price: produto.preco,
+      currency: 'BRL',
+      availability: produto.disponibilidade === 'disponivel' ? 'in stock' : 'preorder',
     },
-  };
+  });
 }
 
 export default async function ProdutoPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -118,8 +130,38 @@ Gostaria de mais informações.`;
     return `https://wa.me/55${numero}?text=${encodeURIComponent(mensagem)}`;
   };
 
+  const jsonLd = generateJsonLd('Product', {
+    name: produto.nome,
+    description: produto.descricao,
+    image: produto.imagens?.[0]?.asset?.url,
+    brand: {
+      '@type': 'Organization',
+      name: produto.associacao?.nome || 'Renda de Filé',
+    },
+    offers: {
+      '@type': 'Offer',
+      url: `https://rendadefile.org.br/produto/${resolvedParams.slug}`,
+      priceCurrency: 'BRL',
+      price: produto.preco,
+      availability: produto.disponibilidade === 'disponivel' 
+        ? 'https://schema.org/InStock' 
+        : 'https://schema.org/PreOrder',
+      seller: {
+        '@type': 'Organization',
+        name: produto.associacao?.nome,
+        telephone: produto.associacao?.telefone,
+        address: produto.associacao?.endereco,
+      },
+    },
+    category: produto.categoria,
+  });
+
   return (
     <PublicLayout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd }}
+      />
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="text-sm mb-6">

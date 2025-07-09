@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import NotificationManager from '@/lib/pwa/notifications';
 
 interface UseNotificationsReturn {
@@ -22,21 +22,21 @@ export function useNotifications(): UseNotificationsReturn {
   const notificationManager = NotificationManager.getInstance();
   const isSupported = notificationManager.isSupported();
 
+  const checkSubscriptionStatus = useCallback(async () => {
+    try {
+      const subscribed = await notificationManager.isSubscribed();
+      setIsSubscribed(subscribed);
+    } catch (error) {
+      console.error('Erro ao verificar status da inscrição:', error);
+    }
+  }, [notificationManager]);
+
   useEffect(() => {
     if (isSupported) {
       setPermission(notificationManager.getPermission());
       checkSubscriptionStatus();
     }
-  }, [isSupported, notificationManager]);
-
-  const checkSubscriptionStatus = async () => {
-    try {
-      const subscribed = await notificationManager.isSubscribed();
-      setIsSubscribed(subscribed);
-    } catch (error) {
-      console.error('Erro ao verificar status da subscription:', error);
-    }
-  };
+  }, [isSupported, notificationManager, checkSubscriptionStatus]);
 
   const requestPermission = async (): Promise<boolean> => {
     if (!isSupported) return false;

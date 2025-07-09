@@ -1,0 +1,27 @@
+# Logs
+/logs
+*.log
+
+# Coverage directory used by tools like istanbul
+/coverage
+
+# Dependency directories
+node_modules
+
+# Compiled sanity studio
+/dist
+
+# Temporary and cache files
+.sanity
+.temp
+tmp
+
+# Environment variables
+.env*
+
+# Misc
+.DS_Store
+*.pem
+
+# Typescript
+*.tsbuildinfo

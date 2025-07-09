@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { whatsappRateLimit } from '@/lib/security/rateLimit';
 
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
+  return whatsappRateLimit.middleware(request, async (req) => {
+    try {
+      const body = await req.json();
     const { produtoId, tipo = 'COMPRA', origem = 'catalogo' } = body;
 
     if (!produtoId) {
@@ -13,9 +15,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Obter sessionId do cookie ou gerar um novo
-    const sessionId =
-      request.cookies.get('sessionId')?.value || crypto.randomUUID();
+      // Obter sessionId do cookie ou gerar um novo
+      const sessionId =
+        req.cookies.get('sessionId')?.value || crypto.randomUUID();
 
     // Registrar clique no WhatsApp
     await prisma.consultaWhatsApp.create({
@@ -27,10 +29,10 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Configurar cookie de sessão se não existir
-    const response = NextResponse.json({ success: true });
+      // Configurar cookie de sessão se não existir
+      const response = NextResponse.json({ success: true });
 
-    if (!request.cookies.get('sessionId')) {
+      if (!req.cookies.get('sessionId')) {
       response.cookies.set('sessionId', sessionId, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -39,12 +41,13 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return response;
-  } catch (error) {
-    console.error('Erro ao registrar clique WhatsApp:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
-  }
+      return response;
+    } catch (error) {
+      console.error('Erro ao registrar clique WhatsApp:', error);
+      return NextResponse.json(
+        { error: 'Erro interno do servidor' },
+        { status: 500 }
+      );
+    }
+  });
 }

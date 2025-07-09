@@ -11,6 +11,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { PortableText } from '@portabletext/react';
 import { PublicLayout } from '@/components/layouts/PublicLayout';
+import { generateMetadata as generateSEOMetadata, generateJsonLd } from '@/components/seo/SEOMetadata';
 
 interface NoticiaDetalhes {
   _id: string;
@@ -71,18 +72,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  return {
-    title: `${noticia.titulo} | Renda de Filé`,
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rendadefile.org.br';
+
+  return generateSEOMetadata({
+    title: noticia.titulo,
     description: noticia.resumo,
-    openGraph: {
-      title: noticia.titulo,
-      description: noticia.resumo,
-      type: 'article',
-      publishedTime: noticia.dataPublicacao,
-      authors: [noticia.autor.nome],
-      tags: noticia.tags,
-    },
-  };
+    keywords: [
+      'renda de filé',
+      'notícias',
+      'artesanato',
+      'ceará',
+      noticia.categoria,
+      ...noticia.tags || [],
+    ],
+    ogImage: noticia.imagemPrincipal?.asset?.url,
+    ogType: 'article',
+    canonicalUrl: `${siteUrl}/noticias/${slug}`,
+    author: noticia.autor.nome,
+    publishedTime: noticia.dataPublicacao,
+    section: noticia.categoria,
+    tags: noticia.tags,
+  });
 }
 
 export default async function NoticiaPage({ params }: Props) {
