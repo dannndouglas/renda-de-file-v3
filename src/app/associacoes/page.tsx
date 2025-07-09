@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { MapPin, Phone, Users, Package, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PublicLayout } from '@/components/layouts/PublicLayout';
 
 export const metadata: Metadata = {
   title: 'Associações - Renda de Filé',
@@ -43,7 +44,7 @@ export default async function AssociacoesPage() {
   const associacoes = await getAssociacoes();
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <PublicLayout>
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
@@ -196,6 +197,6 @@ export default async function AssociacoesPage() {
           </Button>
         </div>
       </div>
-    </main>
+    </PublicLayout>
   );
 }

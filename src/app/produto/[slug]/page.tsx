@@ -11,6 +11,7 @@ import { WhatsAppButton } from '@/components/common/WhatsAppButton';
 import { trackWhatsAppClick } from '@/lib/analytics/whatsapp';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PublicLayout } from '@/components/layouts/PublicLayout';
 
 const PRODUTO_QUERY = `*[_type == "produto" && slug.current == $slug][0] {
   _id,
@@ -118,7 +119,7 @@ Gostaria de mais informações.`;
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <PublicLayout>
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="text-sm mb-6">
@@ -304,6 +305,6 @@ Gostaria de mais informações.`;
           </div>
         )}
       </div>
-    </main>
+    </PublicLayout>
   );
 }

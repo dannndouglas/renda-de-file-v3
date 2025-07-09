@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { useFilterStore } from '@/stores/use-filter-store';
 import { useSearchStore } from '@/stores/use-search-store';
+import { PublicLayout } from '@/components/layouts/PublicLayout';
 
 const PRODUTOS_QUERY = `*[_type == "produto" && 
   $search == "" || nome match $search + "*" || descricao match $search + "*"
@@ -92,7 +93,7 @@ function CatalogoContent() {
   const totalPages = Math.ceil(produtos.length / itemsPerPage);
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <PublicLayout>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
           Catálogo de Produtos
@@ -179,13 +180,13 @@ function CatalogoContent() {
           </div>
         </div>
       </div>
-    </main>
+    </PublicLayout>
   );
 }
 
 export default function CatalogoPage() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
+    <Suspense fallback={<PublicLayout><div className="flex items-center justify-center min-h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div></PublicLayout>}>
       <CatalogoContent />
     </Suspense>
   );

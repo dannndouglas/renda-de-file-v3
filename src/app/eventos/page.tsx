@@ -8,6 +8,7 @@ import { CalendarDays, Clock, MapPin, Users, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { format, parseISO, isFuture, isPast } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { PublicLayout } from '@/components/layouts/PublicLayout';
 
 export const metadata: Metadata = {
   title: 'Eventos | Renda de Filé',
@@ -58,31 +59,33 @@ export default async function EventosPage() {
 
   if (eventos.length === 0) {
     return (
-      <div className="min-h-screen bg-amber-50 py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-amber-900 mb-4">
-              Eventos da Renda de Filé
-            </h1>
-            <p className="text-amber-700 mb-8">
-              Em breve, eventos e workshops sobre a tradição da Renda de Filé
-            </p>
-            <Card className="max-w-md mx-auto">
-              <CardContent className="p-6">
-                <div className="text-center text-amber-600">
-                  <CalendarDays className="w-12 h-12 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">
-                    Eventos em Breve
-                  </h3>
-                  <p className="text-sm">
-                    Estamos organizando workshops, feiras e encontros para promover a Renda de Filé.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+      <PublicLayout>
+        <div className="min-h-screen bg-amber-50 py-12">
+          <div className="container mx-auto px-4">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-amber-900 mb-4">
+                Eventos da Renda de Filé
+              </h1>
+              <p className="text-amber-700 mb-8">
+                Em breve, eventos e workshops sobre a tradição da Renda de Filé
+              </p>
+              <Card className="max-w-md mx-auto">
+                <CardContent className="p-6">
+                  <div className="text-center text-amber-600">
+                    <CalendarDays className="w-12 h-12 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">
+                      Eventos em Breve
+                    </h3>
+                    <p className="text-sm">
+                      Estamos organizando workshops, feiras e encontros para promover a Renda de Filé.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
-      </div>
+      </PublicLayout>
     );
   }
 
@@ -92,8 +95,8 @@ export default async function EventosPage() {
   const eventosDestaque = eventos.filter(e => e.destaque);
 
   return (
-    <div className="min-h-screen bg-amber-50 py-12">
-      <div className="container mx-auto px-4">
+    <PublicLayout>
+      <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-amber-900 mb-4">
@@ -341,6 +344,6 @@ export default async function EventosPage() {
           </div>
         </div>
       </div>
-    </div>
+    </PublicLayout>
   );
 }

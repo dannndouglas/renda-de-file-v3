@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar, MapPin, Users, Award, Heart } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PublicLayout } from '@/components/layouts/PublicLayout';
 
 export const metadata: Metadata = {
   title: 'História - Renda de Filé',
@@ -74,7 +75,7 @@ const techniques = [
 
 export default function HistoriaPage() {
   return (
-    <main className="min-h-screen bg-gray-50">
+    <PublicLayout>
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-br from-orange-50 to-amber-50">
         <div className="container mx-auto px-4">
@@ -275,6 +276,6 @@ export default function HistoriaPage() {
           </div>
         </section>
       </div>
-    </main>
+    </PublicLayout>
   );
 }

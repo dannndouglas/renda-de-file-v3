@@ -4,6 +4,7 @@ import './globals.css';
 import { SessionProvider } from '@/components/auth/session-provider';
 import { QueryProvider } from '@/components/providers/query-provider';
 import { WebVitalsTracker } from '@/components/analytics/web-vitals-tracker';
+import { MainNavigation } from '@/components/navigation/MainNavigation';
 import { Toaster } from 'sonner';
 
 const inter = Inter({
@@ -90,6 +91,7 @@ export default function RootLayout({
         <SessionProvider>
           <QueryProvider>
             <WebVitalsTracker />
+            <MainNavigation />
             {children}
             <Toaster richColors position="top-right" />
           </QueryProvider>
