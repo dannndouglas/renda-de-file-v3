@@ -71,7 +71,9 @@ export function ContactForm() {
       });
 
       if (response.ok) {
-        toast.success('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+        toast.success(
+          'Mensagem enviada com sucesso! Entraremos em contato em breve.'
+        );
         form.reset();
       } else {
         throw new Error('Erro ao enviar mensagem');
@@ -101,7 +103,7 @@ export function ContactForm() {
           )}
         />
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid gap-6 md:grid-cols-2">
           <FormField
             control={form.control}
             name="email"

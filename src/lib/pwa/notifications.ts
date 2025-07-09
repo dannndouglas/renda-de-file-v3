@@ -62,7 +62,7 @@ class NotificationManager {
   // Enviar notificação local
   async showNotification(options: NotificationOptions): Promise<void> {
     const permission = this.getPermission();
-    
+
     if (permission !== 'granted') {
       throw new Error('Permissão para notificações não concedida');
     }
@@ -75,7 +75,10 @@ class NotificationManager {
 
     if (this.registration) {
       // Usar service worker para notificação
-      await this.registration.showNotification(options.title, notificationOptions);
+      await this.registration.showNotification(
+        options.title,
+        notificationOptions
+      );
     } else {
       // Fallback para notificação simples
       new Notification(options.title, notificationOptions);
@@ -116,7 +119,8 @@ class NotificationManager {
     }
 
     try {
-      const subscription = await this.registration.pushManager.getSubscription();
+      const subscription =
+        await this.registration.pushManager.getSubscription();
       if (subscription) {
         await subscription.unsubscribe();
         await this.removeSubscription(subscription);
@@ -136,7 +140,8 @@ class NotificationManager {
     }
 
     try {
-      const subscription = await this.registration.pushManager.getSubscription();
+      const subscription =
+        await this.registration.pushManager.getSubscription();
       return !!subscription;
     } catch (error) {
       return false;
@@ -144,7 +149,9 @@ class NotificationManager {
   }
 
   // Salvar subscription no servidor
-  private async saveSubscription(subscription: PushSubscription): Promise<void> {
+  private async saveSubscription(
+    subscription: PushSubscription
+  ): Promise<void> {
     try {
       await fetch('/api/v1/push-subscription', {
         method: 'POST',
@@ -159,7 +166,9 @@ class NotificationManager {
   }
 
   // Remover subscription do servidor
-  private async removeSubscription(subscription: PushSubscription): Promise<void> {
+  private async removeSubscription(
+    subscription: PushSubscription
+  ): Promise<void> {
     try {
       await fetch('/api/v1/push-subscription', {
         method: 'DELETE',
@@ -175,7 +184,7 @@ class NotificationManager {
 
   // Converter VAPID key
   private urlB64ToUint8Array(base64String: string): Uint8Array {
-    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
     const base64 = (base64String + padding)
       .replace(/-/g, '+')
       .replace(/_/g, '/');
@@ -190,7 +199,10 @@ class NotificationManager {
   }
 
   // Notificações pré-definidas
-  async notifyNewProduct(product: { nome: string; preco?: number }): Promise<void> {
+  async notifyNewProduct(product: {
+    nome: string;
+    preco?: number;
+  }): Promise<void> {
     await this.showNotification({
       title: 'Novo Produto Disponível!',
       body: `${product.nome} ${product.preco ? `por R$ ${product.preco.toFixed(2)}` : ''}`,
@@ -209,7 +221,10 @@ class NotificationManager {
     });
   }
 
-  async notifyEvent(event: { titulo: string; dataInicio: string }): Promise<void> {
+  async notifyEvent(event: {
+    titulo: string;
+    dataInicio: string;
+  }): Promise<void> {
     await this.showNotification({
       title: 'Novo Evento!',
       body: `${event.titulo} - ${new Date(event.dataInicio).toLocaleDateString()}`,

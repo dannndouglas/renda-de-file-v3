@@ -14,9 +14,11 @@ export async function POST(request: NextRequest) {
     const validatedData = newsletterSchema.parse(body);
 
     // Verificar se email já existe
-    const existingSubscription = await prisma.newsletterSubscription.findUnique({
-      where: { email: validatedData.email },
-    });
+    const existingSubscription = await prisma.newsletterSubscription.findUnique(
+      {
+        where: { email: validatedData.email },
+      }
+    );
 
     if (existingSubscription) {
       if (existingSubscription.ativo) {
@@ -60,7 +62,6 @@ export async function POST(request: NextRequest) {
         nome: subscription.nome,
       },
     });
-
   } catch (error) {
     console.error('Erro ao inscrever no newsletter:', error);
 
@@ -105,10 +106,7 @@ export async function DELETE(request: NextRequest) {
 
     // Verificar token se fornecido (para links de cancelamento)
     if (token && subscription.unsubscribeToken !== token) {
-      return NextResponse.json(
-        { error: 'Token inválido' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Token inválido' }, { status: 401 });
     }
 
     await prisma.newsletterSubscription.update({
@@ -122,7 +120,6 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({
       message: 'Inscrição cancelada com sucesso',
     });
-
   } catch (error) {
     console.error('Erro ao cancelar inscrição:', error);
     return NextResponse.json(

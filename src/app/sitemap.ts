@@ -1,10 +1,18 @@
 import { MetadataRoute } from 'next';
 import { sanityClient } from '@/lib/sanity/client';
 
-type ChangeFrequency = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+type ChangeFrequency =
+  | 'always'
+  | 'hourly'
+  | 'daily'
+  | 'weekly'
+  | 'monthly'
+  | 'yearly'
+  | 'never';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rendadefile.org.br';
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://rendadefile.org.br';
 
   // Páginas estáticas
   const staticPages: MetadataRoute.Sitemap = [
@@ -60,7 +68,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     // Buscar produtos
-    const produtos = await sanityClient.fetch<{ slug: { current: string }; _updatedAt: string }[]>(
+    const produtos = await sanityClient.fetch<
+      { slug: { current: string }; _updatedAt: string }[]
+    >(
       `*[_type == "produto"] {
         slug,
         _updatedAt
@@ -75,7 +85,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     // Buscar notícias
-    const noticias = await sanityClient.fetch<{ slug: { current: string }; _updatedAt: string }[]>(
+    const noticias = await sanityClient.fetch<
+      { slug: { current: string }; _updatedAt: string }[]
+    >(
       `*[_type == "noticia"] {
         slug,
         _updatedAt
@@ -90,21 +102,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     // Buscar associações
-    const associacoes = await sanityClient.fetch<{ slug: { current: string }; _updatedAt: string }[]>(
+    const associacoes = await sanityClient.fetch<
+      { slug: { current: string }; _updatedAt: string }[]
+    >(
       `*[_type == "associacao"] {
         slug,
         _updatedAt
       }`
     );
 
-    const associacaoPages: MetadataRoute.Sitemap = associacoes.map((associacao) => ({
-      url: `${baseUrl}/associacoes/${associacao.slug.current}`,
-      lastModified: new Date(associacao._updatedAt),
-      changeFrequency: 'monthly' as ChangeFrequency,
-      priority: 0.7,
-    }));
+    const associacaoPages: MetadataRoute.Sitemap = associacoes.map(
+      (associacao) => ({
+        url: `${baseUrl}/associacoes/${associacao.slug.current}`,
+        lastModified: new Date(associacao._updatedAt),
+        changeFrequency: 'monthly' as ChangeFrequency,
+        priority: 0.7,
+      })
+    );
 
-    return [...staticPages, ...produtoPages, ...noticiaPages, ...associacaoPages];
+    return [
+      ...staticPages,
+      ...produtoPages,
+      ...noticiaPages,
+      ...associacaoPages,
+    ];
   } catch (error) {
     console.error('Erro ao gerar sitemap:', error);
     // Retornar apenas páginas estáticas em caso de erro

@@ -82,13 +82,13 @@ export function NotificationManager({ className }: NotificationManagerProps) {
       <Card className={className}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <BellOff className="w-5 h-5 text-gray-400" />
+            <BellOff className="h-5 w-5 text-gray-400" />
             Notificações
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-2 text-gray-500">
-            <AlertCircle className="w-4 h-4" />
+            <AlertCircle className="h-4 w-4" />
             <span className="text-sm">
               Seu navegador não suporta notificações push
             </span>
@@ -102,14 +102,14 @@ export function NotificationManager({ className }: NotificationManagerProps) {
     <Card className={className}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Bell className="w-5 h-5 text-amber-600" />
+          <Bell className="h-5 w-5 text-amber-600" />
           Notificações Push
         </CardTitle>
         <p className="text-sm text-gray-600">
           Receba notificações sobre novos produtos, eventos e notícias
         </p>
       </CardHeader>
-      
+
       <CardContent className="space-y-4">
         {/* Status das Permissões */}
         <div className="space-y-2">
@@ -118,18 +118,20 @@ export function NotificationManager({ className }: NotificationManagerProps) {
             <div className="flex items-center gap-2">
               {permission === 'granted' ? (
                 <>
-                  <CheckCircle className="w-4 h-4 text-green-500" />
+                  <CheckCircle className="h-4 w-4 text-green-500" />
                   <span className="text-sm text-green-600">Permitido</span>
                 </>
               ) : permission === 'denied' ? (
                 <>
-                  <AlertCircle className="w-4 h-4 text-red-500" />
+                  <AlertCircle className="h-4 w-4 text-red-500" />
                   <span className="text-sm text-red-600">Negado</span>
                 </>
               ) : (
                 <>
-                  <AlertCircle className="w-4 h-4 text-yellow-500" />
-                  <span className="text-sm text-yellow-600">Não solicitado</span>
+                  <AlertCircle className="h-4 w-4 text-yellow-500" />
+                  <span className="text-sm text-yellow-600">
+                    Não solicitado
+                  </span>
                 </>
               )}
             </div>
@@ -176,7 +178,7 @@ export function NotificationManager({ className }: NotificationManagerProps) {
         </div>
 
         {/* Informações */}
-        <div className="text-xs text-gray-500 space-y-1">
+        <div className="space-y-1 text-xs text-gray-500">
           <p>• Novos produtos adicionados ao catálogo</p>
           <p>• Eventos e workshops disponíveis</p>
           <p>• Notícias sobre a tradição da Renda de Filé</p>
@@ -184,9 +186,10 @@ export function NotificationManager({ className }: NotificationManagerProps) {
         </div>
 
         {permission === 'denied' && (
-          <div className="bg-red-50 p-3 rounded-lg border border-red-200">
+          <div className="rounded-lg border border-red-200 bg-red-50 p-3">
             <p className="text-sm text-red-700">
-              Para receber notificações, você precisa permitir nas configurações do seu navegador.
+              Para receber notificações, você precisa permitir nas configurações
+              do seu navegador.
             </p>
           </div>
         )}

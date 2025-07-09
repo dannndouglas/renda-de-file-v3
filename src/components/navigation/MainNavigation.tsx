@@ -5,7 +5,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Heart, Search, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 
 const navigationItems = [
@@ -40,9 +46,9 @@ export function MainNavigation() {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out',
+        'fixed left-0 right-0 top-0 z-50 transition-all duration-300 ease-in-out',
         isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/50'
+          ? 'border-b border-gray-200/50 bg-white/95 shadow-lg backdrop-blur-md'
           : 'bg-white/80 backdrop-blur-sm'
       )}
     >
@@ -50,19 +56,19 @@ export function MainNavigation() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <h1 className="text-xl font-bold text-amber-600 hover:text-amber-700 transition-colors">
+            <h1 className="text-xl font-bold text-amber-600 transition-colors hover:text-amber-700">
               Renda de Filé
             </h1>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden items-center space-x-8 md:flex">
             {navigationItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'text-sm font-medium transition-all duration-200 hover:text-amber-600 relative',
+                  'relative text-sm font-medium transition-all duration-200 hover:text-amber-600',
                   isActive(item.href)
                     ? 'text-amber-600'
                     : 'text-gray-700 hover:text-amber-600'
@@ -70,7 +76,7 @@ export function MainNavigation() {
               >
                 {item.name}
                 {isActive(item.href) && (
-                  <span className="absolute -bottom-6 left-0 right-0 h-0.5 bg-amber-600 rounded-full" />
+                  <span className="absolute -bottom-6 left-0 right-0 h-0.5 rounded-full bg-amber-600" />
                 )}
               </Link>
             ))}
@@ -82,7 +88,7 @@ export function MainNavigation() {
             <Button
               variant="ghost"
               size="sm"
-              className="hidden md:flex items-center space-x-2 text-gray-700 hover:text-amber-600 hover:bg-amber-50"
+              className="hidden items-center space-x-2 text-gray-700 hover:bg-amber-50 hover:text-amber-600 md:flex"
               asChild
             >
               <Link href="/catalogo">
@@ -95,7 +101,7 @@ export function MainNavigation() {
             <Button
               variant="ghost"
               size="sm"
-              className="hidden md:flex items-center space-x-2 text-gray-700 hover:text-amber-600 hover:bg-amber-50"
+              className="hidden items-center space-x-2 text-gray-700 hover:bg-amber-50 hover:text-amber-600 md:flex"
               asChild
             >
               <Link href="/favoritos">
@@ -110,7 +116,7 @@ export function MainNavigation() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="md:hidden text-gray-700 hover:text-amber-600 hover:bg-amber-50"
+                  className="text-gray-700 hover:bg-amber-50 hover:text-amber-600 md:hidden"
                 >
                   <Menu className="h-5 w-5" />
                 </Button>
@@ -129,23 +135,23 @@ export function MainNavigation() {
                         href={item.href}
                         onClick={() => setIsOpen(false)}
                         className={cn(
-                          'block py-2 px-3 text-base font-medium rounded-md transition-colors',
+                          'block rounded-md px-3 py-2 text-base font-medium transition-colors',
                           isActive(item.href)
-                            ? 'text-amber-600 bg-amber-50'
-                            : 'text-gray-700 hover:text-amber-600 hover:bg-amber-50'
+                            ? 'bg-amber-50 text-amber-600'
+                            : 'text-gray-700 hover:bg-amber-50 hover:text-amber-600'
                         )}
                       >
                         {item.name}
                       </Link>
                     ))}
                   </div>
-                  
-                  <div className="mt-8 pt-8 border-t border-gray-200">
+
+                  <div className="mt-8 border-t border-gray-200 pt-8">
                     <div className="space-y-4">
                       <Link
                         href="/catalogo"
                         onClick={() => setIsOpen(false)}
-                        className="flex items-center space-x-3 py-2 px-3 text-gray-700 hover:text-amber-600 hover:bg-amber-50 rounded-md transition-colors"
+                        className="flex items-center space-x-3 rounded-md px-3 py-2 text-gray-700 transition-colors hover:bg-amber-50 hover:text-amber-600"
                       >
                         <Search className="h-4 w-4" />
                         <span>Buscar Produtos</span>
@@ -153,7 +159,7 @@ export function MainNavigation() {
                       <Link
                         href="/favoritos"
                         onClick={() => setIsOpen(false)}
-                        className="flex items-center space-x-3 py-2 px-3 text-gray-700 hover:text-amber-600 hover:bg-amber-50 rounded-md transition-colors"
+                        className="flex items-center space-x-3 rounded-md px-3 py-2 text-gray-700 transition-colors hover:bg-amber-50 hover:text-amber-600"
                       >
                         <Heart className="h-4 w-4" />
                         <span>Meus Favoritos</span>

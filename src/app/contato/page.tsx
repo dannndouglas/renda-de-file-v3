@@ -5,7 +5,8 @@ import { PublicLayout } from '@/components/layouts/PublicLayout';
 
 export const metadata: Metadata = {
   title: 'Contato | Renda de Filé',
-  description: 'Entre em contato com a Renda de Filé. Conheça nossa história, faça parcerias ou tire suas dúvidas sobre nossos produtos artesanais.',
+  description:
+    'Entre em contato com a Renda de Filé. Conheça nossa história, faça parcerias ou tire suas dúvidas sobre nossos produtos artesanais.',
 };
 
 export default function ContatoPage() {
@@ -15,13 +16,14 @@ export default function ContatoPage() {
         {/* Hero Section */}
         <section className="relative py-16 md:py-24">
           <div className="container mx-auto px-4">
-            <div className="text-center max-w-3xl mx-auto">
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <h1 className="mb-6 text-4xl font-bold text-gray-900 md:text-5xl">
                 Fale Conosco
               </h1>
               <p className="text-lg text-gray-600">
-                Queremos ouvir você! Entre em contato para conhecer mais sobre a Renda de Filé,
-                fazer parcerias ou esclarecer dúvidas sobre nossos produtos.
+                Queremos ouvir você! Entre em contato para conhecer mais sobre a
+                Renda de Filé, fazer parcerias ou esclarecer dúvidas sobre
+                nossos produtos.
               </p>
             </div>
           </div>
@@ -30,11 +32,11 @@ export default function ContatoPage() {
         {/* Contact Content */}
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
-            <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2">
               {/* Contact Form */}
               <div>
-                <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                <div className="rounded-lg bg-white p-6 shadow-lg md:p-8">
+                  <h2 className="mb-6 text-2xl font-bold text-gray-900">
                     Envie sua mensagem
                   </h2>
                   <ContactForm />
@@ -46,11 +48,11 @@ export default function ContatoPage() {
                 <ContactInfo />
 
                 {/* Map Section */}
-                <div className="mt-8 bg-white rounded-lg shadow-lg p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                <div className="mt-8 rounded-lg bg-white p-6 shadow-lg">
+                  <h3 className="mb-4 text-xl font-semibold text-gray-900">
                     Nossa Localização
                   </h3>
-                  <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                  <div className="aspect-video overflow-hidden rounded-lg bg-gray-200">
                     <iframe
                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.3576910371564!2d-38.55869602503635!3d-3.731673196252371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7c749af19a7e3f7%3A0x4ac7c0a88dcc55cd!2sCentro%20de%20Turismo%20do%20Cear%C3%A1!5e0!3m2!1spt-BR!2sbr!4v1704842421987!5m2!1spt-BR!2sbr"
                       width="100%"
@@ -62,7 +64,7 @@ export default function ContatoPage() {
                       title="Localização da Renda de Filé"
                     />
                   </div>
-                  <p className="text-sm text-gray-600 mt-4">
+                  <p className="mt-4 text-sm text-gray-600">
                     Centro de Turismo do Ceará (EMCETUR) - Fortaleza, CE
                   </p>
                 </div>

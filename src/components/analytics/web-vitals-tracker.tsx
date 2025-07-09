@@ -6,10 +6,10 @@ import WebVitalsManager from '@/lib/analytics/web-vitals';
 export function WebVitalsTracker() {
   useEffect(() => {
     const tracker = WebVitalsManager.getInstance();
-    
+
     // Iniciar tracking
     tracker.startTracking();
-    
+
     // Track métricas de carregamento da página
     if (document.readyState === 'complete') {
       tracker.trackPageLoad();
@@ -44,13 +44,15 @@ export function reportWebVitals(metric: any) {
   // Esta função é chamada automaticamente pelo Next.js
   // quando configurada no _app.tsx ou layout.tsx
   console.log('Web Vital:', metric);
-  
+
   // Opcionalmente enviar para serviços de analytics
   if (typeof window !== 'undefined' && 'gtag' in window) {
     (window as any).gtag('event', metric.name, {
       event_category: 'Web Vitals',
       event_label: metric.id,
-      value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+      value: Math.round(
+        metric.name === 'CLS' ? metric.value * 1000 : metric.value
+      ),
       non_interaction: true,
     });
   }

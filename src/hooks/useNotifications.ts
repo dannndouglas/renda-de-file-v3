@@ -15,10 +15,12 @@ interface UseNotificationsReturn {
 }
 
 export function useNotifications(): UseNotificationsReturn {
-  const [permission, setPermission] = useState<NotificationPermission | null>(null);
+  const [permission, setPermission] = useState<NotificationPermission | null>(
+    null
+  );
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const notificationManager = NotificationManager.getInstance();
   const isSupported = notificationManager.isSupported();
 
@@ -87,7 +89,10 @@ export function useNotifications(): UseNotificationsReturn {
     }
   };
 
-  const showNotification = async (title: string, body: string): Promise<void> => {
+  const showNotification = async (
+    title: string,
+    body: string
+  ): Promise<void> => {
     if (!isSupported || permission !== 'granted') return;
 
     try {

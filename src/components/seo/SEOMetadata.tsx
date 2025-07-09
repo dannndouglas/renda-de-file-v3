@@ -31,9 +31,10 @@ export function generateMetadata({
   tags = [],
   productData,
 }: SEOMetadataProps) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rendadefile.org.br';
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://rendadefile.org.br';
   const fullTitle = `${title} | Renda de Filé`;
-  
+
   const metadata: any = {
     title: fullTitle,
     description,

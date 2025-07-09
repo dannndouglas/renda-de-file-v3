@@ -5,7 +5,7 @@ export default defineType({
   name: 'produto',
   title: 'Produto',
   type: 'document',
-  icon: () => <ShoppingBag size={20} />,
+  icon: ShoppingBag,
   fields: [
     defineField({
       name: 'nome',

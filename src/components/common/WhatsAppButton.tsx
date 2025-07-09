@@ -21,7 +21,7 @@ export function WhatsAppButton({
   variant = 'default',
   className,
   onClick,
-  children
+  children,
 }: WhatsAppButtonProps) {
   const formattedNumber = phoneNumber.replace(/\D/g, '');
   const whatsappUrl = `https://wa.me/55${formattedNumber}${message ? `?text=${encodeURIComponent(message)}` : ''}`;

@@ -25,7 +25,11 @@ export function ContactInfo() {
     {
       icon: Clock,
       title: 'Horário de Funcionamento',
-      content: ['Segunda a Sexta: 8h às 18h', 'Sábado: 8h às 13h', 'Domingo: Fechado'],
+      content: [
+        'Segunda a Sexta: 8h às 18h',
+        'Sábado: 8h às 13h',
+        'Domingo: Fechado',
+      ],
     },
   ];
 
@@ -37,7 +41,7 @@ export function ContactInfo() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+        <h2 className="mb-6 text-2xl font-bold text-gray-900">
           Informações de Contato
         </h2>
         <div className="space-y-6">
@@ -46,12 +50,14 @@ export function ContactInfo() {
             return (
               <div key={index} className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <div className="p-3 bg-amber-100 rounded-lg">
+                  <div className="rounded-lg bg-amber-100 p-3">
                     <Icon className="h-6 w-6 text-amber-900" />
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">{detail.title}</h3>
+                  <h3 className="mb-1 font-semibold text-gray-900">
+                    {detail.title}
+                  </h3>
                   <div className="space-y-1">
                     {detail.content.map((line, lineIndex) => (
                       <p key={lineIndex} className="text-gray-600">
@@ -67,17 +73,18 @@ export function ContactInfo() {
       </div>
 
       {/* WhatsApp CTA */}
-      <div className="bg-green-50 rounded-lg p-6 border border-green-200">
-        <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+      <div className="rounded-lg border border-green-200 bg-green-50 p-6">
+        <h3 className="mb-3 flex items-center gap-2 font-semibold text-gray-900">
           <MessageCircle className="h-5 w-5 text-green-600" />
           Atendimento via WhatsApp
         </h3>
-        <p className="text-gray-600 mb-4">
-          Prefere conversar pelo WhatsApp? Clique no botão abaixo para iniciar uma conversa.
+        <p className="mb-4 text-gray-600">
+          Prefere conversar pelo WhatsApp? Clique no botão abaixo para iniciar
+          uma conversa.
         </p>
         <Button
           asChild
-          className="w-full bg-green-600 hover:bg-green-700 text-white"
+          className="w-full bg-green-600 text-white hover:bg-green-700"
         >
           <a
             href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
@@ -91,14 +98,16 @@ export function ContactInfo() {
       </div>
 
       {/* Social Links */}
-      <div className="pt-6 border-t">
-        <h3 className="font-semibold text-gray-900 mb-4">Siga-nos nas redes sociais</h3>
+      <div className="border-t pt-6">
+        <h3 className="mb-4 font-semibold text-gray-900">
+          Siga-nos nas redes sociais
+        </h3>
         <div className="flex gap-4">
           <a
             href="https://www.instagram.com/rendadefile"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-600 hover:text-orange-500 transition-colors"
+            className="text-gray-600 transition-colors hover:text-orange-500"
           >
             Instagram
           </a>
@@ -106,7 +115,7 @@ export function ContactInfo() {
             href="https://www.facebook.com/rendadefile"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-600 hover:text-orange-500 transition-colors"
+            className="text-gray-600 transition-colors hover:text-orange-500"
           >
             Facebook
           </a>
@@ -114,7 +123,7 @@ export function ContactInfo() {
             href="https://www.youtube.com/@rendadefile"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-600 hover:text-orange-500 transition-colors"
+            className="text-gray-600 transition-colors hover:text-orange-500"
           >
             YouTube
           </a>

@@ -91,7 +91,7 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <SessionProvider>
           <QueryProvider>
-            <WebVitalsTracker />
+            {/* <WebVitalsTracker /> */}
             <MainNavigation />
             <NetworkStatus />
             {children}

@@ -12,9 +12,9 @@ interface NewsletterSignupProps {
   className?: string;
 }
 
-export function NewsletterSignup({ 
-  variant = 'default', 
-  className = '' 
+export function NewsletterSignup({
+  variant = 'default',
+  className = '',
 }: NewsletterSignupProps) {
   const [email, setEmail] = useState('');
   const [nome, setNome] = useState('');
@@ -23,7 +23,7 @@ export function NewsletterSignup({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email) {
       toast.error('Por favor, insira seu email');
       return;
@@ -69,7 +69,7 @@ export function NewsletterSignup({
           className="flex-1"
           disabled={isLoading || isSubscribed}
         />
-        <Button 
+        <Button
           onClick={handleSubmit}
           disabled={isLoading || isSubscribed || !email}
           size="sm"
@@ -77,7 +77,7 @@ export function NewsletterSignup({
           {isLoading ? (
             'Inscrevendo...'
           ) : isSubscribed ? (
-            <CheckCircle className="w-4 h-4" />
+            <CheckCircle className="h-4 w-4" />
           ) : (
             'Inscrever'
           )}
@@ -88,9 +88,11 @@ export function NewsletterSignup({
 
   if (variant === 'inline') {
     return (
-      <div className={`bg-amber-50 p-6 rounded-lg border border-amber-200 ${className}`}>
-        <div className="flex items-center gap-3 mb-4">
-          <Mail className="w-6 h-6 text-amber-600" />
+      <div
+        className={`rounded-lg border border-amber-200 bg-amber-50 p-6 ${className}`}
+      >
+        <div className="mb-4 flex items-center gap-3">
+          <Mail className="h-6 w-6 text-amber-600" />
           <div>
             <h3 className="font-semibold text-amber-900">
               Newsletter da Renda de Filé
@@ -100,10 +102,10 @@ export function NewsletterSignup({
             </p>
           </div>
         </div>
-        
+
         {isSubscribed ? (
           <div className="flex items-center gap-2 text-green-600">
-            <CheckCircle className="w-5 h-5" />
+            <CheckCircle className="h-5 w-5" />
             <span className="font-medium">Inscrito com sucesso!</span>
           </div>
         ) : (
@@ -125,8 +127,8 @@ export function NewsletterSignup({
                 disabled={isLoading}
               />
             </div>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={isLoading || !email}
               className="w-full bg-amber-600 hover:bg-amber-700"
             >
@@ -142,28 +144,31 @@ export function NewsletterSignup({
   return (
     <Card className={className}>
       <CardHeader className="text-center">
-        <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Mail className="w-6 h-6 text-amber-600" />
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100">
+          <Mail className="h-6 w-6 text-amber-600" />
         </div>
         <CardTitle className="text-amber-900">
           Newsletter da Renda de Filé
         </CardTitle>
         <p className="text-amber-700">
-          Receba as últimas novidades sobre produtos artesanais, eventos especiais e histórias da tradição da Renda de Filé diretamente no seu email.
+          Receba as últimas novidades sobre produtos artesanais, eventos
+          especiais e histórias da tradição da Renda de Filé diretamente no seu
+          email.
         </p>
       </CardHeader>
-      
+
       <CardContent>
         {isSubscribed ? (
           <div className="text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="w-8 h-8 text-green-600" />
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+              <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
-            <h3 className="font-semibold text-green-900 mb-2">
+            <h3 className="mb-2 font-semibold text-green-900">
               Inscrito com sucesso!
             </h3>
-            <p className="text-green-700 text-sm">
-              Você receberá nossas novidades em breve. Obrigado por apoiar a tradição da Renda de Filé!
+            <p className="text-sm text-green-700">
+              Você receberá nossas novidades em breve. Obrigado por apoiar a
+              tradição da Renda de Filé!
             </p>
           </div>
         ) : (
@@ -183,15 +188,16 @@ export function NewsletterSignup({
               required
               disabled={isLoading}
             />
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={isLoading || !email}
               className="w-full bg-amber-600 hover:bg-amber-700"
             >
               {isLoading ? 'Inscrevendo...' : 'Inscrever no Newsletter'}
             </Button>
-            <p className="text-xs text-gray-500 text-center">
-              Respeitamos sua privacidade. Cancele a inscrição a qualquer momento.
+            <p className="text-center text-xs text-gray-500">
+              Respeitamos sua privacidade. Cancele a inscrição a qualquer
+              momento.
             </p>
           </form>
         )}

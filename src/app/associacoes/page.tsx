@@ -10,7 +10,8 @@ import { PublicLayout } from '@/components/layouts/PublicLayout';
 
 export const metadata: Metadata = {
   title: 'Associações - Renda de Filé',
-  description: 'Conheça as associações de rendeiras que mantêm viva a tradição da Renda de Filé em Jaguaribe, Ceará.',
+  description:
+    'Conheça as associações de rendeiras que mantêm viva a tradição da Renda de Filé em Jaguaribe, Ceará.',
 };
 
 const ASSOCIACOES_QUERY = `*[_type == "associacao"] | order(nome asc) {
@@ -30,9 +31,13 @@ const ASSOCIACOES_QUERY = `*[_type == "associacao"] | order(nome asc) {
 
 async function getAssociacoes() {
   try {
-    const associacoes = await sanityClient.fetch(ASSOCIACOES_QUERY, {}, {
-      next: { revalidate: 3600 } // Revalidar a cada hora
-    });
+    const associacoes = await sanityClient.fetch(
+      ASSOCIACOES_QUERY,
+      {},
+      {
+        next: { revalidate: 3600 }, // Revalidar a cada hora
+      }
+    );
     return associacoes;
   } catch (error) {
     console.error('[ASSOCIACOES] Erro ao buscar associações:', error);
@@ -47,21 +52,22 @@ export default async function AssociacoesPage() {
     <PublicLayout>
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <div className="mb-12 text-center">
+          <h1 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
             Nossas Associações
           </h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Conheça as associações de rendeiras que preservam e promovem a arte da Renda de Filé, 
-            gerando renda e mantendo viva nossa tradição centenária.
+          <p className="mx-auto max-w-3xl text-lg text-gray-600">
+            Conheça as associações de rendeiras que preservam e promovem a arte
+            da Renda de Filé, gerando renda e mantendo viva nossa tradição
+            centenária.
           </p>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-3">
           <Card>
             <CardContent className="p-6 text-center">
-              <Users className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+              <Users className="mx-auto mb-2 h-8 w-8 text-orange-600" />
               <div className="text-3xl font-bold text-gray-900">
                 {associacoes.length}
               </div>
@@ -70,18 +76,27 @@ export default async function AssociacoesPage() {
           </Card>
           <Card>
             <CardContent className="p-6 text-center">
-              <Users className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+              <Users className="mx-auto mb-2 h-8 w-8 text-orange-600" />
               <div className="text-3xl font-bold text-gray-900">
-                {associacoes.reduce((acc: number, assoc: any) => acc + (assoc.numeroRendeiras || 0), 0)}+
+                {associacoes.reduce(
+                  (acc: number, assoc: any) =>
+                    acc + (assoc.numeroRendeiras || 0),
+                  0
+                )}
+                +
               </div>
               <p className="text-gray-600">Rendeiras Cadastradas</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6 text-center">
-              <Package className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+              <Package className="mx-auto mb-2 h-8 w-8 text-orange-600" />
               <div className="text-3xl font-bold text-gray-900">
-                {associacoes.reduce((acc: number, assoc: any) => acc + (assoc.produtosCount || 0), 0)}+
+                {associacoes.reduce(
+                  (acc: number, assoc: any) => acc + (assoc.produtosCount || 0),
+                  0
+                )}
+                +
               </div>
               <p className="text-gray-600">Produtos Cadastrados</p>
             </CardContent>
@@ -89,11 +104,14 @@ export default async function AssociacoesPage() {
         </div>
 
         {/* Associações Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {associacoes.map((associacao: any) => (
-            <Card key={associacao._id} className="hover:shadow-lg transition-shadow">
+            <Card
+              key={associacao._id}
+              className="transition-shadow hover:shadow-lg"
+            >
               {associacao.imagem && (
-                <div className="aspect-video relative bg-gray-100">
+                <div className="relative aspect-video bg-gray-100">
                   <Image
                     src={associacao.imagem.asset.url}
                     alt={associacao.nome}
@@ -112,12 +130,12 @@ export default async function AssociacoesPage() {
               </CardHeader>
               <CardContent>
                 {associacao.descricao && (
-                  <p className="text-gray-600 mb-4 line-clamp-3">
+                  <p className="mb-4 line-clamp-3 text-gray-600">
                     {associacao.descricao}
                   </p>
                 )}
 
-                <div className="space-y-3 mb-4">
+                <div className="mb-4 space-y-3">
                   {associacao.numeroRendeiras && (
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <Users className="h-4 w-4" />
@@ -134,8 +152,12 @@ export default async function AssociacoesPage() {
 
                   {associacao.endereco && (
                     <div className="flex items-start gap-2 text-sm text-gray-600">
-                      <MapPin className="h-4 w-4 mt-0.5" />
-                      <span className="line-clamp-2">{associacao.endereco}</span>
+                      <MapPin className="mt-0.5 h-4 w-4" />
+                      <span className="line-clamp-2">
+                        {typeof associacao.endereco === 'string'
+                          ? associacao.endereco
+                          : `${associacao.endereco.rua}, ${associacao.endereco.numero} - ${associacao.endereco.bairro}, ${associacao.endereco.cidade}/${associacao.endereco.estado}`}
+                      </span>
                     </div>
                   )}
 
@@ -148,18 +170,14 @@ export default async function AssociacoesPage() {
                 </div>
 
                 {associacao.presidente && (
-                  <p className="text-sm text-gray-500 mb-4">
+                  <p className="mb-4 text-sm text-gray-500">
                     Presidente: {associacao.presidente}
                   </p>
                 )}
 
                 <div className="flex gap-2">
                   {associacao.whatsapp && (
-                    <Button
-                      size="sm"
-                      className="flex-1 gap-2"
-                      asChild
-                    >
+                    <Button size="sm" className="flex-1 gap-2" asChild>
                       <a
                         href={`https://wa.me/55${associacao.whatsapp.replace(/\D/g, '')}?text=Olá! Vi a associação ${associacao.nome} no site da Renda de Filé.`}
                         target="_blank"
@@ -182,18 +200,17 @@ export default async function AssociacoesPage() {
         </div>
 
         {/* Call to Action */}
-        <div className="mt-16 text-center bg-white rounded-lg shadow-sm p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+        <div className="mt-16 rounded-lg bg-white p-8 text-center shadow-sm">
+          <h2 className="mb-4 text-2xl font-bold text-gray-900">
             Quer se tornar uma associação parceira?
           </h2>
-          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Se você faz parte de uma associação de rendeiras e deseja fazer parte da nossa plataforma, 
-            entre em contato conosco para saber mais sobre como participar.
+          <p className="mx-auto mb-6 max-w-2xl text-gray-600">
+            Se você faz parte de uma associação de rendeiras e deseja fazer
+            parte da nossa plataforma, entre em contato conosco para saber mais
+            sobre como participar.
           </p>
           <Button size="lg" asChild>
-            <a href="mailto:contato@rendadefile.com.br">
-              Entrar em Contato
-            </a>
+            <a href="mailto:contato@rendadefile.com.br">Entrar em Contato</a>
           </Button>
         </div>
       </div>

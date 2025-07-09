@@ -19,7 +19,7 @@ class RedisCache {
   private connect() {
     try {
       const redisUrl = process.env.REDIS_URL;
-      
+
       if (!redisUrl) {
         console.warn('REDIS_URL não configurado. Cache Redis desabilitado.');
         return;
@@ -44,7 +44,6 @@ class RedisCache {
         console.log('Conexão Redis fechada');
         this.isConnected = false;
       });
-
     } catch (error) {
       console.error('Erro ao conectar Redis:', error);
     }
@@ -71,13 +70,13 @@ class RedisCache {
 
     try {
       const serialized = JSON.stringify(value);
-      
+
       if (ttlSeconds) {
         await this.client.setex(key, ttlSeconds, serialized);
       } else {
         await this.client.set(key, serialized);
       }
-      
+
       return true;
     } catch (error) {
       console.error('Erro ao salvar no Redis:', error);
@@ -150,7 +149,7 @@ class RedisCache {
       for (const [field, value] of Object.entries(hash)) {
         serializedHash[field] = JSON.stringify(value);
       }
-      
+
       await this.client.hmset(key, serializedHash);
       return true;
     } catch (error) {
@@ -174,7 +173,7 @@ class RedisCache {
       for (const [field, value] of Object.entries(hash)) {
         deserializedHash[field] = JSON.parse(value);
       }
-      
+
       return deserializedHash;
     } catch (error) {
       console.error('Erro ao buscar hash do Redis:', error);
@@ -192,7 +191,11 @@ class RedisCache {
     return await this.get('products:all');
   }
 
-  async cacheProductsByCategory(category: string, products: any[], ttlMinutes = 30): Promise<void> {
+  async cacheProductsByCategory(
+    category: string,
+    products: any[],
+    ttlMinutes = 30
+  ): Promise<void> {
     const key = `products:category:${category}`;
     await this.set(key, products, ttlMinutes * 60);
   }
@@ -230,11 +233,8 @@ class RedisCache {
   }
 
   async invalidateProductCache(): Promise<void> {
-    const keys = [
-      'products:all',
-      'products:featured',
-    ];
-    
+    const keys = ['products:all', 'products:featured'];
+
     for (const key of keys) {
       await this.del(key);
     }
@@ -249,7 +249,7 @@ class RedisCache {
   async trackAnalytics(event: string, data: any): Promise<void> {
     const key = `analytics:${event}:${new Date().toISOString().split('T')[0]}`;
     await this.increment(key);
-    
+
     // Armazenar detalhes do evento
     const detailKey = `analytics:details:${event}:${Date.now()}`;
     await this.set(detailKey, data, 24 * 60 * 60); // 24 horas

@@ -60,7 +60,7 @@ const ROUTE_CONFIGS = [
 // Install event
 self.addEventListener('install', (event) => {
   console.log('SW: Installing...');
-  
+
   event.waitUntil(
     Promise.all([
       caches.open(STATIC_CACHE).then((cache) => {
@@ -69,14 +69,14 @@ self.addEventListener('install', (event) => {
       }),
     ])
   );
-  
+
   self.skipWaiting();
 });
 
 // Activate event
 self.addEventListener('activate', (event) => {
   console.log('SW: Activating...');
-  
+
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -93,7 +93,7 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
-  
+
   self.clients.claim();
 });
 
@@ -101,22 +101,22 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
-  
+
   // Ignorar requests que não são GET
   if (request.method !== 'GET') {
     return;
   }
-  
+
   // Ignorar chrome-extension e outros protocolos
   if (!url.protocol.startsWith('http')) {
     return;
   }
-  
+
   // Encontrar estratégia de cache baseada na URL
   const routeConfig = ROUTE_CONFIGS.find((config) =>
     config.pattern.test(url.pathname)
   );
-  
+
   if (routeConfig) {
     event.respondWith(handleWithStrategy(request, routeConfig));
   } else {
@@ -128,7 +128,7 @@ self.addEventListener('fetch', (event) => {
 // Estratégias de cache
 async function handleWithStrategy(request, config) {
   const { strategy, cache: cacheName } = config;
-  
+
   switch (strategy) {
     case STRATEGIES.CACHE_FIRST:
       return cacheFirst(request, cacheName);
@@ -149,11 +149,11 @@ async function handleWithStrategy(request, config) {
 async function cacheFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
   const cached = await cache.match(request);
-  
+
   if (cached) {
     return cached;
   }
-  
+
   try {
     const response = await fetch(request);
     if (response.ok) {
@@ -169,7 +169,7 @@ async function cacheFirst(request, cacheName) {
 // Network First
 async function networkFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
-  
+
   try {
     const response = await fetch(request);
     if (response.ok) {
@@ -190,7 +190,7 @@ async function networkFirst(request, cacheName) {
 async function staleWhileRevalidate(request, cacheName) {
   const cache = await caches.open(cacheName);
   const cached = await cache.match(request);
-  
+
   // Buscar na rede em background
   const fetchPromise = fetch(request).then((response) => {
     if (response.ok) {
@@ -198,7 +198,7 @@ async function staleWhileRevalidate(request, cacheName) {
     }
     return response;
   });
-  
+
   // Retornar cache se disponível, senão aguardar rede
   return cached || fetchPromise;
 }
@@ -208,13 +208,13 @@ async function handlePageRequest(request) {
   try {
     // Tentar rede primeiro para páginas
     const response = await fetch(request);
-    
+
     // Cache apenas se for successful
     if (response.ok) {
       const cache = await caches.open(DYNAMIC_CACHE);
       cache.put(request, response.clone());
     }
-    
+
     return response;
   } catch (error) {
     // Se falhar, tentar cache
@@ -222,15 +222,17 @@ async function handlePageRequest(request) {
     if (cached) {
       return cached;
     }
-    
+
     // Se não tem cache, mostrar página offline
     const url = new URL(request.url);
-    if (url.pathname.startsWith('/produto/') || 
-        url.pathname.startsWith('/noticias/') ||
-        url.pathname.startsWith('/eventos/')) {
+    if (
+      url.pathname.startsWith('/produto/') ||
+      url.pathname.startsWith('/noticias/') ||
+      url.pathname.startsWith('/eventos/')
+    ) {
       return caches.match('/offline');
     }
-    
+
     throw error;
   }
 }
@@ -238,9 +240,9 @@ async function handlePageRequest(request) {
 // Push notifications
 self.addEventListener('push', (event) => {
   console.log('SW: Push received');
-  
+
   if (!event.data) return;
-  
+
   const data = event.data.json();
   const options = {
     body: data.body,
@@ -251,22 +253,21 @@ self.addEventListener('push', (event) => {
     tag: data.tag || 'default',
     renotify: true,
   };
-  
-  event.waitUntil(
-    self.registration.showNotification(data.title, options)
-  );
+
+  event.waitUntil(self.registration.showNotification(data.title, options));
 });
 
 // Notification click
 self.addEventListener('notificationclick', (event) => {
   console.log('SW: Notification clicked');
-  
+
   event.notification.close();
-  
+
   const urlToOpen = event.notification.data?.url || '/';
-  
+
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true })
+    clients
+      .matchAll({ type: 'window', includeUncontrolled: true })
       .then((clientList) => {
         // Verificar se já existe uma janela aberta
         for (const client of clientList) {
@@ -274,7 +275,7 @@ self.addEventListener('notificationclick', (event) => {
             return client.focus();
           }
         }
-        
+
         // Abrir nova janela
         if (clients.openWindow) {
           return clients.openWindow(urlToOpen);
@@ -286,7 +287,7 @@ self.addEventListener('notificationclick', (event) => {
 // Background Sync
 self.addEventListener('sync', (event) => {
   console.log('SW: Background sync:', event.tag);
-  
+
   if (event.tag === 'favoritos-sync') {
     event.waitUntil(syncFavoritos());
   }
@@ -297,11 +298,10 @@ async function syncFavoritos() {
   try {
     // Implementar sincronização de favoritos
     console.log('SW: Syncing favoritos...');
-    
+
     // Buscar favoritos pendentes no IndexedDB
     // Enviar para servidor
     // Atualizar estado local
-    
   } catch (error) {
     console.error('SW: Favoritos sync failed:', error);
   }
@@ -310,11 +310,11 @@ async function syncFavoritos() {
 // Message handling
 self.addEventListener('message', (event) => {
   console.log('SW: Message received:', event.data);
-  
+
   if (event.data?.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
-  
+
   if (event.data?.type === 'GET_VERSION') {
     event.ports[0].postMessage({ version: CACHE_NAME });
   }
@@ -329,11 +329,9 @@ self.addEventListener('periodicsync', (event) => {
 
 async function cleanupOldCaches() {
   const cacheNames = await caches.keys();
-  const oldCaches = cacheNames.filter(name => 
-    !name.includes('v3.1.0') && name.startsWith('renda-de-file')
+  const oldCaches = cacheNames.filter(
+    (name) => !name.includes('v3.1.0') && name.startsWith('renda-de-file')
   );
-  
-  return Promise.all(
-    oldCaches.map(cacheName => caches.delete(cacheName))
-  );
+
+  return Promise.all(oldCaches.map((cacheName) => caches.delete(cacheName)));
 }

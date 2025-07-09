@@ -5,7 +5,7 @@ import CacheManager from '@/lib/cache';
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
-    
+
     // Validar dados
     const requiredFields = ['name', 'value', 'rating', 'id', 'url'];
     for (const field of requiredFields) {
@@ -19,9 +19,10 @@ export async function POST(request: NextRequest) {
 
     // Obter informações do usuário
     const userAgent = request.headers.get('user-agent') || '';
-    const ip = request.headers.get('x-forwarded-for') || 
-               request.headers.get('x-real-ip') || 
-               'unknown';
+    const ip =
+      request.headers.get('x-forwarded-for') ||
+      request.headers.get('x-real-ip') ||
+      'unknown';
 
     // Salvar no banco de dados
     await prisma.webVitals.create({
@@ -45,7 +46,6 @@ export async function POST(request: NextRequest) {
     await cache.del('analytics:web-vitals:daily');
 
     return NextResponse.json({ success: true });
-
   } catch (error) {
     console.error('Erro ao salvar Web Vitals:', error);
     return NextResponse.json(
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     // Calcular data de início baseado no período
     const now = new Date();
     const startDate = new Date();
-    
+
     switch (period) {
       case '1d':
         startDate.setDate(now.getDate() - 1);
@@ -122,7 +122,6 @@ export async function GET(request: NextRequest) {
     await cache.set(cacheKey, result, { ttlMinutes: 15 });
 
     return NextResponse.json(result);
-
   } catch (error) {
     console.error('Erro ao buscar Web Vitals:', error);
     return NextResponse.json(
@@ -137,20 +136,23 @@ function calculateStats(data: any[]) {
     return {};
   }
 
-  const metricGroups = data.reduce((acc, item) => {
-    if (!acc[item.name]) {
-      acc[item.name] = [];
-    }
-    acc[item.name].push(item.value);
-    return acc;
-  }, {} as Record<string, number[]>);
+  const metricGroups = data.reduce(
+    (acc, item) => {
+      if (!acc[item.name]) {
+        acc[item.name] = [];
+      }
+      acc[item.name].push(item.value);
+      return acc;
+    },
+    {} as Record<string, number[]>
+  );
 
   const stats: Record<string, any> = {};
 
   for (const [metric, values] of Object.entries(metricGroups)) {
     const sorted = (values as number[]).sort((a, b) => a - b);
     const count = (values as number[]).length;
-    
+
     stats[metric] = {
       count,
       avg: (values as number[]).reduce((sum, val) => sum + val, 0) / count,
@@ -164,11 +166,14 @@ function calculateStats(data: any[]) {
 
     // Calcular distribuição por rating
     const ratings = data
-      .filter(item => item.name === metric)
-      .reduce((acc, item) => {
-        acc[item.rating] = (acc[item.rating] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>);
+      .filter((item) => item.name === metric)
+      .reduce(
+        (acc, item) => {
+          acc[item.rating] = (acc[item.rating] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>
+      );
 
     stats[metric].ratings = ratings;
   }

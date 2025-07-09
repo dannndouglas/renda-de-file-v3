@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from 'next-auth/middleware';
-import { addSecurityHeaders, addAPISecurityHeaders } from '@/lib/security/headers';
+import {
+  addSecurityHeaders,
+  addAPISecurityHeaders,
+} from '@/lib/security/headers';
 
 // Middleware principal
 export default function middleware(request: NextRequest) {

@@ -5,9 +5,9 @@ import Link from 'next/link';
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[600px] flex items-center">
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10" />
-      
+    <section className="relative flex min-h-[600px] items-center">
+      <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/60 to-black/30" />
+
       <div className="absolute inset-0">
         <Image
           src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?q=80&w=2340"
@@ -19,19 +19,20 @@ export function HeroSection() {
         />
       </div>
 
-      <div className="container mx-auto px-4 relative z-20">
+      <div className="container relative z-20 mx-auto px-4">
         <div className="max-w-2xl">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+          <h1 className="mb-4 text-4xl font-bold text-white md:text-6xl">
             Renda de Filé
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-8">
+          <p className="mb-8 text-xl text-white/90 md:text-2xl">
             Arte secular das mãos habilidosas de Jaguaribe
           </p>
-          <p className="text-lg text-white/80 mb-8 max-w-xl">
-            Há mais de 300 anos, as rendeiras de Jaguaribe preservam esta tradição única, 
-            criando peças delicadas que contam histórias e encantam gerações.
+          <p className="mb-8 max-w-xl text-lg text-white/80">
+            Há mais de 300 anos, as rendeiras de Jaguaribe preservam esta
+            tradição única, criando peças delicadas que contam histórias e
+            encantam gerações.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row">
             <Link href="/catalogo">
               <Button size="lg" className="gap-2">
                 Explorar Catálogo
@@ -39,7 +40,11 @@ export function HeroSection() {
               </Button>
             </Link>
             <Link href="/historia">
-              <Button size="lg" variant="outline" className="gap-2 bg-white/10 text-white border-white hover:bg-white hover:text-gray-900">
+              <Button
+                size="lg"
+                variant="outline"
+                className="gap-2 border-white bg-white/10 text-white hover:bg-white hover:text-gray-900"
+              >
                 <Heart className="h-5 w-5" />
                 Nossa História
               </Button>

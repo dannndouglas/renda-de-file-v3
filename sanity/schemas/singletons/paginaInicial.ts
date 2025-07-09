@@ -5,7 +5,7 @@ export default defineType({
   name: 'paginaInicial',
   title: 'Página Inicial',
   type: 'document',
-  icon: () => <Home size={20} />,
+  icon: Home,
   fields: [
     defineField({
       name: 'hero',

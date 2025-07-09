@@ -5,7 +5,7 @@ export default defineType({
   name: 'evento',
   title: 'Evento',
   type: 'document',
-  icon: () => <Calendar size={20} />,
+  icon: Calendar,
   fields: [
     defineField({
       name: 'nome',

@@ -9,7 +9,7 @@ export default defineConfig({
   title: 'Renda de Filé CMS',
 
   projectId: 'rsgezubm',
-  dataset: 'development',
+  dataset: process.env.SANITY_STUDIO_DATASET || 'production',
 
   plugins: [
     structureTool({
@@ -23,12 +23,14 @@ export default defineConfig({
   },
 
   cors: {
-    origin: ['http://localhost:3000', 'https://localhost:3000'],
+    origin: process.env.NODE_ENV === 'production' 
+      ? ['https://rendadefile.vercel.app', 'https://www.rendadefile.com.br', 'https://rendadefile.com.br']
+      : ['http://localhost:3000', 'https://localhost:3000'],
     credentials: true,
   },
 
   api: {
     projectId: 'rsgezubm',
-    dataset: 'development',
+    dataset: process.env.SANITY_STUDIO_DATASET || 'production',
   },
 });

@@ -5,7 +5,7 @@ export default defineType({
   name: 'configuracoes',
   title: 'Configurações',
   type: 'document',
-  icon: () => <Settings size={20} />,
+  icon: Settings,
   fields: [
     defineField({
       name: 'titulo',

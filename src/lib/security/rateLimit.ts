@@ -13,14 +13,17 @@ interface RateLimitConfig {
 const requestCounts = new Map<string, { count: number; resetTime: number }>();
 
 // Limpar contadores expirados a cada 5 minutos
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, data] of requestCounts.entries()) {
-    if (now >= data.resetTime) {
-      requestCounts.delete(key);
+setInterval(
+  () => {
+    const now = Date.now();
+    for (const [key, data] of requestCounts.entries()) {
+      if (now >= data.resetTime) {
+        requestCounts.delete(key);
+      }
     }
-  }
-}, 5 * 60 * 1000);
+  },
+  5 * 60 * 1000
+);
 
 export function createRateLimit(config: RateLimitConfig) {
   const {
@@ -31,48 +34,52 @@ export function createRateLimit(config: RateLimitConfig) {
     keyGenerator = (request: NextRequest) => {
       // Gerar chave baseada em IP e User-Agent
       const forwarded = request.headers.get('x-forwarded-for');
-      const ip = forwarded ? forwarded.split(',')[0] : 
-                request.headers.get('x-real-ip') || 
-                request.ip || 'unknown';
-      
+      const ip = forwarded
+        ? forwarded.split(',')[0]
+        : request.headers.get('x-real-ip') || 'unknown';
+
       const userAgent = request.headers.get('user-agent') || 'unknown';
       return `${ip}:${userAgent.slice(0, 50)}`;
     },
   } = config;
 
+  const checkFunction = (
+    request: NextRequest
+  ): { success: boolean; remaining: number; resetTime: number } => {
+    const key = keyGenerator(request);
+    const now = Date.now();
+    const resetTime = now + windowMs;
+
+    let requestData = requestCounts.get(key);
+
+    // Se não existe ou expirou, criar novo
+    if (!requestData || now >= requestData.resetTime) {
+      requestData = { count: 0, resetTime };
+      requestCounts.set(key, requestData);
+    }
+
+    // Incrementar contador
+    requestData.count++;
+
+    const remaining = Math.max(0, maxRequests - requestData.count);
+    const success = requestData.count <= maxRequests;
+
+    return {
+      success,
+      remaining,
+      resetTime: requestData.resetTime,
+    };
+  };
+
   return {
-    check: (request: NextRequest): { success: boolean; remaining: number; resetTime: number } => {
-      const key = keyGenerator(request);
-      const now = Date.now();
-      const resetTime = now + windowMs;
-
-      let requestData = requestCounts.get(key);
-
-      // Se não existe ou expirou, criar novo
-      if (!requestData || now >= requestData.resetTime) {
-        requestData = { count: 0, resetTime };
-        requestCounts.set(key, requestData);
-      }
-
-      // Incrementar contador
-      requestData.count++;
-
-      const remaining = Math.max(0, maxRequests - requestData.count);
-      const success = requestData.count <= maxRequests;
-
-      return {
-        success,
-        remaining,
-        resetTime: requestData.resetTime,
-      };
-    },
+    check: checkFunction,
 
     // Middleware para ser usado em API routes
     middleware: async (
       request: NextRequest,
       handler: (req: NextRequest) => Promise<Response>
     ): Promise<Response> => {
-      const result = this.check(request);
+      const result = checkFunction(request);
 
       // Headers de rate limiting
       const headers = new Headers({
@@ -93,7 +100,9 @@ export function createRateLimit(config: RateLimitConfig) {
             headers: {
               ...headers,
               'Content-Type': 'application/json',
-              'Retry-After': Math.ceil((result.resetTime - Date.now()) / 1000).toString(),
+              'Retry-After': Math.ceil(
+                (result.resetTime - Date.now()) / 1000
+              ).toString(),
             },
           }
         );

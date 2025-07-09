@@ -15,7 +15,14 @@
       "Bash(sanity init:*)",
       "Bash(npm run:*)",
       "Bash(ls:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(rm:*)",
+      "Bash(npm start)",
+      "Bash(node:*)",
+      "Bash(npx sanity:*)",
+      "Bash(env)"
     ],
     "deny": []
   }

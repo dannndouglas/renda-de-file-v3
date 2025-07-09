@@ -48,7 +48,7 @@ class CacheManager {
     // Fallback para cache em memória
     this.cleanMemoryCache();
     const memoryValue = this.memoryCache.get(key);
-    
+
     if (memoryValue && !this.isExpired(memoryValue.expires)) {
       return memoryValue.data as T;
     }
@@ -56,7 +56,11 @@ class CacheManager {
     return null;
   }
 
-  async set(key: string, value: any, options: CacheOptions = {}): Promise<boolean> {
+  async set(
+    key: string,
+    value: any,
+    options: CacheOptions = {}
+  ): Promise<boolean> {
     const { ttlMinutes = 30, useRedis = true } = options;
     const ttlSeconds = ttlMinutes * 60;
 
@@ -72,7 +76,7 @@ class CacheManager {
     try {
       this.memoryCache.set(key, {
         data: value,
-        expires: Date.now() + (ttlSeconds * 1000),
+        expires: Date.now() + ttlSeconds * 1000,
       });
       memorySuccess = true;
     } catch (error) {
@@ -126,7 +130,11 @@ class CacheManager {
     return await this.get('products:all');
   }
 
-  async cacheProductsByCategory(category: string, products: any[], ttlMinutes = 30): Promise<void> {
+  async cacheProductsByCategory(
+    category: string,
+    products: any[],
+    ttlMinutes = 30
+  ): Promise<void> {
     await this.set(`products:category:${category}`, products, { ttlMinutes });
   }
 
@@ -159,11 +167,8 @@ class CacheManager {
   }
 
   async invalidateProductCache(): Promise<void> {
-    const keys = [
-      'products:all',
-      'products:featured',
-    ];
-    
+    const keys = ['products:all', 'products:featured'];
+
     for (const key of keys) {
       await this.del(key);
     }

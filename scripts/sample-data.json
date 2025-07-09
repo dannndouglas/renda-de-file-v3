@@ -23,7 +23,7 @@
       "youtube": "https://youtube.com/@rendadefilejaguaribe"
     }
   },
-  
+
   "paginaInicial": {
     "_type": "paginaInicial",
     "_id": "paginaInicial",
@@ -87,7 +87,7 @@
         "especialidades": ["Renda de Filé", "Labirinto", "Bordado"]
       }
     ],
-    
+
     "produtos": [
       {
         "nome": "Toalha de Mesa Flores do Cerrado",
@@ -95,7 +95,7 @@
         "descricao": "Linda toalha de mesa em renda de filé com motivos florais típicos do cerrado cearense. Peça única feita artesanalmente.",
         "descricaoBreve": "Toalha de mesa em renda de filé com motivos florais",
         "categoria": "decoracao",
-        "preco": 185.00,
+        "preco": 185.0,
         "disponibilidade": "disponivel",
         "tempoProducao": 15,
         "destaque": true,
@@ -104,11 +104,11 @@
       },
       {
         "nome": "Caminho de Mesa Tradicional",
-        "slug": "caminho-mesa-tradicional", 
+        "slug": "caminho-mesa-tradicional",
         "descricao": "Elegante caminho de mesa feito em técnica tradicional de renda de filé, perfeito para decorar sua mesa.",
         "descricaoBreve": "Caminho de mesa em renda de filé tradicional",
         "categoria": "decoracao",
-        "preco": 95.00,
+        "preco": 95.0,
         "disponibilidade": "disponivel",
         "tempoProducao": 8,
         "destaque": false,
@@ -121,7 +121,7 @@
         "descricao": "Blusa feminina delicada com detalhes em renda de filé no decote e mangas. Peça elegante e confortável.",
         "descricaoBreve": "Blusa feminina com detalhes em renda de filé",
         "categoria": "vestuario",
-        "preco": 120.00,
+        "preco": 120.0,
         "disponibilidade": "sob-encomenda",
         "tempoProducao": 20,
         "destaque": true,
@@ -129,7 +129,7 @@
         "tags": ["blusa", "feminina", "vestuario", "renda", "elegante"]
       }
     ],
-    
+
     "noticias": [
       {
         "titulo": "Feira de Artesanato Movimenta Economia Local",
@@ -144,7 +144,7 @@
         "titulo": "Nova Geração Preserva Tradição da Renda",
         "slug": "nova-geracao-preserva-tradicao",
         "resumo": "Jovens artesãs se dedicam a aprender e inovar a técnica milenar.",
-        "categoria": "cultura", 
+        "categoria": "cultura",
         "autor": "Maria Silva",
         "destaque": false,
         "tags": ["jovens", "tradicao", "inovacao", "cultura"]

@@ -12,7 +12,8 @@ import { PublicLayout } from '@/components/layouts/PublicLayout';
 
 export const metadata: Metadata = {
   title: 'Eventos | Renda de Filé',
-  description: 'Acompanhe os eventos, workshops e encontros sobre a Renda de Filé do Ceará',
+  description:
+    'Acompanhe os eventos, workshops e encontros sobre a Renda de Filé do Ceará',
 };
 
 interface Evento {
@@ -63,21 +64,22 @@ export default async function EventosPage() {
         <div className="min-h-screen bg-amber-50 py-12">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-amber-900 mb-4">
+              <h1 className="mb-4 text-4xl font-bold text-amber-900">
                 Eventos da Renda de Filé
               </h1>
-              <p className="text-amber-700 mb-8">
+              <p className="mb-8 text-amber-700">
                 Em breve, eventos e workshops sobre a tradição da Renda de Filé
               </p>
-              <Card className="max-w-md mx-auto">
+              <Card className="mx-auto max-w-md">
                 <CardContent className="p-6">
                   <div className="text-center text-amber-600">
-                    <CalendarDays className="w-12 h-12 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold mb-2">
+                    <CalendarDays className="mx-auto mb-4 h-12 w-12" />
+                    <h3 className="mb-2 text-lg font-semibold">
                       Eventos em Breve
                     </h3>
                     <p className="text-sm">
-                      Estamos organizando workshops, feiras e encontros para promover a Renda de Filé.
+                      Estamos organizando workshops, feiras e encontros para
+                      promover a Renda de Filé.
                     </p>
                   </div>
                 </CardContent>
@@ -90,40 +92,44 @@ export default async function EventosPage() {
   }
 
   // Separar eventos por status
-  const eventosAtivos = eventos.filter(e => isFuture(parseISO(e.dataInicio)));
-  const eventosPassados = eventos.filter(e => isPast(parseISO(e.dataInicio)));
-  const eventosDestaque = eventos.filter(e => e.destaque);
+  const eventosAtivos = eventos.filter((e) => isFuture(parseISO(e.dataInicio)));
+  const eventosPassados = eventos.filter((e) => isPast(parseISO(e.dataInicio)));
+  const eventosDestaque = eventos.filter((e) => e.destaque);
 
   return (
     <PublicLayout>
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-amber-900 mb-4">
+        <div className="mb-12 text-center">
+          <h1 className="mb-4 text-4xl font-bold text-amber-900">
             Eventos da Renda de Filé
           </h1>
-          <p className="text-amber-700 text-lg max-w-2xl mx-auto">
-            Participe de workshops, feiras e encontros que celebram e preservam a tradição da Renda de Filé do Ceará
+          <p className="mx-auto max-w-2xl text-lg text-amber-700">
+            Participe de workshops, feiras e encontros que celebram e preservam
+            a tradição da Renda de Filé do Ceará
           </p>
         </div>
 
         {/* Eventos em Destaque */}
         {eventosDestaque.length > 0 && (
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-amber-900 mb-6">
+            <h2 className="mb-6 text-2xl font-bold text-amber-900">
               Eventos em Destaque
             </h2>
             <div className="grid gap-8 md:grid-cols-2">
               {eventosDestaque.map((evento) => (
-                <Card key={evento._id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="aspect-video relative">
+                <Card
+                  key={evento._id}
+                  className="overflow-hidden transition-shadow hover:shadow-lg"
+                >
+                  <div className="relative aspect-video">
                     <OptimizedImage
                       src={evento.imagemPrincipal}
                       alt={evento.titulo}
                       fill
                       className="object-cover"
                     />
-                    <div className="absolute top-4 left-4 flex gap-2">
+                    <div className="absolute left-4 top-4 flex gap-2">
                       <Badge className="bg-amber-600 text-white">
                         {evento.tipo}
                       </Badge>
@@ -135,39 +141,43 @@ export default async function EventosPage() {
                     </div>
                   </div>
                   <CardHeader>
-                    <CardTitle className="text-amber-900 hover:text-amber-700 transition-colors">
+                    <CardTitle className="text-amber-900 transition-colors hover:text-amber-700">
                       <Link href={`/eventos/${evento.slug.current}`}>
                         {evento.titulo}
                       </Link>
                     </CardTitle>
                     <div className="space-y-2 text-sm text-amber-600">
                       <div className="flex items-center gap-2">
-                        <CalendarDays className="w-4 h-4" />
+                        <CalendarDays className="h-4 w-4" />
                         <span>
-                          {format(parseISO(evento.dataInicio), 'PPP', { locale: ptBR })}
+                          {format(parseISO(evento.dataInicio), 'PPP', {
+                            locale: ptBR,
+                          })}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4" />
+                        <Clock className="h-4 w-4" />
                         <span>{evento.horario}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4" />
-                        <span>{evento.local.nome}, {evento.local.cidade}</span>
+                        <MapPin className="h-4 w-4" />
+                        <span>
+                          {evento.local.nome}, {evento.local.cidade}
+                        </span>
                       </div>
                       {evento.capacidade && (
                         <div className="flex items-center gap-2">
-                          <Users className="w-4 h-4" />
+                          <Users className="h-4 w-4" />
                           <span>Até {evento.capacidade} participantes</span>
                         </div>
                       )}
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-amber-700 mb-4 line-clamp-3">
+                    <p className="mb-4 line-clamp-3 text-amber-700">
                       {evento.descricao}
                     </p>
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="text-sm text-amber-600">
                         Organizador: {evento.organizador.nome}
@@ -177,18 +187,22 @@ export default async function EventosPage() {
                           href={evento.linkInscricao}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700 transition-colors"
+                          className="flex items-center gap-1 rounded bg-amber-600 px-4 py-2 text-white transition-colors hover:bg-amber-700"
                         >
-                          <ExternalLink className="w-4 h-4" />
+                          <ExternalLink className="h-4 w-4" />
                           Inscrever-se
                         </Link>
                       )}
                     </div>
 
                     {evento.tags && (
-                      <div className="flex flex-wrap gap-2 mt-4">
+                      <div className="mt-4 flex flex-wrap gap-2">
                         {evento.tags.map((tag) => (
-                          <Badge key={tag} variant="secondary" className="text-xs">
+                          <Badge
+                            key={tag}
+                            variant="secondary"
+                            className="text-xs"
+                          >
                             {tag}
                           </Badge>
                         ))}
@@ -204,20 +218,23 @@ export default async function EventosPage() {
         {/* Próximos Eventos */}
         {eventosAtivos.length > 0 && (
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-amber-900 mb-6">
+            <h2 className="mb-6 text-2xl font-bold text-amber-900">
               Próximos Eventos
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {eventosAtivos.map((evento) => (
-                <Card key={evento._id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="aspect-video relative">
+                <Card
+                  key={evento._id}
+                  className="overflow-hidden transition-shadow hover:shadow-lg"
+                >
+                  <div className="relative aspect-video">
                     <OptimizedImage
                       src={evento.imagemPrincipal}
                       alt={evento.titulo}
                       fill
                       className="object-cover"
                     />
-                    <div className="absolute top-4 left-4 flex gap-2">
+                    <div className="absolute left-4 top-4 flex gap-2">
                       <Badge className="bg-amber-600 text-white">
                         {evento.tipo}
                       </Badge>
@@ -229,37 +246,39 @@ export default async function EventosPage() {
                     </div>
                   </div>
                   <CardHeader>
-                    <CardTitle className="text-amber-900 hover:text-amber-700 transition-colors text-lg">
+                    <CardTitle className="text-lg text-amber-900 transition-colors hover:text-amber-700">
                       <Link href={`/eventos/${evento.slug.current}`}>
                         {evento.titulo}
                       </Link>
                     </CardTitle>
                     <div className="space-y-2 text-sm text-amber-600">
                       <div className="flex items-center gap-2">
-                        <CalendarDays className="w-4 h-4" />
+                        <CalendarDays className="h-4 w-4" />
                         <span>
-                          {format(parseISO(evento.dataInicio), 'PPP', { locale: ptBR })}
+                          {format(parseISO(evento.dataInicio), 'PPP', {
+                            locale: ptBR,
+                          })}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4" />
+                        <MapPin className="h-4 w-4" />
                         <span>{evento.local.cidade}</span>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-amber-700 text-sm line-clamp-2 mb-4">
+                    <p className="mb-4 line-clamp-2 text-sm text-amber-700">
                       {evento.descricao}
                     </p>
-                    
+
                     {evento.linkInscricao && (
                       <Link
                         href={evento.linkInscricao}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700 transition-colors w-full justify-center"
+                        className="flex w-full items-center justify-center gap-1 rounded bg-amber-600 px-4 py-2 text-white transition-colors hover:bg-amber-700"
                       >
-                        <ExternalLink className="w-4 h-4" />
+                        <ExternalLink className="h-4 w-4" />
                         Inscrever-se
                       </Link>
                     )}
@@ -273,44 +292,49 @@ export default async function EventosPage() {
         {/* Eventos Passados */}
         {eventosPassados.length > 0 && (
           <section>
-            <h2 className="text-2xl font-bold text-amber-900 mb-6">
+            <h2 className="mb-6 text-2xl font-bold text-amber-900">
               Eventos Anteriores
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {eventosPassados.map((evento) => (
-                <Card key={evento._id} className="overflow-hidden opacity-75 hover:opacity-100 transition-opacity">
-                  <div className="aspect-video relative">
+                <Card
+                  key={evento._id}
+                  className="overflow-hidden opacity-75 transition-opacity hover:opacity-100"
+                >
+                  <div className="relative aspect-video">
                     <OptimizedImage
                       src={evento.imagemPrincipal}
                       alt={evento.titulo}
                       fill
                       className="object-cover"
                     />
-                    <div className="absolute top-4 left-4">
+                    <div className="absolute left-4 top-4">
                       <Badge className="bg-gray-600 text-white">
                         Finalizado
                       </Badge>
                     </div>
                   </div>
                   <CardHeader>
-                    <CardTitle className="text-amber-900 text-lg">
+                    <CardTitle className="text-lg text-amber-900">
                       {evento.titulo}
                     </CardTitle>
                     <div className="space-y-2 text-sm text-amber-600">
                       <div className="flex items-center gap-2">
-                        <CalendarDays className="w-4 h-4" />
+                        <CalendarDays className="h-4 w-4" />
                         <span>
-                          {format(parseISO(evento.dataInicio), 'PPP', { locale: ptBR })}
+                          {format(parseISO(evento.dataInicio), 'PPP', {
+                            locale: ptBR,
+                          })}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4" />
+                        <MapPin className="h-4 w-4" />
                         <span>{evento.local.cidade}</span>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-amber-700 text-sm line-clamp-2">
+                    <p className="line-clamp-2 text-sm text-amber-700">
                       {evento.descricao}
                     </p>
                   </CardContent>
@@ -321,23 +345,24 @@ export default async function EventosPage() {
         )}
 
         {/* Call to Action */}
-        <div className="text-center mt-12 p-8 bg-amber-100 rounded-lg">
-          <h3 className="text-2xl font-bold text-amber-900 mb-4">
+        <div className="mt-12 rounded-lg bg-amber-100 p-8 text-center">
+          <h3 className="mb-4 text-2xl font-bold text-amber-900">
             Organize um Evento
           </h3>
-          <p className="text-amber-700 mb-6">
-            Tem interesse em organizar um workshop ou evento sobre Renda de Filé?
+          <p className="mb-6 text-amber-700">
+            Tem interesse em organizar um workshop ou evento sobre Renda de
+            Filé?
           </p>
-          <div className="flex gap-4 justify-center">
+          <div className="flex justify-center gap-4">
             <Link
               href="/associacoes"
-              className="px-6 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+              className="rounded-lg bg-amber-600 px-6 py-3 text-white transition-colors hover:bg-amber-700"
             >
               Fale com as Associações
             </Link>
             <Link
               href="/historia"
-              className="px-6 py-3 bg-white text-amber-900 border border-amber-600 rounded-lg hover:bg-amber-50 transition-colors"
+              className="rounded-lg border border-amber-600 bg-white px-6 py-3 text-amber-900 transition-colors hover:bg-amber-50"
             >
               Conheça a História
             </Link>

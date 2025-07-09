@@ -35,12 +35,13 @@ export function NetworkStatus() {
   if (!showOfflineAlert) return null;
 
   return (
-    <div className="fixed top-20 left-4 right-4 z-50 md:left-auto md:right-4 md:w-96">
-      <Alert className="bg-red-50 border-red-200">
+    <div className="fixed left-4 right-4 top-20 z-50 md:left-auto md:right-4 md:w-96">
+      <Alert className="border-red-200 bg-red-50">
         <WifiOff className="h-4 w-4 text-red-600" />
         <AlertDescription className="flex items-center justify-between">
           <span className="text-red-800">
-            Você está offline. Algumas funcionalidades podem não estar disponíveis.
+            Você está offline. Algumas funcionalidades podem não estar
+            disponíveis.
           </span>
           <Button
             variant="ghost"

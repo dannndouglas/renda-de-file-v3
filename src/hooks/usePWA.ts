@@ -31,15 +31,19 @@ export function usePWA(): PWAState & PWAActions {
     isLoading: false,
   });
 
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [registration, setRegistration] = useState<ServiceWorkerRegistration | null>(null);
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
+  const [registration, setRegistration] =
+    useState<ServiceWorkerRegistration | null>(null);
 
   useEffect(() => {
     // Verificar se é PWA instalada
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isStandalone = window.matchMedia(
+      '(display-mode: standalone)'
+    ).matches;
     const isInWebAppiOS = (window.navigator as any).standalone === true;
-    
-    setState(prev => ({
+
+    setState((prev) => ({
       ...prev,
       isInstalled: isStandalone || isInWebAppiOS,
     }));
@@ -48,12 +52,14 @@ export function usePWA(): PWAState & PWAActions {
     const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setState(prev => ({ ...prev, isInstallable: true }));
+      setState((prev) => ({ ...prev, isInstallable: true }));
     };
 
     // Listeners para status online/offline
-    const handleOnline = () => setState(prev => ({ ...prev, isOnline: true }));
-    const handleOffline = () => setState(prev => ({ ...prev, isOnline: false }));
+    const handleOnline = () =>
+      setState((prev) => ({ ...prev, isOnline: true }));
+    const handleOffline = () =>
+      setState((prev) => ({ ...prev, isOnline: false }));
 
     // Registrar service worker
     const registerSW = async () => {
@@ -67,8 +73,11 @@ export function usePWA(): PWAState & PWAActions {
             const newWorker = reg.installing;
             if (newWorker) {
               newWorker.addEventListener('statechange', () => {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  setState(prev => ({ ...prev, isUpdateAvailable: true }));
+                if (
+                  newWorker.state === 'installed' &&
+                  navigator.serviceWorker.controller
+                ) {
+                  setState((prev) => ({ ...prev, isUpdateAvailable: true }));
                 }
               });
             }
@@ -80,7 +89,10 @@ export function usePWA(): PWAState & PWAActions {
     };
 
     // Adicionar event listeners
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener(
+      'beforeinstallprompt',
+      handleBeforeInstallPrompt as EventListener
+    );
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
 
@@ -88,7 +100,10 @@ export function usePWA(): PWAState & PWAActions {
     registerSW();
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener(
+        'beforeinstallprompt',
+        handleBeforeInstallPrompt as EventListener
+      );
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
@@ -97,14 +112,14 @@ export function usePWA(): PWAState & PWAActions {
   const install = async (): Promise<boolean> => {
     if (!deferredPrompt) return false;
 
-    setState(prev => ({ ...prev, isLoading: true }));
+    setState((prev) => ({ ...prev, isLoading: true }));
 
     try {
       await deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-      
+
       if (outcome === 'accepted') {
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           isInstalled: true,
           isInstallable: false,
@@ -117,14 +132,14 @@ export function usePWA(): PWAState & PWAActions {
       console.error('Installation failed:', error);
     }
 
-    setState(prev => ({ ...prev, isLoading: false }));
+    setState((prev) => ({ ...prev, isLoading: false }));
     return false;
   };
 
   const update = async (): Promise<void> => {
     if (!registration || !registration.waiting) return;
 
-    setState(prev => ({ ...prev, isLoading: true }));
+    setState((prev) => ({ ...prev, isLoading: true }));
 
     // Enviar mensagem para o SW fazer skip waiting
     registration.waiting.postMessage({ type: 'SKIP_WAITING' });

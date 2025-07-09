@@ -5,7 +5,7 @@ export default defineType({
   name: 'paginaHistoria',
   title: 'Página História',
   type: 'document',
-  icon: () => <BookOpen size={20} />,
+  icon: BookOpen,
   fields: [
     defineField({
       name: 'titulo',

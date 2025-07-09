@@ -67,7 +67,7 @@ class WebVitalsTracker {
 
     this.metrics.push(webVitalData);
     this.sendToAnalytics(webVitalData);
-    
+
     // Log para debug
     console.log(`${metric.name}: ${metric.value} (${metric.rating})`);
   }
@@ -89,11 +89,12 @@ class WebVitalsTracker {
         (window as any).gtag('event', data.name, {
           event_category: 'Web Vitals',
           event_label: data.id,
-          value: Math.round(data.name === 'CLS' ? data.value * 1000 : data.value),
+          value: Math.round(
+            data.name === 'CLS' ? data.value * 1000 : data.value
+          ),
           non_interaction: true,
         });
       }
-
     } catch (error) {
       console.error('Erro ao enviar métricas:', error);
     }
@@ -105,13 +106,16 @@ class WebVitalsTracker {
 
   getLatestMetrics(): Record<string, WebVitalData> {
     const latest: Record<string, WebVitalData> = {};
-    
+
     for (const metric of this.metrics) {
-      if (!latest[metric.name] || metric.timestamp > latest[metric.name].timestamp) {
+      if (
+        !latest[metric.name] ||
+        metric.timestamp > latest[metric.name].timestamp
+      ) {
         latest[metric.name] = metric;
       }
     }
-    
+
     return latest;
   }
 
@@ -126,12 +130,15 @@ class WebVitalsTracker {
       FID: 0.25,
       FCP: 0.15,
       LCP: 0.25,
-      TTFB: 0.20,
+      TTFB: 0.2,
     };
 
     let totalScore = 0;
     let totalWeight = 0;
-    const metricsInfo: Record<string, { value: number; rating: string; weight: number }> = {};
+    const metricsInfo: Record<
+      string,
+      { value: number; rating: string; weight: number }
+    > = {};
 
     for (const [name, weight] of Object.entries(weights)) {
       const metric = latest[name];
@@ -139,7 +146,7 @@ class WebVitalsTracker {
         const score = this.getMetricScore(metric);
         totalScore += score * weight;
         totalWeight += weight;
-        
+
         metricsInfo[name] = {
           value: metric.value,
           rating: metric.rating,
@@ -149,7 +156,12 @@ class WebVitalsTracker {
     }
 
     const finalScore = totalWeight > 0 ? totalScore / totalWeight : 0;
-    const rating = finalScore >= 0.9 ? 'good' : finalScore >= 0.5 ? 'needs-improvement' : 'poor';
+    const rating =
+      finalScore >= 0.9
+        ? 'good'
+        : finalScore >= 0.5
+          ? 'needs-improvement'
+          : 'poor';
 
     return {
       score: Math.round(finalScore * 100),
@@ -191,29 +203,48 @@ class WebVitalsTracker {
   trackPageLoad(): void {
     if (typeof window === 'undefined') return;
 
-    const perfData = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-    
+    const perfData = performance.getEntriesByType(
+      'navigation'
+    )[0] as PerformanceNavigationTiming;
+
     if (perfData) {
-      this.trackCustomMetric('dom_content_loaded', perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart);
-      this.trackCustomMetric('page_load_time', perfData.loadEventEnd - perfData.loadEventStart);
-      this.trackCustomMetric('dns_lookup', perfData.domainLookupEnd - perfData.domainLookupStart);
-      this.trackCustomMetric('tcp_connection', perfData.connectEnd - perfData.connectStart);
-      this.trackCustomMetric('server_response', perfData.responseEnd - perfData.requestStart);
+      this.trackCustomMetric(
+        'dom_content_loaded',
+        perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart
+      );
+      this.trackCustomMetric(
+        'page_load_time',
+        perfData.loadEventEnd - perfData.loadEventStart
+      );
+      this.trackCustomMetric(
+        'dns_lookup',
+        perfData.domainLookupEnd - perfData.domainLookupStart
+      );
+      this.trackCustomMetric(
+        'tcp_connection',
+        perfData.connectEnd - perfData.connectStart
+      );
+      this.trackCustomMetric(
+        'server_response',
+        perfData.responseEnd - perfData.requestStart
+      );
     }
   }
 
   trackResourceTiming(): void {
     if (typeof window === 'undefined') return;
 
-    const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-    
+    const resources = performance.getEntriesByType(
+      'resource'
+    ) as PerformanceResourceTiming[];
+
     const resourceStats = {
       images: { count: 0, totalSize: 0, avgLoadTime: 0 },
       scripts: { count: 0, totalSize: 0, avgLoadTime: 0 },
       stylesheets: { count: 0, totalSize: 0, avgLoadTime: 0 },
     };
 
-    resources.forEach(resource => {
+    resources.forEach((resource) => {
       const loadTime = resource.responseEnd - resource.requestStart;
       const size = resource.transferSize || 0;
 
@@ -236,8 +267,16 @@ class WebVitalsTracker {
     Object.entries(resourceStats).forEach(([type, stats]) => {
       if (stats.count > 0) {
         this.trackCustomMetric(`${type}_count`, stats.count, 'count');
-        this.trackCustomMetric(`${type}_total_size`, Math.round(stats.totalSize / 1024), 'kb');
-        this.trackCustomMetric(`${type}_avg_load_time`, Math.round(stats.avgLoadTime / stats.count), 'ms');
+        this.trackCustomMetric(
+          `${type}_total_size`,
+          Math.round(stats.totalSize / 1024),
+          'kb'
+        );
+        this.trackCustomMetric(
+          `${type}_avg_load_time`,
+          Math.round(stats.avgLoadTime / stats.count),
+          'ms'
+        );
       }
     });
   }
@@ -245,24 +284,24 @@ class WebVitalsTracker {
   generateReport(): string {
     const latest = this.getLatestMetrics();
     const score = this.getPerformanceScore();
-    
+
     let report = `=== Web Vitals Report ===\n`;
     report += `Overall Score: ${score.score}/100 (${score.rating})\n\n`;
-    
+
     report += `Core Web Vitals:\n`;
     Object.entries(latest).forEach(([name, metric]) => {
       if (['CLS', 'FID', 'LCP'].includes(name)) {
         report += `${name}: ${metric.value}${name === 'CLS' ? '' : 'ms'} (${metric.rating})\n`;
       }
     });
-    
+
     report += `\nOther Metrics:\n`;
     Object.entries(latest).forEach(([name, metric]) => {
       if (!['CLS', 'FID', 'LCP'].includes(name)) {
         report += `${name}: ${metric.value}${name === 'CLS' ? '' : 'ms'} (${metric.rating})\n`;
       }
     });
-    
+
     return report;
   }
 }

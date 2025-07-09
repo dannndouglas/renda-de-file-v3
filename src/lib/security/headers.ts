@@ -9,13 +9,13 @@ export function addSecurityHeaders(response: NextResponse): NextResponse {
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: blob: https: http:",
     "media-src 'self' data: blob:",
-    "connect-src 'self' https://api.whatsapp.com https://wa.me https://www.google-analytics.com",
+    "connect-src 'self' https://api.whatsapp.com https://wa.me https://www.google-analytics.com https://rsgezubm.api.sanity.io https://cdn.sanity.io https://rsgezubm.apicdn.sanity.io",
     "frame-src 'self' https://www.google.com https://www.youtube.com",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'none'",
-    "upgrade-insecure-requests",
+    'upgrade-insecure-requests',
   ].join('; ');
 
   // Aplicar headers de segurança
@@ -24,8 +24,11 @@ export function addSecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   response.headers.set('X-XSS-Protection', '1; mode=block');
-  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-  
+  response.headers.set(
+    'Permissions-Policy',
+    'camera=(), microphone=(), geolocation=()'
+  );
+
   // HSTS (apenas em produção com HTTPS)
   if (process.env.NODE_ENV === 'production') {
     response.headers.set(
@@ -41,15 +44,21 @@ export function addSecurityHeaders(response: NextResponse): NextResponse {
 export function addAPISecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('X-Frame-Options', 'DENY');
-  response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  response.headers.set(
+    'Cache-Control',
+    'no-store, no-cache, must-revalidate, private'
+  );
   response.headers.set('Pragma', 'no-cache');
   response.headers.set('Expires', '0');
-  
+
   return response;
 }
 
 // CORS para APIs específicas
-export function addCORSHeaders(response: NextResponse, allowedOrigins: string[] = []): NextResponse {
+export function addCORSHeaders(
+  response: NextResponse,
+  allowedOrigins: string[] = []
+): NextResponse {
   const defaultOrigins = [
     'http://localhost:3000',
     'https://rendadefile.org.br',
@@ -57,12 +66,18 @@ export function addCORSHeaders(response: NextResponse, allowedOrigins: string[] 
   ];
 
   const origins = [...defaultOrigins, ...allowedOrigins];
-  
+
   response.headers.set('Access-Control-Allow-Origin', origins.join(', '));
-  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  response.headers.set(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, DELETE, OPTIONS'
+  );
+  response.headers.set(
+    'Access-Control-Allow-Headers',
+    'Content-Type, Authorization'
+  );
   response.headers.set('Access-Control-Max-Age', '86400');
-  
+
   return response;
 }
 
@@ -93,6 +108,7 @@ export function isValidEmail(email: string): boolean {
 
 // Validação de telefone brasileiro
 export function isValidBrazilianPhone(phone: string): boolean {
-  const phoneRegex = /^(?:\+55\s?)?(?:\(?[1-9]{2}\)?\s?)?(?:9\s?)?[0-9]{4}[-\s]?[0-9]{4}$/;
+  const phoneRegex =
+    /^(?:\+55\s?)?(?:\(?[1-9]{2}\)?\s?)?(?:9\s?)?[0-9]{4}[-\s]?[0-9]{4}$/;
   return phoneRegex.test(phone.replace(/\s/g, ''));
 }

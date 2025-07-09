@@ -5,9 +5,5 @@ export default function MarketingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <PublicLayout>
-      {children}
-    </PublicLayout>
-  );
+  return <PublicLayout>{children}</PublicLayout>;
 }

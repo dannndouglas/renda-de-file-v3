@@ -5,7 +5,7 @@ export default defineType({
   name: 'noticia',
   title: 'Notícia',
   type: 'document',
-  icon: () => <Newspaper size={20} />,
+  icon: Newspaper,
   fields: [
     defineField({
       name: 'titulo',
@@ -141,7 +141,7 @@ export default defineType({
       name: 'dataPublicacao',
       title: 'Data de Publicação',
       type: 'datetime',
-      initialValue: (new Date()).toISOString(),
+      initialValue: new Date().toISOString(),
       validation: (Rule) => Rule.required(),
     }),
     defineField({

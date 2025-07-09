@@ -1,7 +1,13 @@
 export interface SanityImage {
-  asset: {
-    url: string;
-  };
+  asset:
+    | {
+        _ref: string;
+        _type: 'reference';
+        url?: string;
+      }
+    | {
+        url: string;
+      };
   alt?: string;
 }
 
@@ -45,6 +51,7 @@ export interface Noticia {
   };
   resumo: string;
   imagemCapa?: SanityImage;
+  imagemPrincipal?: SanityImage;
   dataPublicacao: string;
   conteudo?: any[];
   autor?: string;

@@ -5,7 +5,7 @@ export default defineType({
   name: 'associacao',
   title: 'Associação',
   type: 'document',
-  icon: () => <Users size={20} />,
+  icon: Users,
   fields: [
     defineField({
       name: 'nome',
