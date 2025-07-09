@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
     const categoria = searchParams.get('categoria');
     const disponibilidade = searchParams.get('disponibilidade');
     const associacaoId = searchParams.get('associacao');
+    const destaque = searchParams.get('destaque');
     const limit = parseInt(searchParams.get('limit') || '50');
     const offset = parseInt(searchParams.get('offset') || '0');
 
@@ -32,6 +33,10 @@ export async function GET(request: NextRequest) {
       params.associacaoId = associacaoId;
     }
 
+    if (destaque === 'true') {
+      filters.push('destaque == true');
+    }
+
     // Modificar query se houver filtros
     if (filters.length > 0) {
       query = query.replace(
@@ -46,10 +51,17 @@ export async function GET(request: NextRequest) {
       `| order(_createdAt desc) [${offset}...${offset + limit}]`
     );
 
+    console.log('[PRODUTOS_API] Query:', query);
+    console.log('[PRODUTOS_API] Params:', params);
+
     const produtos = await sanityClient.fetch(query, params);
 
+    console.log('[PRODUTOS_API] Produtos encontrados:', produtos.length);
+
     return NextResponse.json({
-      produtos,
+      success: true,
+      data: produtos,
+      total: produtos.length,
       pagination: {
         offset,
         limit,
@@ -57,9 +69,13 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Erro ao buscar produtos:', error);
+    console.error('[PRODUTOS_API] Erro ao buscar produtos:', error);
     return NextResponse.json(
-      { error: 'Erro interno do servidor' },
+      {
+        success: false,
+        error: 'Erro interno do servidor',
+        message: 'Falha ao carregar produtos',
+      },
       { status: 500 }
     );
   }

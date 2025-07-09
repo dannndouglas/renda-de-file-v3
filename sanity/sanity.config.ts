@@ -21,4 +21,14 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
   },
+
+  cors: {
+    origin: ['http://localhost:3000', 'https://localhost:3000'],
+    credentials: true,
+  },
+
+  api: {
+    projectId: 'rsgezubm',
+    dataset: 'development',
+  },
 });
