@@ -1,209 +1,182 @@
-import type { Metadata } from 'next';
+import { Metadata } from 'next';
+import { sanityClient } from '@/lib/sanity/client';
+import { HeroSection } from '@/components/home/HeroSection';
+import { StatsSection } from '@/components/home/StatsSection';
+import { ProductCard } from '@/components/catalog/ProductCard';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+import type { Produto, Noticia } from '@/types/sanity';
 
 export const metadata: Metadata = {
-  title: 'Início',
-  description:
-    'Descubra a tradição da Renda de Filé de Jaguaribe, artesanato único com mais de 300 anos de história.',
+  title: 'Renda de Filé - Artesanato Tradicional de Jaguaribe',
+  description: 'Conheça a Renda de Filé, patrimônio cultural de mais de 300 anos. Produtos artesanais feitos pelas mãos habilidosas das rendeiras de Jaguaribe, Ceará.',
 };
 
-export default function HomePage() {
+const HOME_QUERY = `{
+  "produtos": *[_type == "produto" && disponibilidade == "disponivel"] | order(createdAt desc) [0...8] {
+    _id,
+    nome,
+    slug,
+    descricao,
+    imagens,
+    categoria,
+    disponibilidade,
+    preco,
+    associacao->{
+      _id,
+      nome,
+      whatsapp
+    }
+  },
+  "stats": {
+    "rendeiras": count(*[_type == "associacao"]),
+    "produtos": count(*[_type == "produto"]),
+    "anos": 300
+  },
+  "noticias": *[_type == "noticia" && publicado == true] | order(dataPublicacao desc) [0...3] {
+    _id,
+    titulo,
+    slug,
+    resumo,
+    imagemCapa,
+    dataPublicacao
+  }
+}`;
+
+async function getHomeData() {
+  try {
+    const data = await sanityClient.fetch(HOME_QUERY, {}, {
+      next: { revalidate: 3600 } // Revalidar a cada hora
+    });
+    return data;
+  } catch (error) {
+    console.error('[HOME] Erro ao buscar dados:', error);
+    return { produtos: [], stats: { rendeiras: 0, produtos: 0, anos: 300 }, noticias: [] };
+  }
+}
+
+export default async function HomePage() {
+  const { produtos, stats, noticias } = await getHomeData();
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="section-padding relative bg-gradient-to-br from-renda-50 via-areia-50 to-renda-100">
-        <div className="container">
-          <div className="text-center">
-            <h1 className="heading-1 mb-6 text-balance">
-              Renda de Filé de Jaguaribe
-            </h1>
-            <p className="body-large mx-auto mb-8 max-w-3xl text-balance">
-              Tradição que atravessa gerações. Descubra a arte milenar da Renda
-              de Filé, patrimônio cultural imaterial de Jaguaribe, Ceará.
-            </p>
-            <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <Button
-                size="lg"
-                className="bg-renda-600 px-8 hover:bg-renda-700"
-              >
-                Conheça Nossa História
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-renda-600 px-8 text-renda-600 hover:bg-renda-50"
-              >
-                Veja o Catálogo
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection />
 
-      {/* Introdução */}
-      <section className="section-padding bg-white">
-        <div className="container">
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-            <div>
-              <h2 className="heading-2 mb-6">A Arte Que Define Jaguaribe</h2>
-              <p className="body-normal mb-6">
-                A Renda de Filé é mais que um artesanato - é a alma de nossa
-                cidade. Cada peça carrega consigo séculos de tradição, passada
-                de mãe para filha, preservando a herança cultural de nosso povo.
-              </p>
-              <p className="body-normal mb-8">
-                Feita à mão com amor e dedicação, nossa renda representa a
-                resistência cultural e a arte genuína do Nordeste brasileiro.
-              </p>
-              <button className="btn-primary">Saiba Mais</button>
-            </div>
-            <div className="relative h-96 rounded-xl bg-gradient-to-br from-renda-200 to-areia-200">
-              {/* Placeholder para imagem */}
-              <div className="absolute inset-0 flex items-center justify-center text-renda-600">
-                <span className="text-lg font-medium">
-                  Imagem da Renda de Filé
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Estatísticas */}
+      <StatsSection 
+        rendeiras={stats.rendeiras}
+        produtos={stats.produtos}
+        anosTradicao={stats.anos}
+      />
 
       {/* Produtos em Destaque */}
-      <section className="section-padding bg-gray-50">
-        <div className="container">
-          <div className="mb-12 text-center">
-            <h2 className="heading-2 mb-4">Peças em Destaque</h2>
-            <p className="body-large mx-auto max-w-2xl text-balance">
-              Conheça algumas de nossas criações mais especiais, feitas com
-              técnicas tradicionais pelas artesãs de Jaguaribe.
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Produtos em Destaque
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Conheça algumas das peças mais especiais criadas pelas nossas rendeiras
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {/* Card Placeholder 1 */}
-            <div className="product-card">
-              <div className="relative aspect-square bg-gradient-to-br from-renda-100 to-areia-100">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-medium text-renda-600">Produto 1</span>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="heading-4 mb-2">Toalha de Mesa</h3>
-                <p className="body-small mb-3">Associação das Rendeiras</p>
-                <div className="mb-4 flex items-center justify-between">
-                  <Badge
-                    variant="secondary"
-                    className="bg-green-100 text-green-800"
-                  >
-                    Disponível
-                  </Badge>
-                  <span className="font-semibold text-renda-600">
-                    A partir de R$ 250,00
-                  </span>
-                </div>
-                <Button className="btn-whatsapp w-full">
-                  💬 Conversar no WhatsApp
-                </Button>
-              </div>
-            </div>
-
-            {/* Card Placeholder 2 */}
-            <div className="product-card">
-              <div className="relative aspect-square bg-gradient-to-br from-renda-100 to-areia-100">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-medium text-renda-600">Produto 2</span>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="heading-4 mb-2">Cortina Decorativa</h3>
-                <p className="body-small mb-3">Associação Mãos de Ouro</p>
-                <div className="mb-4 flex items-center justify-between">
-                  <Badge
-                    variant="secondary"
-                    className="bg-orange-100 text-orange-800"
-                  >
-                    Sob Encomenda
-                  </Badge>
-                  <span className="font-semibold text-renda-600">
-                    A partir de R$ 180,00
-                  </span>
-                </div>
-                <Button className="btn-whatsapp w-full">
-                  💬 Encomendar via WhatsApp
-                </Button>
-              </div>
-            </div>
-
-            {/* Card Placeholder 3 */}
-            <div className="product-card">
-              <div className="relative aspect-square bg-gradient-to-br from-renda-100 to-areia-100">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-medium text-renda-600">Produto 3</span>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="heading-4 mb-2">Conjunto de Bebê</h3>
-                <p className="body-small mb-3">Associação Arte e Tradição</p>
-                <div className="mb-4 flex items-center justify-between">
-                  <Badge
-                    variant="secondary"
-                    className="bg-green-100 text-green-800"
-                  >
-                    Disponível
-                  </Badge>
-                  <span className="font-semibold text-renda-600">
-                    A partir de R$ 120,00
-                  </span>
-                </div>
-                <Button className="btn-whatsapp w-full">
-                  💬 Conversar no WhatsApp
-                </Button>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {produtos.map((produto: Produto) => (
+              <ProductCard key={produto._id} produto={produto} />
+            ))}
           </div>
 
-          <div className="mt-12 text-center">
-            <Button size="lg" className="bg-renda-600 px-8 hover:bg-renda-700">
-              Ver Catálogo Completo
-            </Button>
+          <div className="text-center">
+            <Link href="/catalogo">
+              <Button size="lg" className="gap-2">
+                Ver Catálogo Completo
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Impacto Cultural */}
-      <section className="section-padding bg-renda-600 text-white">
-        <div className="container">
-          <div className="mb-12 text-center">
-            <h2 className="heading-2 mb-4 text-white">
-              Nosso Impacto Cultural
-            </h2>
-            <p className="body-large mx-auto max-w-2xl text-renda-100">
-              Números que representam nossa dedicação à preservação cultural e
-              ao apoio às artesãs locais.
-            </p>
-          </div>
+      {/* Notícias Recentes */}
+      {noticias.length > 0 && (
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Últimas Notícias
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Fique por dentro das novidades do mundo da Renda de Filé
+              </p>
+            </div>
 
-          <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
-            <div className="text-center">
-              <div className="mb-2 text-4xl font-bold text-white">300+</div>
-              <div className="text-renda-100">Anos de Tradição</div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+              {noticias.map((noticia: Noticia) => (
+                <article key={noticia._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                  <Link href={`/noticias/${noticia.slug.current}`}>
+                    {noticia.imagemCapa && (
+                      <div className="aspect-video bg-gray-200 relative">
+                        <Image 
+                          src={noticia.imagemCapa.asset.url} 
+                          alt={noticia.titulo}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <time className="text-sm text-gray-500">
+                        {new Date(noticia.dataPublicacao).toLocaleDateString('pt-BR')}
+                      </time>
+                      <h3 className="text-xl font-semibold text-gray-900 mt-2 mb-3">
+                        {noticia.titulo}
+                      </h3>
+                      <p className="text-gray-600 line-clamp-3">
+                        {noticia.resumo}
+                      </p>
+                    </div>
+                  </Link>
+                </article>
+              ))}
             </div>
+
             <div className="text-center">
-              <div className="mb-2 text-4xl font-bold text-white">500+</div>
-              <div className="text-renda-100">Artesãs Ativas</div>
+              <Link href="/noticias">
+                <Button variant="outline" size="lg" className="gap-2">
+                  Ver Todas as Notícias
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
-            <div className="text-center">
-              <div className="mb-2 text-4xl font-bold text-white">1</div>
-              <div className="text-renda-100">
-                Patrimônio Cultural Imaterial
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="mb-2 text-4xl font-bold text-white">5</div>
-              <div className="text-renda-100">Continentes de Exportação</div>
-            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Call to Action */}
+      <section className="py-16 bg-renda-50">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Apoie a Tradição
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+            Cada peça adquirida ajuda a preservar esta arte centenária e sustenta 
+            famílias de rendeiras em Jaguaribe
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/associacoes">
+              <Button size="lg" variant="outline">
+                Conheça as Associações
+              </Button>
+            </Link>
+            <Link href="/historia">
+              <Button size="lg">
+                Nossa História
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
