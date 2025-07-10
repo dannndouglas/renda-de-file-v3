@@ -12,6 +12,7 @@ import { trackWhatsAppClick } from '@/lib/analytics/whatsapp';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PublicLayout } from '@/components/layouts/PublicLayout';
+import { PageHeader } from '@/components/ui/page-header';
 import {
   generateMetadata as generateSEOMetadata,
   generateJsonLd,
@@ -176,6 +177,14 @@ Gostaria de mais informações.`;
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd }}
       />
+      
+      <PageHeader
+        title={produto.nome}
+        subtitle={produto.categoria?.charAt(0).toUpperCase() + produto.categoria?.slice(1)}
+        description={produto.descricao}
+        variant="centered"
+      />
+      
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-6 text-sm">

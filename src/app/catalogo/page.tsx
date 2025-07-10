@@ -6,10 +6,14 @@ import { useProdutos } from '@/hooks/use-produtos';
 import { ProductCard } from '@/components/catalog/ProductCard';
 import { SearchBox } from '@/components/search/SearchBox';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
+import { PageHeader } from '@/components/ui/page-header';
+import { ProductFilters } from '@/components/catalog/ProductFilters';
+import { AnimatedCard } from '@/components/ui/animated-card';
+import { Loader2, Search } from 'lucide-react';
 import { useFilterStore } from '@/stores/use-filter-store';
 import { useSearchStore } from '@/stores/use-search-store';
 import { PublicLayout } from '@/components/layouts/PublicLayout';
+import { motion } from 'framer-motion';
 
 function CatalogoContent() {
   const searchParams = useSearchParams();
@@ -81,39 +85,50 @@ function CatalogoContent() {
 
   return (
     <PublicLayout>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="mb-8 text-3xl font-bold text-gray-900 md:text-4xl">
-          Catálogo de Produtos
-        </h1>
+      <PageHeader
+        title="Catálogo de Produtos"
+        subtitle="Artesanato Exclusivo"
+        description="Explore nossa coleção de peças únicas de Renda de Filé, criadas com dedicação e maestria pelas rendeiras de Jaguaribe"
+        variant="centered"
+      />
 
+      <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
           {/* Filtros */}
           <aside className="lg:col-span-1">
-            <div className="sticky top-4 rounded-lg bg-white p-6 shadow-sm">
-              <h2 className="mb-4 text-lg font-semibold">Filtros</h2>
-              {/* Filtros serão implementados em breve */}
-              <p className="text-sm text-gray-500">Em desenvolvimento</p>
-            </div>
+            <ProductFilters />
           </aside>
 
           {/* Produtos */}
           <div className="lg:col-span-3">
             {/* Busca */}
-            <div className="mb-6">
-              {/* SearchBox será implementado em breve */}
-              <input
-                type="search"
-                placeholder="Buscar produtos..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-orange-500"
-              />
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6"
+            >
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="search"
+                  placeholder="Buscar produtos..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="w-full rounded-lg border border-gray-200 bg-white py-3 pl-10 pr-4 shadow-sm transition-all focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20"
+                />
+              </div>
+            </motion.div>
 
             {/* Resultados */}
-            <div className="mb-4 text-sm text-gray-600">
-              {produtos.length} produtos encontrados
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mb-6 flex items-center justify-between"
+            >
+              <p className="text-sm text-gray-600">
+                {produtos.length} produtos encontrados
+              </p>
+            </motion.div>
 
             {loading ? (
               <div className="flex items-center justify-center py-12">

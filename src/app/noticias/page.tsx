@@ -4,6 +4,7 @@ import { NOTICIAS_QUERY } from '@/lib/sanity/queries';
 import { OptimizedImage } from '@/components/ui/optimized-image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { PageHeader } from '@/components/ui/page-header';
 import { CalendarDays, Clock, User } from 'lucide-react';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
@@ -49,30 +50,30 @@ export default async function NoticiasPage() {
   if (noticias.length === 0) {
     return (
       <PublicLayout>
+        <PageHeader
+          title="Notícias e Novidades"
+          subtitle="Fique por Dentro"
+          description="Em breve, novidades sobre a tradição da Renda de Filé"
+          variant="centered"
+          gradientFrom="from-amber-50"
+          gradientTo="to-orange-50"
+        />
         <div className="min-h-screen bg-gray-50 py-12">
           <div className="container mx-auto px-4">
-            <div className="text-center">
-              <h1 className="mb-4 text-4xl font-bold text-amber-900">
-                Notícias da Renda de Filé
-              </h1>
-              <p className="mb-8 text-amber-700">
-                Em breve, novidades sobre a tradição da Renda de Filé
-              </p>
-              <Card className="mx-auto max-w-md">
-                <CardContent className="p-6">
-                  <div className="text-center text-amber-600">
-                    <CalendarDays className="mx-auto mb-4 h-12 w-12" />
-                    <h3 className="mb-2 text-lg font-semibold">
-                      Novidades em Breve
-                    </h3>
-                    <p className="text-sm">
-                      Estamos preparando conteúdo especial sobre a história,
-                      técnicas e eventos da Renda de Filé.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            <Card className="mx-auto max-w-md">
+              <CardContent className="p-6">
+                <div className="text-center text-amber-600">
+                  <CalendarDays className="mx-auto mb-4 h-12 w-12" />
+                  <h3 className="mb-2 text-lg font-semibold">
+                    Novidades em Breve
+                  </h3>
+                  <p className="text-sm">
+                    Estamos preparando conteúdo especial sobre a história,
+                    técnicas e eventos da Renda de Filé.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </PublicLayout>
@@ -85,19 +86,14 @@ export default async function NoticiasPage() {
 
   return (
     <PublicLayout>
+      <PageHeader
+        title="Notícias e Novidades"
+        subtitle="Fique por Dentro"
+        description="Acompanhe as últimas novidades, eventos e histórias sobre a tradição da Renda de Filé do Ceará"
+        variant="centered"
+      />
       <div className="min-h-screen bg-gray-50 py-12">
         <div className="container mx-auto px-4">
-          {/* Header */}
-          <div className="mb-12 text-center">
-            <h1 className="mb-4 text-4xl font-bold text-amber-900">
-              Notícias da Renda de Filé
-            </h1>
-            <p className="mx-auto max-w-2xl text-lg text-amber-700">
-              Acompanhe as últimas novidades, eventos e histórias sobre a
-              tradição da Renda de Filé do Ceará
-            </p>
-          </div>
-
           {/* Notícias em Destaque */}
           {noticiasDestaque.length > 0 && (
             <section className="mb-12">
