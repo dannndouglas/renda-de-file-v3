@@ -13,9 +13,15 @@ import {
   Package,
   MessageCircle,
   Building,
+  Mail,
+  Instagram,
+  Facebook,
+  Globe,
+  Award,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { urlForImage } from '@/lib/images/sanity';
 
 interface AssociacoesClientProps {
   associacoes: any[];
@@ -67,10 +73,10 @@ export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
             delay={index * 0.1}
             className="overflow-hidden"
           >
-            {associacao.imagem && (
+            {(associacao.banner || associacao.imagem) && (
               <div className="relative aspect-video bg-gray-100">
                 <Image
-                  src={associacao.imagem.asset.url}
+                  src={urlForImage(associacao.banner || associacao.imagem, { width: 640, height: 360, quality: 85 }) || (associacao.banner || associacao.imagem)?.asset?.url}
                   alt={associacao.nome}
                   fill
                   className="object-cover"
@@ -124,7 +130,68 @@ export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
                     <span>{associacao.telefone}</span>
                   </div>
                 )}
+
+                {associacao.email && (
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <Mail className="h-4 w-4" />
+                    <span>{associacao.email}</span>
+                  </div>
+                )}
               </div>
+
+              {associacao.especialidades && associacao.especialidades.length > 0 && (
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                    <Award className="h-4 w-4" />
+                    <span className="font-medium">Especialidades:</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {associacao.especialidades.map((especialidade: string, index: number) => (
+                      <Badge key={index} variant="secondary" className="text-xs">
+                        {especialidade}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {(associacao.instagram || associacao.facebook || associacao.website) && (
+                <div className="mb-4 flex gap-3">
+                  {associacao.instagram && (
+                    <a
+                      href={associacao.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      aria-label="Instagram"
+                    >
+                      <Instagram className="h-4 w-4" />
+                    </a>
+                  )}
+                  {associacao.facebook && (
+                    <a
+                      href={associacao.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      aria-label="Facebook"
+                    >
+                      <Facebook className="h-4 w-4" />
+                    </a>
+                  )}
+                  {associacao.website && (
+                    <a
+                      href={associacao.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      aria-label="Website"
+                    >
+                      <Globe className="h-4 w-4" />
+                    </a>
+                  )}
+                </div>
+              )}
 
               {associacao.presidente && (
                 <p className="mb-4 text-sm text-gray-500">

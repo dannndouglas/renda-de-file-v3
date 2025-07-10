@@ -6,9 +6,12 @@ import {
   Mail,
   Phone,
   MapPin,
+  Youtube,
 } from 'lucide-react';
+import { getConfiguracoesGlobais } from '@/lib/sanity/config';
 
-export function Footer() {
+export async function Footer() {
+  const config = await getConfiguracoesGlobais();
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-12">
@@ -16,35 +19,56 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-amber-400">
-              Renda de Filé de Jaguaribe
+              {config?.titulo || 'Renda de Filé de Jaguaribe'}
             </h3>
             <p className="text-sm text-gray-300">
-              Preservando a tradição da Renda de Filé há mais de 300 anos.
-              Artesanato autêntico feito à mão pelas artesãs de Jaguaribe,
-              Ceará.
+              {config?.descricao || 'Preservando a tradição da Renda de Filé há mais de 300 anos. Artesanato autêntico feito à mão pelas artesãs de Jaguaribe, Ceará.'}
             </p>
             <div className="flex space-x-4">
-              <a
-                href="#"
-                className="text-gray-400 transition-colors hover:text-amber-400"
-                aria-label="Facebook"
-              >
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 transition-colors hover:text-amber-400"
-                aria-label="Instagram"
-              >
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 transition-colors hover:text-amber-400"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
+              {config?.redesSociais?.facebook && (
+                <a
+                  href={config.redesSociais.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 transition-colors hover:text-amber-400"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="h-5 w-5" />
+                </a>
+              )}
+              {config?.redesSociais?.instagram && (
+                <a
+                  href={config.redesSociais.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 transition-colors hover:text-amber-400"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="h-5 w-5" />
+                </a>
+              )}
+              {config?.redesSociais?.twitter && (
+                <a
+                  href={config.redesSociais.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 transition-colors hover:text-amber-400"
+                  aria-label="Twitter"
+                >
+                  <Twitter className="h-5 w-5" />
+                </a>
+              )}
+              {config?.redesSociais?.youtube && (
+                <a
+                  href={config.redesSociais.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 transition-colors hover:text-amber-400"
+                  aria-label="YouTube"
+                >
+                  <Youtube className="h-5 w-5" />
+                </a>
+              )}
             </div>
           </div>
 
@@ -123,27 +147,37 @@ export function Footer() {
               <div className="flex items-start space-x-3">
                 <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-400" />
                 <span className="text-sm text-gray-300">
-                  Jaguaribe, Ceará
-                  <br />
-                  Brasil
+                  {config?.contato?.endereco ? (
+                    <>
+                      {config.contato.endereco.rua && `${config.contato.endereco.rua}, `}
+                      {config.contato.endereco.numero && `${config.contato.endereco.numero}`}
+                      {config.contato.endereco.bairro && <><br />{config.contato.endereco.bairro}</>}
+                      {(config.contato.endereco.cidade || config.contato.endereco.estado) && (
+                        <><br />{config.contato.endereco.cidade}{config.contato.endereco.cidade && config.contato.endereco.estado && ', '}{config.contato.endereco.estado}</>
+                      )}
+                      {config.contato.endereco.cep && <><br />CEP: {config.contato.endereco.cep}</>}
+                    </>
+                  ) : (
+                    <>Jaguaribe, Ceará<br />Brasil</>
+                  )}
                 </span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 flex-shrink-0 text-amber-400" />
                 <a
-                  href="mailto:contato@rendadefile.com.br"
+                  href={`mailto:${config?.contato?.email || 'contato@rendadefile.com.br'}`}
                   className="text-sm text-gray-300 transition-colors hover:text-amber-400"
                 >
-                  contato@rendadefile.com.br
+                  {config?.contato?.email || 'contato@rendadefile.com.br'}
                 </a>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 flex-shrink-0 text-amber-400" />
                 <a
-                  href="tel:+5588999999999"
+                  href={`tel:+55${config?.contato?.telefone?.replace(/\D/g, '') || '88999999999'}`}
                   className="text-sm text-gray-300 transition-colors hover:text-amber-400"
                 >
-                  (88) 99999-9999
+                  {config?.contato?.telefone || '(88) 99999-9999'}
                 </a>
               </div>
             </div>

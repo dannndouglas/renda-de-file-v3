@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { urlForImage } from '@/lib/images/sanity';
 import type { Produto, Noticia } from '@/types/sanity';
 
 export const metadata: Metadata = {
@@ -16,6 +17,41 @@ export const metadata: Metadata = {
 };
 
 const HOME_QUERY = `{
+  "paginaInicial": *[_type == "paginaInicial"][0] {
+    hero {
+      titulo,
+      subtitulo,
+      imagem {
+        asset->{
+          _id,
+          _type,
+          url,
+          metadata
+        }
+      },
+      cta {
+        texto,
+        link
+      }
+    },
+    sobre {
+      titulo,
+      texto,
+      imagem {
+        asset->{
+          _id,
+          _type,
+          url,
+          metadata
+        }
+      }
+    },
+    estatisticas[]{
+      numero,
+      label,
+      icone
+    }
+  },
   "produtos": *[_type == "produto"] | order(_createdAt desc) [0...8] {
     _id,
     nome,
@@ -65,6 +101,45 @@ const HOME_QUERY = `{
     },
     categoria,
     dataPublicacao
+  },
+  "configuracoes": *[_type == "configuracoes"][0] {
+    titulo,
+    descricao,
+    logo {
+      asset->{
+        _id,
+        _type,
+        url,
+        metadata
+      }
+    },
+    favicon {
+      asset->{
+        _id,
+        _type,
+        url,
+        metadata
+      }
+    },
+    contato {
+      email,
+      telefone,
+      whatsapp,
+      endereco {
+        rua,
+        numero,
+        bairro,
+        cidade,
+        estado,
+        cep
+      }
+    },
+    redesSociais {
+      facebook,
+      instagram,
+      twitter,
+      youtube
+    }
   }
 }`;
 
@@ -84,23 +159,26 @@ async function getHomeData() {
       produtos: [],
       stats: { rendeiras: 0, produtos: 0, anos: 300 },
       noticias: [],
+      paginaInicial: null,
+      configuracoes: null,
     };
   }
 }
 
 export default async function HomePage() {
-  const { produtos, stats, noticias } = await getHomeData();
+  const { produtos, stats, noticias, paginaInicial, configuracoes } = await getHomeData();
 
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <HeroSection />
+      <HeroSection hero={paginaInicial?.hero} />
 
       {/* Estatísticas */}
       <StatsSection
         rendeiras={stats.rendeiras}
         produtos={stats.produtos}
         anosTradicao={stats.anos}
+        estatisticasCustomizadas={paginaInicial?.estatisticas}
       />
 
       {/* Produtos em Destaque */}
@@ -160,10 +238,10 @@ export default async function HomePage() {
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
                   <Link href={`/noticias/${noticia.slug.current}`}>
-                    {noticia.imagemPrincipal?.asset && (
+                    {noticia.imagemPrincipal && (
                       <div className="relative aspect-video bg-gray-200">
                         <Image
-                          src={noticia.imagemPrincipal.asset.url || ''}
+                          src={urlForImage(noticia.imagemPrincipal, { width: 640, height: 360, quality: 85 }) || ''}
                           alt={noticia.titulo}
                           fill
                           className="object-cover"

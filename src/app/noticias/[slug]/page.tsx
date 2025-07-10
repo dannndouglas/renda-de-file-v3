@@ -37,6 +37,8 @@ interface NoticiaDetalhes {
   tempoLeitura?: number;
   conteudo: any;
   galeria?: any[];
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 interface Props {
@@ -85,8 +87,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     process.env.NEXT_PUBLIC_SITE_URL || 'https://rendadefile.org.br';
 
   return generateSEOMetadata({
-    title: noticia.titulo,
-    description: noticia.resumo,
+    title: noticia.metaTitle || noticia.titulo,
+    description: noticia.metaDescription || noticia.resumo,
     keywords: [
       'renda de filé',
       'notícias',
@@ -98,7 +100,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ogImage: noticia.imagemPrincipal?.asset?.url,
     ogType: 'article',
     canonicalUrl: `${siteUrl}/noticias/${slug}`,
-    author: noticia.autor.nome,
+    author: noticia.autor?.nome || 'Renda de Filé',
     publishedTime: noticia.dataPublicacao,
     section: noticia.categoria,
     tags: noticia.tags,

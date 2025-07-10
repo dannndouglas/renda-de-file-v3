@@ -6,9 +6,41 @@ import { Button } from '@/components/ui/button';
 import { AnimatedCard } from '@/components/ui/animated-card';
 import { SectionTitle } from '@/components/ui/section-title';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, Users, Award, Heart } from 'lucide-react';
+import { Calendar, MapPin, Users, Award, Heart, Star, Package } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { urlForImage } from '@/lib/images/sanity';
+
+interface PaginaHistoria {
+  titulo?: string;
+  introducao?: string;
+  imagemPrincipal?: any;
+  timeline?: Array<{
+    ano: string;
+    titulo: string;
+    descricao: string;
+    icone?: string;
+    imagem?: any;
+  }>;
+  tecnicas?: Array<{
+    nome: string;
+    descricao: string;
+    dificuldade: string;
+    imagem?: any;
+  }>;
+  impacto?: {
+    texto?: string;
+    estatisticas?: Array<{
+      numero: number;
+      label: string;
+      icone?: string;
+    }>;
+  };
+}
+
+interface HistoriaClientProps {
+  paginaHistoria?: PaginaHistoria | null;
+}
 
 const timelineEvents = [
   {
@@ -76,7 +108,29 @@ const techniques = [
   },
 ];
 
-export function HistoriaClient() {
+export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
+  // Função para mapear ícone string para componente
+  const getIconComponent = (iconName?: string) => {
+    const iconMap: Record<string, any> = {
+      calendar: Calendar,
+      mappin: MapPin,
+      users: Users,
+      award: Award,
+      heart: Heart,
+      star: Star,
+      package: Package,
+    };
+    return iconMap[iconName?.toLowerCase() || ''] || Award;
+  };
+
+  // Usar dados do Sanity se disponíveis, senão usar valores padrão
+  const timelineData = paginaHistoria?.timeline && paginaHistoria.timeline.length > 0 
+    ? paginaHistoria.timeline 
+    : timelineEvents;
+
+  const tecnicasData = paginaHistoria?.tecnicas && paginaHistoria.tecnicas.length > 0
+    ? paginaHistoria.tecnicas
+    : techniques;
   return (
     <>
       {/* Introdução */}
@@ -108,8 +162,14 @@ export function HistoriaClient() {
           </div>
           <div className="relative aspect-square overflow-hidden rounded-lg">
             <Image
-              src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=1000"
-              alt="Rendeira trabalhando na Renda de Filé"
+              src={
+                paginaHistoria?.imagemPrincipal 
+                  ? urlForImage(paginaHistoria.imagemPrincipal, { width: 800, height: 800, quality: 90 }) || 
+                    paginaHistoria.imagemPrincipal?.asset?.url ||
+                    "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=1000"
+                  : "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=1000"
+              }
+              alt={paginaHistoria?.imagemPrincipal?.alt || "Rendeira trabalhando na Renda de Filé"}
               fill
               className="object-cover"
             />
@@ -129,9 +189,15 @@ export function HistoriaClient() {
           <div className="absolute left-1/2 h-full w-0.5 -translate-x-1/2 transform bg-gray-300"></div>
 
           <div className="space-y-12">
-            {timelineEvents.map((event, index) => {
-              const Icon = event.icon;
+            {timelineData.map((event: any, index: number) => {
+              const Icon = paginaHistoria?.timeline 
+                ? getIconComponent(event.icone) 
+                : event.icon;
               const isLeft = index % 2 === 0;
+              const year = paginaHistoria?.timeline ? event.ano : event.year;
+              const title = paginaHistoria?.timeline ? event.titulo : event.title;
+              const description = paginaHistoria?.timeline ? event.descricao : event.description;
+              const color = paginaHistoria?.timeline ? 'bg-orange-500' : event.color;
 
               return (
                 <div
@@ -144,14 +210,14 @@ export function HistoriaClient() {
                     >
                       <CardContent className="p-6">
                         <div className="mb-3 flex items-center gap-3">
-                          <Badge className={`${event.color} text-white`}>
-                            {event.year}
+                          <Badge className={`${color} text-white`}>
+                            {year}
                           </Badge>
                           <h3 className="text-xl font-semibold text-gray-900">
-                            {event.title}
+                            {title}
                           </h3>
                         </div>
-                        <p className="text-gray-600">{event.description}</p>
+                        <p className="text-gray-600">{description}</p>
                       </CardContent>
                     </Card>
                   </div>
@@ -175,29 +241,49 @@ export function HistoriaClient() {
           description="Conheça as técnicas tradicionais que dão vida às peças de Renda de Filé"
         />
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {techniques.map((technique, index) => (
-            <AnimatedCard key={index} delay={index * 0.1}>
-              <CardContent className="p-6">
-                <h3 className="mb-2 text-lg font-semibold text-gray-900">
-                  {technique.name}
-                </h3>
-                <p className="mb-4 text-sm text-gray-600">
-                  {technique.description}
-                </p>
-                <Badge
-                  variant={
-                    technique.difficulty === 'Básico'
-                      ? 'default'
-                      : technique.difficulty === 'Intermediário'
-                        ? 'secondary'
-                        : 'destructive'
-                  }
-                >
-                  {technique.difficulty}
-                </Badge>
-              </CardContent>
-            </AnimatedCard>
-          ))}
+          {tecnicasData.map((technique: any, index: number) => {
+            const name = paginaHistoria?.tecnicas ? technique.nome : technique.name;
+            const description = paginaHistoria?.tecnicas ? technique.descricao : technique.description;
+            const difficulty = paginaHistoria?.tecnicas ? technique.dificuldade : technique.difficulty;
+
+            return (
+              <AnimatedCard key={index} delay={index * 0.1}>
+                <CardContent className="p-6">
+                  {paginaHistoria?.tecnicas && technique.imagem && (
+                    <div className="relative mb-4 aspect-video overflow-hidden rounded-lg">
+                      <Image
+                        src={
+                          urlForImage(technique.imagem, { width: 300, height: 200, quality: 85 }) ||
+                          technique.imagem?.asset?.url ||
+                          ''
+                        }
+                        alt={technique.imagem?.alt || name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
+                  <h3 className="mb-2 text-lg font-semibold text-gray-900">
+                    {name}
+                  </h3>
+                  <p className="mb-4 text-sm text-gray-600">
+                    {description}
+                  </p>
+                  <Badge
+                    variant={
+                      difficulty === 'Básico' || difficulty === 'basico'
+                        ? 'default'
+                        : difficulty === 'Intermediário' || difficulty === 'intermediario'
+                          ? 'secondary'
+                          : 'destructive'
+                    }
+                  >
+                    {difficulty}
+                  </Badge>
+                </CardContent>
+              </AnimatedCard>
+            );
+          })}
         </div>
       </section>
 
@@ -208,47 +294,68 @@ export function HistoriaClient() {
             Impacto Social e Econômico
           </h2>
           <p className="mx-auto max-w-3xl text-gray-600">
-            A Renda de Filé vai muito além da arte: é uma fonte vital de renda
-            para centenas de famílias em Jaguaribe e região
+            {paginaHistoria?.impacto?.texto || 
+             "A Renda de Filé vai muito além da arte: é uma fonte vital de renda para centenas de famílias em Jaguaribe e região"}
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          <div className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100">
-              <Users className="h-8 w-8 text-orange-600" />
-            </div>
-            <h3 className="mb-2 text-xl font-semibold text-gray-900">
-              Geração de Renda
-            </h3>
-            <p className="text-gray-600">
-              Fonte principal de renda para mais de 500 famílias na região
-            </p>
-          </div>
+          {paginaHistoria?.impacto?.estatisticas && paginaHistoria.impacto.estatisticas.length > 0 ? (
+            paginaHistoria.impacto.estatisticas.map((stat, index) => {
+              const Icon = getIconComponent(stat.icone);
+              return (
+                <div key={index} className="text-center">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100">
+                    <Icon className="h-8 w-8 text-orange-600" />
+                  </div>
+                  <h3 className="mb-2 text-xl font-semibold text-gray-900">
+                    {stat.numero}
+                  </h3>
+                  <p className="text-gray-600">
+                    {stat.label}
+                  </p>
+                </div>
+              );
+            })
+          ) : (
+            <>
+              <div className="text-center">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100">
+                  <Users className="h-8 w-8 text-orange-600" />
+                </div>
+                <h3 className="mb-2 text-xl font-semibold text-gray-900">
+                  Geração de Renda
+                </h3>
+                <p className="text-gray-600">
+                  Fonte principal de renda para mais de 500 famílias na região
+                </p>
+              </div>
 
-          <div className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100">
-              <Award className="h-8 w-8 text-orange-600" />
-            </div>
-            <h3 className="mb-2 text-xl font-semibold text-gray-900">
-              Preservação Cultural
-            </h3>
-            <p className="text-gray-600">
-              Mantém viva uma tradição de mais de 300 anos
-            </p>
-          </div>
+              <div className="text-center">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100">
+                  <Award className="h-8 w-8 text-orange-600" />
+                </div>
+                <h3 className="mb-2 text-xl font-semibold text-gray-900">
+                  Preservação Cultural
+                </h3>
+                <p className="text-gray-600">
+                  Mantém viva uma tradição de mais de 300 anos
+                </p>
+              </div>
 
-          <div className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100">
-              <Heart className="h-8 w-8 text-orange-600" />
-            </div>
-            <h3 className="mb-2 text-xl font-semibold text-gray-900">
-              Empoderamento Feminino
-            </h3>
-            <p className="text-gray-600">
-              Proporciona autonomia financeira às mulheres da comunidade
-            </p>
-          </div>
+              <div className="text-center">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100">
+                  <Heart className="h-8 w-8 text-orange-600" />
+                </div>
+                <h3 className="mb-2 text-xl font-semibold text-gray-900">
+                  Empoderamento Feminino
+                </h3>
+                <p className="text-gray-600">
+                  Proporciona autonomia financeira às mulheres da comunidade
+                </p>
+              </div>
+            </>
+          )}
         </div>
       </section>
 

@@ -1,18 +1,26 @@
 'use client';
 
-import { Users, Package, Calendar } from 'lucide-react';
+import { Users, Package, Calendar, Star, Heart, Award } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+
+interface Estatistica {
+  numero: number;
+  label: string;
+  icone?: string;
+}
 
 interface StatsSectionProps {
   rendeiras?: number;
   produtos?: number;
   anosTradicao?: number;
+  estatisticasCustomizadas?: Estatistica[];
 }
 
 export function StatsSection({
   rendeiras = 0,
   produtos = 0,
   anosTradicao = 300,
+  estatisticasCustomizadas,
 }: StatsSectionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [counts, setCounts] = useState({ rendeiras: 0, produtos: 0, anos: 0 });
@@ -62,29 +70,51 @@ export function StatsSection({
     return () => clearInterval(timer);
   }, [isVisible, rendeiras, produtos, anosTradicao]);
 
-  const stats = [
-    {
-      icon: Users,
-      value: counts.rendeiras,
-      finalValue: rendeiras,
-      label: 'Rendeiras Ativas',
-      suffix: '+',
-    },
-    {
-      icon: Package,
-      value: counts.produtos,
-      finalValue: produtos,
-      label: 'Produtos Únicos',
-      suffix: '+',
-    },
-    {
-      icon: Calendar,
-      value: counts.anos,
-      finalValue: anosTradicao,
-      label: 'Anos de Tradição',
-      suffix: '',
-    },
-  ];
+  // Função para mapear ícone string para componente
+  const getIconComponent = (iconName?: string) => {
+    const iconMap: Record<string, any> = {
+      users: Users,
+      package: Package,
+      calendar: Calendar,
+      star: Star,
+      heart: Heart,
+      award: Award,
+    };
+    return iconMap[iconName?.toLowerCase() || ''] || Package;
+  };
+
+  // Usar estatísticas customizadas se disponíveis, senão usar padrão
+  const stats = estatisticasCustomizadas && estatisticasCustomizadas.length > 0 
+    ? estatisticasCustomizadas.map((stat, index) => ({
+        icon: getIconComponent(stat.icone),
+        value: isVisible ? stat.numero : 0,
+        finalValue: stat.numero,
+        label: stat.label,
+        suffix: '',
+      }))
+    : [
+        {
+          icon: Users,
+          value: counts.rendeiras,
+          finalValue: rendeiras,
+          label: 'Rendeiras Ativas',
+          suffix: '+',
+        },
+        {
+          icon: Package,
+          value: counts.produtos,
+          finalValue: produtos,
+          label: 'Produtos Únicos',
+          suffix: '+',
+        },
+        {
+          icon: Calendar,
+          value: counts.anos,
+          finalValue: anosTradicao,
+          label: 'Anos de Tradição',
+          suffix: '',
+        },
+      ];
 
   return (
     <section ref={sectionRef} className="bg-white py-16">

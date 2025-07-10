@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { urlForImage } from '@/lib/images/sanity';
 
 interface ImageGalleryProps {
   images?: Array<{
@@ -42,7 +43,7 @@ export function ImageGallery({ images = [] }: ImageGalleryProps) {
       {/* Imagem Principal */}
       <div className="group relative aspect-square overflow-hidden rounded-lg bg-gray-100">
         <Image
-          src={currentImage.asset.url}
+          src={urlForImage(currentImage, { width: 800, height: 800, quality: 90 }) || currentImage.asset.url}
           alt={currentImage.alt || 'Imagem do produto'}
           fill
           className={cn(
@@ -97,7 +98,7 @@ export function ImageGallery({ images = [] }: ImageGalleryProps) {
               )}
             >
               <Image
-                src={image.asset.url}
+                src={urlForImage(image, { width: 150, height: 150, quality: 75 }) || image.asset.url}
                 alt={image.alt || `Miniatura ${index + 1}`}
                 fill
                 className="object-cover"

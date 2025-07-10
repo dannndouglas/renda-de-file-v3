@@ -13,6 +13,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { PublicLayout } from '@/components/layouts/PublicLayout';
 import { PageHeader } from '@/components/ui/page-header';
+import { urlForImage } from '@/lib/images/sanity';
 import {
   generateMetadata as generateSEOMetadata,
   generateJsonLd,
@@ -28,6 +29,7 @@ const PRODUTO_QUERY = `*[_type == "produto" && slug.current == $slug][0] {
   categoria,
   disponibilidade,
   preco,
+  precoPromocional,
   tempoProducao,
   personalizavel,
   dimensoes,
@@ -35,6 +37,10 @@ const PRODUTO_QUERY = `*[_type == "produto" && slug.current == $slug][0] {
   tecnicas,
   cuidados,
   historia,
+  tags,
+  especificacoes,
+  metaTitle,
+  metaDescription,
   associacao->{
     _id,
     nome,
@@ -91,8 +97,8 @@ export async function generateMetadata({
     process.env.NEXT_PUBLIC_SITE_URL || 'https://rendadefile.org.br';
 
   return generateSEOMetadata({
-    title: produto.nome,
-    description: produto.descricao,
+    title: produto.metaTitle || produto.nome,
+    description: produto.metaDescription || produto.descricao,
     keywords: [
       'renda de filé',
       'artesanato',
@@ -240,8 +246,24 @@ Gostaria de mais informações.`;
 
               <p className="mb-6 text-lg text-gray-700">{produto.descricao}</p>
 
-              <div className="mb-6 text-3xl font-bold text-orange-600">
-                R$ {produto.preco.toFixed(2).replace('.', ',')}
+              <div className="mb-6">
+                {produto.precoPromocional && produto.precoPromocional < produto.preco ? (
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-3xl font-bold text-orange-600">
+                      R$ {produto.precoPromocional.toFixed(2).replace('.', ',')}
+                    </span>
+                    <span className="text-xl text-gray-500 line-through">
+                      R$ {produto.preco.toFixed(2).replace('.', ',')}
+                    </span>
+                    <Badge variant="destructive" className="ml-2">
+                      {Math.round(((produto.preco - produto.precoPromocional) / produto.preco) * 100)}% OFF
+                    </Badge>
+                  </div>
+                ) : (
+                  <div className="text-3xl font-bold text-orange-600">
+                    R$ {produto.preco.toFixed(2).replace('.', ',')}
+                  </div>
+                )}
               </div>
 
               {/* Ações */}
@@ -273,6 +295,17 @@ Gostaria de mais informações.`;
                   </h2>
                   <p className="whitespace-pre-line text-gray-700">
                     {produto.descricaoDetalhada}
+                  </p>
+                </div>
+              )}
+
+              {produto.historia && (
+                <div className="mb-8">
+                  <h2 className="mb-4 text-xl font-semibold">
+                    História do Produto
+                  </h2>
+                  <p className="whitespace-pre-line text-gray-700">
+                    {produto.historia}
                   </p>
                 </div>
               )}
@@ -330,6 +363,26 @@ Gostaria de mais informações.`;
                     <p className="whitespace-pre-line text-gray-700">
                       {produto.cuidados}
                     </p>
+                  </div>
+                )}
+
+                {produto.especificacoes && (
+                  <div>
+                    <h3 className="mb-2 font-semibold text-gray-900">
+                      Especificações Técnicas
+                    </h3>
+                    <div className="space-y-2">
+                      {produto.especificacoes.tecnica && (
+                        <p className="text-gray-700">
+                          <span className="font-medium">Técnica:</span> {produto.especificacoes.tecnica}
+                        </p>
+                      )}
+                      {produto.especificacoes.observacoes && (
+                        <p className="text-gray-700">
+                          <span className="font-medium">Observações:</span> {produto.especificacoes.observacoes}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -390,7 +443,7 @@ Gostaria de mais informações.`;
                     <div className="relative aspect-square bg-gray-100">
                       {prod.imagens?.[0] && (
                         <Image
-                          src={prod.imagens[0].asset.url}
+                          src={urlForImage(prod.imagens[0], { width: 400, height: 400, quality: 85 }) || ''}
                           alt={prod.nome}
                           fill
                           className="object-cover"

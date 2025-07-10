@@ -304,6 +304,63 @@ export const CONFIGURACOES_QUERY = `*[_type == "configuracoes"][0] {
   seo
 }`;
 
+export const PAGINA_HISTORIA_QUERY = `*[_type == "paginaHistoria"][0] {
+  _id,
+  titulo,
+  introducao,
+  imagemPrincipal {
+    asset->{
+      _id,
+      _type,
+      url,
+      metadata
+    },
+    alt
+  },
+  timeline[]{
+    ano,
+    titulo,
+    descricao,
+    icone,
+    imagem {
+      asset->{
+        _id,
+        _type,
+        url,
+        metadata
+      },
+      alt
+    }
+  },
+  tecnicas[]{
+    nome,
+    descricao,
+    dificuldade,
+    imagem {
+      asset->{
+        _id,
+        _type,
+        url,
+        metadata
+      },
+      alt
+    }
+  },
+  impacto {
+    texto,
+    estatisticas[]{
+      numero,
+      label,
+      icone
+    }
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords
+  }
+}`;
+
 export const SEARCH_QUERY = `*[_type in ["produto", "associacao", "noticia"] && (
   nome match $searchTerm + "*" ||
   titulo match $searchTerm + "*" ||
