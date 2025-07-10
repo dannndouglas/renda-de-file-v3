@@ -89,7 +89,7 @@ export function NewsletterSignup({
   if (variant === 'inline') {
     return (
       <div
-        className={`rounded-lg border border-amber-200 bg-amber-50 p-6 ${className}`}
+        className={`rounded-lg border border-gray-200 bg-gray-50 p-6 ${className}`}
       >
         <div className="mb-4 flex items-center gap-3">
           <Mail className="h-6 w-6 text-amber-600" />
@@ -144,7 +144,7 @@ export function NewsletterSignup({
   return (
     <Card className={className}>
       <CardHeader className="text-center">
-        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100">
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
           <Mail className="h-6 w-6 text-amber-600" />
         </div>
         <CardTitle className="text-amber-900">

@@ -50,7 +50,7 @@ export function ContactInfo() {
             return (
               <div key={index} className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <div className="rounded-lg bg-amber-100 p-3">
+                  <div className="rounded-lg bg-gray-100 p-3">
                     <Icon className="h-6 w-6 text-amber-900" />
                   </div>
                 </div>

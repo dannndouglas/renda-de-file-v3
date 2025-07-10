@@ -52,7 +52,7 @@ const HOME_QUERY = `{
       icone
     }
   },
-  "produtos": *[_type == "produto"] | order(_createdAt desc) [0...8] {
+  "produtos": *[_type == "produto" && destaque == true] | order(_createdAt desc) [0...4] {
     _id,
     nome,
     slug,
@@ -149,7 +149,7 @@ async function getHomeData() {
       HOME_QUERY,
       {},
       {
-        next: { revalidate: 3600 }, // Revalidar a cada hora
+        next: { revalidate: 300 }, // Cache por 5 minutos
       }
     );
     return data;

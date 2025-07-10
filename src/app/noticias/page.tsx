@@ -240,7 +240,7 @@ export default async function NoticiasPage() {
           </section>
 
           {/* Call to Action */}
-          <div className="mt-12 rounded-lg bg-gradient-to-r from-amber-100 to-orange-100 p-8 text-center shadow-sm">
+          <div className="mt-12 rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 p-8 text-center shadow-sm">
             <h3 className="mb-4 text-2xl font-bold text-amber-900">
               Quer ficar por dentro das novidades?
             </h3>
