@@ -22,7 +22,16 @@ const HOME_QUERY = `{
     slug,
     descricao,
     descricaoBreve,
-    imagens,
+    "imagens": imagens[]{
+      _type,
+      _key,
+      asset->{
+        _id,
+        _type,
+        url,
+        metadata
+      }
+    },
     categoria,
     disponibilidade,
     preco,
@@ -46,7 +55,14 @@ const HOME_QUERY = `{
     titulo,
     slug,
     resumo,
-    imagemPrincipal,
+    "imagemPrincipal": imagemPrincipal{
+      asset->{
+        _id,
+        _type,
+        url,
+        metadata
+      }
+    },
     categoria,
     dataPublicacao
   }

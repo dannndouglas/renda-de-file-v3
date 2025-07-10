@@ -6,7 +6,16 @@ export const PRODUTOS_QUERY = `*[_type == "produto"] | order(_createdAt desc) {
   slug,
   descricao,
   descricaoBreve,
-  imagens,
+  "imagens": imagens[]{
+    _type,
+    _key,
+    asset->{
+      _id,
+      _type,
+      url,
+      metadata
+    }
+  },
   categoria,
   disponibilidade,
   preco,
@@ -31,7 +40,16 @@ export const PRODUTOS_DESTAQUE_QUERY = `*[_type == "produto" && destaque == true
   slug,
   descricao,
   descricaoBreve,
-  imagens,
+  "imagens": imagens[]{
+    _type,
+    _key,
+    asset->{
+      _id,
+      _type,
+      url,
+      metadata
+    }
+  },
   categoria,
   disponibilidade,
   preco,
@@ -52,7 +70,16 @@ export const PRODUTO_BY_SLUG_QUERY = `*[_type == "produto" && slug.current == $s
   slug,
   descricao,
   descricaoBreve,
-  imagens,
+  "imagens": imagens[]{
+    _type,
+    _key,
+    asset->{
+      _id,
+      _type,
+      url,
+      metadata
+    }
+  },
   categoria,
   disponibilidade,
   preco,
@@ -125,7 +152,16 @@ export const ASSOCIACAO_BY_SLUG_QUERY = `*[_type == "associacao" && slug.current
     _id,
     nome,
     slug,
-    imagens,
+    "imagens": imagens[]{
+      _type,
+      _key,
+      asset->{
+        _id,
+        _type,
+        url,
+        metadata
+      }
+    },
     categoria,
     disponibilidade,
     preco,
