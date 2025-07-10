@@ -28,6 +28,7 @@ npx sanity dataset import ./backup-dev.tar.gz production --replace
 ### 2. Configurar Variáveis de Ambiente
 
 Criar arquivo `sanity/.env.production`:
+
 ```env
 SANITY_STUDIO_PROJECT_ID=rsgezubm
 SANITY_STUDIO_DATASET=production
@@ -100,6 +101,7 @@ Para revalidação automática do Next.js:
 ### 8. Configurar Next.js para Produção
 
 No arquivo `.env.production` do Next.js:
+
 ```env
 NEXT_PUBLIC_SANITY_PROJECT_ID=rsgezubm
 NEXT_PUBLIC_SANITY_DATASET=production
@@ -126,14 +128,17 @@ npx sanity dataset export production backup-prod-$(date +%Y%m%d).tar.gz
 ## Troubleshooting
 
 ### Erro de CORS
+
 - Verifique se as URLs estão exatamente corretas (com/sem www)
 - Certifique-se de usar `--credentials` ao adicionar CORS
 
 ### Erro de Permissão
+
 - Verifique se o token tem as permissões corretas
 - Para ler e escrever, use permissão `Editor`
 
 ### Dataset não encontrado
+
 - Confirme que o dataset `production` foi criado
 - Verifique a variável `NEXT_PUBLIC_SANITY_DATASET`
 

@@ -28,6 +28,7 @@ A Renda de Filé v3 é uma plataforma digital moderna desenvolvida para promover
 ## 🚀 Tecnologias Utilizadas
 
 ### Frontend
+
 - **Next.js 15.3** - Framework React com App Router
 - **TypeScript** - Tipagem estática
 - **Tailwind CSS** - Estilização utility-first
@@ -36,6 +37,7 @@ A Renda de Filé v3 é uma plataforma digital moderna desenvolvida para promover
 - **TanStack Query** - Cache e sincronização de dados
 
 ### Backend & Infraestrutura
+
 - **Sanity CMS** - Gestão de conteúdo
 - **PostgreSQL** - Banco de dados principal
 - **Prisma ORM** - Mapeamento objeto-relacional
@@ -43,6 +45,7 @@ A Renda de Filé v3 é uma plataforma digital moderna desenvolvida para promover
 - **Supabase Storage** - Armazenamento de imagens
 
 ### Ferramentas & Otimização
+
 - **Algolia** - Busca instantânea
 - **Sentry** - Monitoramento de erros
 - **Vercel Analytics** - Web Vitals
@@ -61,30 +64,35 @@ A Renda de Filé v3 é uma plataforma digital moderna desenvolvida para promover
 ### Passos de Instalação
 
 1. **Clone o repositório**
+
 ```bash
 git clone https://github.com/seu-usuario/renda-de-file-v3.git
 cd renda-de-file-v3
 ```
 
 2. **Instale as dependências**
+
 ```bash
 npm install
 cd sanity && npm install && cd ..
 ```
 
 3. **Configure as variáveis de ambiente**
+
 ```bash
 cp .env.example .env.local
 # Edite .env.local com suas credenciais
 ```
 
 4. **Configure o banco de dados**
+
 ```bash
 npm run db:generate
 npm run db:push
 ```
 
 5. **Inicie o desenvolvimento**
+
 ```bash
 npm run dev          # Next.js (porta 3000)
 npm run sanity:dev   # Sanity Studio (porta 3333)
@@ -128,6 +136,7 @@ npm run deploy
 ### Analytics Dashboard
 
 Acesse `/analytics` para visualizar:
+
 - Métricas de produtos mais visualizados
 - Taxa de cliques no WhatsApp
 - Web Vitals (LCP, FID, CLS)
@@ -192,6 +201,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## 📞 Contato
 
 Para dúvidas ou suporte:
+
 - Email: contato@rendadefile.com.br
 - WhatsApp: (88) 99999-9999
 - Website: [www.rendadefile.com.br](https://www.rendadefile.com.br)

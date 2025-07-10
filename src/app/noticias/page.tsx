@@ -49,7 +49,7 @@ export default async function NoticiasPage() {
   if (noticias.length === 0) {
     return (
       <PublicLayout>
-        <div className="min-h-screen bg-amber-50 py-12">
+        <div className="min-h-screen bg-gray-50 py-12">
           <div className="container mx-auto px-4">
             <div className="text-center">
               <h1 className="mb-4 text-4xl font-bold text-amber-900">
@@ -85,7 +85,7 @@ export default async function NoticiasPage() {
 
   return (
     <PublicLayout>
-      <div className="min-h-screen bg-amber-50 py-12">
+      <div className="min-h-screen bg-gray-50 py-12">
         <div className="container mx-auto px-4">
           {/* Header */}
           <div className="mb-12 text-center">
@@ -244,7 +244,7 @@ export default async function NoticiasPage() {
           </section>
 
           {/* Call to Action */}
-          <div className="mt-12 rounded-lg bg-amber-100 p-8 text-center">
+          <div className="mt-12 rounded-lg bg-gradient-to-r from-amber-100 to-orange-100 p-8 text-center shadow-sm">
             <h3 className="mb-4 text-2xl font-bold text-amber-900">
               Quer ficar por dentro das novidades?
             </h3>

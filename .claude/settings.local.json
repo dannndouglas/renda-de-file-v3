@@ -22,7 +22,8 @@
       "Bash(npm start)",
       "Bash(node:*)",
       "Bash(npx sanity:*)",
-      "Bash(env)"
+      "Bash(env)",
+      "Bash(echo:*)"
     ],
     "deny": []
   }

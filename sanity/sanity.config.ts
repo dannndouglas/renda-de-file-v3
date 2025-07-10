@@ -23,9 +23,14 @@ export default defineConfig({
   },
 
   cors: {
-    origin: process.env.NODE_ENV === 'production' 
-      ? ['https://rendadefile.vercel.app', 'https://www.rendadefile.com.br', 'https://rendadefile.com.br']
-      : ['http://localhost:3000', 'https://localhost:3000'],
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? [
+            'https://rendadefile.vercel.app',
+            'https://www.rendadefile.com.br',
+            'https://rendadefile.com.br',
+          ]
+        : ['http://localhost:3000', 'https://localhost:3000'],
     credentials: true,
   },
 

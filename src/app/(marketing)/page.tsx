@@ -90,19 +90,25 @@ export default async function HomePage() {
       {/* Produtos em Destaque */}
       <section className="bg-gray-50 py-16">
         <div className="container mx-auto px-4">
-          <div className="mb-12 text-center">
+          <div className="animate-fade-up mb-12 text-center">
             <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
               Produtos em Destaque
             </h2>
-            <p className="mx-auto max-w-2xl text-lg text-gray-600">
+            <p className="animation-delay-200 mx-auto max-w-2xl text-lg text-gray-600">
               Conheça algumas das peças mais especiais criadas pelas nossas
               rendeiras
             </p>
           </div>
 
           <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {produtos.map((produto: any) => (
-              <ProductCard key={produto._id} produto={produto} />
+            {produtos.map((produto: any, index: number) => (
+              <div
+                key={produto._id}
+                className="animate-scale-up"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <ProductCard produto={produto} />
+              </div>
             ))}
           </div>
 
@@ -131,10 +137,11 @@ export default async function HomePage() {
             </div>
 
             <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-3">
-              {noticias.map((noticia: Noticia) => (
+              {noticias.map((noticia: Noticia, index: number) => (
                 <article
                   key={noticia._id}
-                  className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg"
+                  className="hover-lift animate-fade-up overflow-hidden rounded-lg bg-white shadow-md"
+                  style={{ animationDelay: `${index * 150}ms` }}
                 >
                   <Link href={`/noticias/${noticia.slug.current}`}>
                     {noticia.imagemPrincipal?.asset && (
@@ -178,7 +185,7 @@ export default async function HomePage() {
       )}
 
       {/* Call to Action */}
-      <section className="bg-renda-50 py-16">
+      <section className="bg-gradient-to-r from-gray-50 to-gray-100 py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
             Apoie a Tradição

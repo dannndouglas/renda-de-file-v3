@@ -29,6 +29,7 @@ O Studio será disponibilizado em: https://renda-de-file.sanity.studio
 ### 3. Configuração de CORS
 
 As URLs permitidas já estão configuradas em `sanity.config.ts`:
+
 - https://rendadefile.vercel.app
 - https://www.rendadefile.com.br
 - https://rendadefile.com.br

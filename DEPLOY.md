@@ -5,6 +5,7 @@ Este documento detalha o processo completo de deploy da aplicação Renda de Fil
 ## 📋 Checklist Pré-Deploy
 
 ### 1. Validações Locais
+
 ```bash
 # Execute todos os comandos de validação
 npm run lint        # ✅ Sem erros ESLint
@@ -14,11 +15,13 @@ npm run build       # ✅ Build bem-sucedido
 ```
 
 ### 2. Variáveis de Ambiente
+
 - [ ] Copiar `.env.example` para `.env.production`
 - [ ] Preencher todas as variáveis necessárias
 - [ ] Validar conexões com serviços externos
 
 ### 3. Banco de Dados
+
 - [ ] Backup do banco de desenvolvimento
 - [ ] Criar banco de produção no PostgreSQL
 - [ ] Aplicar schema com Prisma
@@ -54,6 +57,7 @@ git push origin main
    - Marque para Production, Preview e Development
 
 4. **Configurações de Build**
+
    ```
    Build Command: npm run build
    Output Directory: .next
@@ -71,6 +75,7 @@ git push origin main
    - Adicione `www.rendadefile.com.br`
 
 2. **Configure o DNS no seu provedor**
+
    ```
    Type: A
    Name: @
@@ -111,6 +116,7 @@ npm run deploy
 ### 3. Configurar CORS
 
 No dashboard do Sanity:
+
 1. Vá em Settings > API > CORS Origins
 2. Adicione:
    - `https://rendadefile.com.br`
@@ -225,6 +231,7 @@ npm run lighthouse https://rendadefile.com.br
 ### 3. Configurar Alertas
 
 No Vercel:
+
 1. Settings > Notifications
 2. Configure alertas para:
    - Build failures
@@ -285,6 +292,7 @@ git push origin main
 ### 1. Headers de Segurança
 
 Verifique em [securityheaders.com](https://securityheaders.com):
+
 - [ ] CSP configurado
 - [ ] X-Frame-Options
 - [ ] X-Content-Type-Options
@@ -312,6 +320,7 @@ Verifique em [securityheaders.com](https://securityheaders.com):
 ## [1.0.0] - 2025-01-09
 
 ### Added
+
 - Catálogo completo de produtos
 - Sistema de busca com Algolia
 - Integração WhatsApp
@@ -343,6 +352,7 @@ Verifique em [securityheaders.com](https://securityheaders.com):
 ### Métricas de Sucesso
 
 Monitorar nas primeiras semanas:
+
 - Número de visitantes únicos
 - Taxa de cliques no WhatsApp
 - Produtos mais visualizados

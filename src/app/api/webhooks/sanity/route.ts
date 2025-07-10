@@ -93,16 +93,6 @@ export async function POST(req: NextRequest) {
         // }
         break;
 
-      case 'evento':
-        revalidatePath('/eventos');
-        revalidatePath('/');
-        revalidateTag('eventos');
-
-        if (slug?.current) {
-          revalidatePath(`/evento/${slug.current}`);
-        }
-        break;
-
       case 'configuracoes':
         revalidatePath('/');
         revalidateTag('configuracoes');

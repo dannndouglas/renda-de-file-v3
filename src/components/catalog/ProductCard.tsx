@@ -5,24 +5,15 @@ import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Heart, MessageCircle, CalendarDays } from 'lucide-react';
-import { useFavoritesStore } from '@/stores/use-favorites-store';
+import { MessageCircle } from 'lucide-react';
 import { useWhatsAppStore } from '@/stores/use-whatsapp-store';
 import { urlFor } from '@/lib/sanity/client';
-import { formatDistanceToNow } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 
 interface ProductCardProps {
   produto: any;
-  showFavoriteButton?: boolean;
-  showAddedDate?: boolean;
 }
 
-export function ProductCard({
-  produto,
-  showFavoriteButton = true,
-  showAddedDate = false,
-}: ProductCardProps) {
+export function ProductCard({ produto }: ProductCardProps) {
   // Converter referência do Sanity para URL usando urlFor
   const imageUrl = produto.imagens?.[0]
     ? urlFor(produto.imagens[0]).width(400).height(400).url()
@@ -31,26 +22,7 @@ export function ProductCard({
       : null;
   const isDisponivel = produto.disponibilidade === 'disponivel';
 
-  const { isFavorito, toggleFavorito, items } = useFavoritesStore();
   const { registrarClique } = useWhatsAppStore();
-
-  const favoriteItem = items.find((item) => item.id === produto._id);
-  const isFavoriteItem = isFavorito(produto._id);
-
-  const handleFavoriteToggle = () => {
-    if (produto.associacao) {
-      toggleFavorito({
-        id: produto._id,
-        nome: produto.nome,
-        imagemPrincipal: imageUrl || '',
-        preco: produto.preco,
-        associacao: {
-          id: produto.associacao._id,
-          nome: produto.associacao.nome,
-        },
-      });
-    }
-  };
 
   const handleWhatsAppClick = () => {
     if (produto.associacao) {
@@ -121,17 +93,6 @@ export function ProductCard({
           </p>
         )}
 
-        {showAddedDate && favoriteItem && (
-          <p className="mb-3 flex items-center gap-1 text-xs text-amber-600">
-            <CalendarDays className="h-3 w-3" />
-            Adicionado{' '}
-            {formatDistanceToNow(new Date(favoriteItem.adicionadoEm), {
-              addSuffix: true,
-              locale: ptBR,
-            })}
-          </p>
-        )}
-
         <div className="flex gap-2">
           {produto.associacao?.whatsapp && (
             <Button
@@ -149,18 +110,6 @@ export function ProductCard({
                 <MessageCircle className="h-4 w-4" />
                 WhatsApp
               </a>
-            </Button>
-          )}
-          {showFavoriteButton && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleFavoriteToggle}
-              className={isFavoriteItem ? 'border-red-500 text-red-500' : ''}
-            >
-              <Heart
-                className={`h-4 w-4 ${isFavoriteItem ? 'fill-current' : ''}`}
-              />
             </Button>
           )}
         </div>

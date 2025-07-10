@@ -124,7 +124,9 @@ async function populateSanityData() {
 // Verificar se token está configurado
 if (!process.env.SANITY_API_TOKEN) {
   console.error('❌ Erro: SANITY_API_TOKEN não está configurado!');
-  console.log('💡 Configure a variável de ambiente SANITY_API_TOKEN com um token de escrita do Sanity');
+  console.log(
+    '💡 Configure a variável de ambiente SANITY_API_TOKEN com um token de escrita do Sanity'
+  );
   console.log('📚 Documentação: https://www.sanity.io/docs/http-auth');
   process.exit(1);
 }

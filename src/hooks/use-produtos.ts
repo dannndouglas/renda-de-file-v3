@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { sanityClientPublic } from '@/lib/sanity/client';
 import { PRODUTO_BY_SLUG_QUERY } from '@/lib/sanity/queries';
 import { Produto } from '@/lib/sanity/types';
@@ -119,29 +119,5 @@ export function useProdutoRelacionados(produtoId: string, categoria: string) {
     },
     enabled: !!produtoId && !!categoria,
     staleTime: 10 * 60 * 1000,
-  });
-}
-
-// Mutation para favoritar produto
-export function useFavoriteProduto() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (produtoId: string) => {
-      const response = await fetch('/api/v1/favoritos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ produtoId }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Erro ao favoritar produto');
-      }
-
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['favoritos'] });
-    },
   });
 }

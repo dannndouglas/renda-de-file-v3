@@ -82,12 +82,6 @@ export function Footer() {
               >
                 Notícias
               </Link>
-              <Link
-                href="/eventos"
-                className="block text-sm text-gray-300 transition-colors hover:text-amber-400"
-              >
-                Eventos
-              </Link>
             </nav>
           </div>
 
@@ -118,12 +112,6 @@ export function Footer() {
                 className="block text-sm text-gray-300 transition-colors hover:text-amber-400"
               >
                 Brinquedos
-              </Link>
-              <Link
-                href="/favoritos"
-                className="block text-sm text-gray-300 transition-colors hover:text-amber-400"
-              >
-                Meus Favoritos
               </Link>
             </nav>
           </div>

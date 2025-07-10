@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Heart, Search, User } from 'lucide-react';
+import { Menu, X, Search, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -20,8 +20,6 @@ const navigationItems = [
   { name: 'Associações', href: '/associacoes' },
   { name: 'Catálogo', href: '/catalogo' },
   { name: 'Notícias', href: '/noticias' },
-  { name: 'Eventos', href: '/eventos' },
-  { name: 'Favoritos', href: '/favoritos' },
 ];
 
 export function MainNavigation() {
@@ -97,19 +95,6 @@ export function MainNavigation() {
               </Link>
             </Button>
 
-            {/* Favorites - Desktop */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="hidden items-center space-x-2 text-gray-700 hover:bg-amber-50 hover:text-amber-600 md:flex"
-              asChild
-            >
-              <Link href="/favoritos">
-                <Heart className="h-4 w-4" />
-                <span className="text-sm">Favoritos</span>
-              </Link>
-            </Button>
-
             {/* Mobile Menu */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
@@ -155,14 +140,6 @@ export function MainNavigation() {
                       >
                         <Search className="h-4 w-4" />
                         <span>Buscar Produtos</span>
-                      </Link>
-                      <Link
-                        href="/favoritos"
-                        onClick={() => setIsOpen(false)}
-                        className="flex items-center space-x-3 rounded-md px-3 py-2 text-gray-700 transition-colors hover:bg-amber-50 hover:text-amber-600"
-                      >
-                        <Heart className="h-4 w-4" />
-                        <span>Meus Favoritos</span>
                       </Link>
                     </div>
                   </div>
