@@ -17,7 +17,9 @@ node_modules
 tmp
 
 # Environment variables
-.env*
+.env
+.env.local
+.env.production
 
 # Misc
 .DS_Store

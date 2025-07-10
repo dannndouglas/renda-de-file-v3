@@ -7,9 +7,7 @@ const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'rsgezubm',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'development',
   apiVersion: '2024-01-01',
-  token:
-    process.env.SANITY_API_TOKEN ||
-    'skmeP9sHct8XLOfYyU2J1DgiXOWLQBnllwtUHo7sHBIDrye8YR9pTbDYT2ofIibFDcLfG3lBN3GBiSieDFyUYFWCDZIUCmQGdbdTpfERlTIzRHkXKpfwHCFWKwjka87ooBa0EE25ZOEwFpMkkG5BPEb78Krwav4h4n2KqOkyhTduVao4oO2q',
+  token: process.env.SANITY_API_TOKEN,
   useCdn: false,
 });
 
@@ -121,6 +119,14 @@ async function populateSanityData() {
   } catch (error) {
     console.error('❌ Erro ao popular dados:', error);
   }
+}
+
+// Verificar se token está configurado
+if (!process.env.SANITY_API_TOKEN) {
+  console.error('❌ Erro: SANITY_API_TOKEN não está configurado!');
+  console.log('💡 Configure a variável de ambiente SANITY_API_TOKEN com um token de escrita do Sanity');
+  console.log('📚 Documentação: https://www.sanity.io/docs/http-auth');
+  process.exit(1);
 }
 
 // Executar script
