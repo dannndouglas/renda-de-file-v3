@@ -19,7 +19,7 @@ export default function HistoriaPage() {
         description="Mais de 300 anos de tradição, arte e cultura preservados pelas mãos habilidosas das rendeiras de Jaguaribe, Ceará"
         variant="centered"
       >
-        <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+        <div className="flex flex-wrap justify-center gap-4 text-sm text-white/80">
           <div className="flex items-center gap-1">
             <Calendar className="h-4 w-4" />
             <span>Desde 1700</span>

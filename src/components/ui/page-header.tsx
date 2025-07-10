@@ -27,15 +27,15 @@ export function PageHeader({
   pattern = true,
 }: PageHeaderProps) {
   const variants = {
-    default: 'py-16 md:py-20 text-center',
-    centered: 'py-20 md:py-24 text-center',
+    default: 'py-12 md:py-16 text-center',
+    centered: 'py-12 md:py-16 text-center',
     minimal: 'py-12 md:py-16 text-center',
   };
 
   return (
     <section
       className={cn(
-        'relative overflow-hidden bg-gradient-to-br',
+        'relative bg-gradient-to-r',
         gradientFrom,
         gradientTo,
         variants[variant],
@@ -125,25 +125,6 @@ export function PageHeader({
         </motion.div>
       </div>
 
-      {/* Bottom Wave */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg
-          viewBox="0 0 1440 80"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full"
-        >
-          <path
-            d="M0 48L48 53.3C96 59 192 69 288 74.7C384 80 480 80 576 74.7C672 69 768 59 864 48C960 37 1056 27 1152 26.7C1248 27 1344 37 1392 42.7L1440 48V80H1392C1344 80 1248 80 1152 80C1056 80 960 80 864 80C768 80 672 80 576 80C480 80 384 80 288 80C192 80 96 80 48 80H0V48Z"
-            fill="white"
-            fillOpacity="0.1"
-          />
-          <path
-            d="M0 64L48 64C96 64 192 64 288 69.3C384 75 480 85 576 85.3C672 85 768 75 864 69.3C960 64 1056 64 1152 64C1248 64 1344 64 1392 64L1440 64V80H1392C1344 80 1248 80 1152 80C1056 80 960 80 864 80C768 80 672 80 576 80C480 80 384 80 288 80C192 80 96 80 48 80H0V64Z"
-            fill="white"
-          />
-        </svg>
-      </div>
     </section>
   );
 }
