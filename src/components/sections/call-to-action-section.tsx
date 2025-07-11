@@ -206,7 +206,7 @@ export function CallToActionSection({
     ].includes(variant);
 
     if (isGradientVariant && button.variant === 'outline') {
-      return 'border-white text-white hover:bg-white hover:text-gray-900 backdrop-blur-sm';
+      return 'bg-orange-500 border-orange-500 text-white hover:bg-orange-600 hover:border-orange-600 backdrop-blur-sm';
     }
 
     if (isGradientVariant && button.variant === 'secondary') {

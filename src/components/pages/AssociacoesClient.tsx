@@ -31,42 +31,7 @@ interface AssociacoesClientProps {
 export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
   return (
     <>
-      {/* Stats */}
-      <div className="mb-16 grid grid-cols-1 gap-6 md:grid-cols-3">
-        <StatsCard
-          icon={Building}
-          value={associacoes.length}
-          label="Associações Ativas"
-          delay={0.1}
-        />
-        <StatsCard
-          icon={Users}
-          value={associacoes.reduce(
-            (acc: number, assoc: any) => acc + (assoc.numeroRendeiras || 0),
-            0
-          )}
-          suffix="+"
-          label="Rendeiras Cadastradas"
-          delay={0.2}
-        />
-        <StatsCard
-          icon={Package}
-          value={associacoes.reduce(
-            (acc: number, assoc: any) => acc + (assoc.produtosCount || 0),
-            0
-          )}
-          suffix="+"
-          label="Produtos Cadastrados"
-          delay={0.3}
-        />
-      </div>
-
       {/* Associações Grid */}
-      <SectionTitle
-        title="Conheça Nossas Associações"
-        description="Cada associação representa décadas de tradição e dedicação à arte da Renda de Filé"
-      />
-
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {associacoes.map((associacao: any, index: number) => (
           <AnimatedCard

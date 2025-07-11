@@ -102,13 +102,6 @@ export function StatsSection({
             suffix: '+',
           },
           {
-            icon: Package,
-            value: counts.produtos,
-            finalValue: produtos,
-            label: 'Produtos Únicos',
-            suffix: '+',
-          },
-          {
             icon: Calendar,
             value: counts.anos,
             finalValue: anosTradicao,
