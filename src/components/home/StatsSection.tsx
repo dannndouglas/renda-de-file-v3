@@ -126,21 +126,23 @@ export function StatsSection({
             return (
               <div
                 key={index}
-                className={`transform text-center transition-all duration-700 ${
+                className={`card-3d group transform text-center transition-all duration-700 ${
                   isVisible
                     ? 'translate-y-0 opacity-100'
                     : 'translate-y-10 opacity-0'
                 }`}
                 style={{ transitionDelay: `${index * 150}ms` }}
               >
-                <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 transition-transform hover:scale-110">
-                  <Icon className="h-8 w-8 text-orange-600" />
+                <div className="card-3d-content">
+                  <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-100 to-orange-200 shadow-lg transition-all duration-500 hover:shadow-xl group-hover:scale-125 group-hover:rotate-12">
+                    <Icon className="h-10 w-10 text-orange-600 transition-all duration-300 group-hover:text-orange-700" />
+                  </div>
+                  <div className="mb-3 text-5xl font-bold text-gray-900 transition-all duration-300 group-hover:text-orange-600">
+                    {stat.value}
+                    {stat.suffix}
+                  </div>
+                  <div className="text-lg text-gray-600 transition-all duration-300 group-hover:text-gray-800">{stat.label}</div>
                 </div>
-                <div className="mb-2 text-4xl font-bold text-gray-900">
-                  {stat.value}
-                  {stat.suffix}
-                </div>
-                <div className="text-gray-600">{stat.label}</div>
               </div>
             );
           })}

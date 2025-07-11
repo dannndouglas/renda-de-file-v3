@@ -127,7 +127,7 @@ export function ProductCard({ produto }: ProductCardProps) {
               <Button
                 variant="default"
                 size="sm"
-                className="flex-1 gap-2 bg-whatsapp text-whatsapp-foreground transition-all hover:bg-success"
+                className="ripple flex-1 gap-2 bg-whatsapp text-whatsapp-foreground transition-all duration-300 hover:bg-success hover:scale-105"
                 onClick={handleWhatsAppClick}
                 asChild
               >
@@ -136,7 +136,7 @@ export function ProductCard({ produto }: ProductCardProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <MessageCircle className="h-4 w-4" />
+                  <MessageCircle className="h-4 w-4 transition-transform group-hover:scale-110" />
                   Conversar
                 </a>
               </Button>
