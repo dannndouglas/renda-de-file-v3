@@ -42,7 +42,7 @@ export function FullscreenModal({
   const imageRef = useRef<HTMLDivElement>(null);
   
   const MIN_ZOOM = 1;
-  const MAX_ZOOM = 4;
+  const MAX_ZOOM = 2; // Reduzido para 200%
   const ZOOM_STEP = 0.25;
 
   // Navegação por teclado
@@ -83,22 +83,27 @@ export function FullscreenModal({
     });
   }, []);
 
-  const handleDoubleClick = useCallback((e: React.MouseEvent) => {
+  const handleClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
-    if (zoomLevel > MIN_ZOOM) {
-      setZoomLevel(MIN_ZOOM);
-      setPosition({ x: 0, y: 0 });
-    } else {
-      // Zoom no ponto clicado
-      const rect = imageRef.current?.getBoundingClientRect();
-      if (rect) {
-        const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-        const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-        setZoomLevel(2);
-        setPosition({ x: x * 100, y: y * 100 });
+    e.preventDefault();
+    
+    // Clique esquerdo - ampliar
+    if (e.button === 0) {
+      if (zoomLevel < MAX_ZOOM) {
+        handleZoomIn();
       }
     }
-  }, [zoomLevel]);
+  }, [zoomLevel, handleZoomIn]);
+  
+  const handleRightClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    
+    // Clique direito - reduzir
+    if (zoomLevel > MIN_ZOOM) {
+      handleZoomOut();
+    }
+  }, [zoomLevel, handleZoomOut]);
 
   // Funções de drag
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -114,12 +119,20 @@ export function FullscreenModal({
       const newX = e.clientX - dragStart.x;
       const newY = e.clientY - dragStart.y;
       
-      // Limitar o movimento baseado no nível de zoom
-      const maxOffset = (zoomLevel - 1) * 50;
-      setPosition({
-        x: Math.max(-maxOffset, Math.min(maxOffset, newX)),
-        y: Math.max(-maxOffset, Math.min(maxOffset, newY))
-      });
+      // Calcular limites de movimento baseado no zoom e tamanho da imagem
+      // Permitir navegar até as bordas da imagem ampliada
+      const rect = imageRef.current?.getBoundingClientRect();
+      if (rect) {
+        const scaledWidth = rect.width * zoomLevel;
+        const scaledHeight = rect.height * zoomLevel;
+        const maxX = Math.max(0, (scaledWidth - rect.width) / 2);
+        const maxY = Math.max(0, (scaledHeight - rect.height) / 2);
+        
+        setPosition({
+          x: Math.max(-maxX, Math.min(maxX, newX)),
+          y: Math.max(-maxY, Math.min(maxY, newY))
+        });
+      }
     }
   }, [isDragging, dragStart, zoomLevel]);
 
@@ -187,11 +200,18 @@ export function FullscreenModal({
         const newX = touch.clientX - dragStart.x;
         const newY = touch.clientY - dragStart.y;
         
-        const maxOffset = (zoomLevel - 1) * 50;
-        setPosition({
-          x: Math.max(-maxOffset, Math.min(maxOffset, newX)),
-          y: Math.max(-maxOffset, Math.min(maxOffset, newY))
-        });
+        const rect = imageRef.current?.getBoundingClientRect();
+        if (rect) {
+          const scaledWidth = rect.width * zoomLevel;
+          const scaledHeight = rect.height * zoomLevel;
+          const maxX = Math.max(0, (scaledWidth - rect.width) / 2);
+          const maxY = Math.max(0, (scaledHeight - rect.height) / 2);
+          
+          setPosition({
+            x: Math.max(-maxX, Math.min(maxX, newX)),
+            y: Math.max(-maxY, Math.min(maxY, newY))
+          });
+        }
       } else {
         // Swipe quando sem zoom
         setTouchEnd(e.touches[0].clientX);
@@ -318,7 +338,8 @@ export function FullscreenModal({
                 isDragging && 'cursor-grabbing',
                 zoomLevel === MIN_ZOOM && 'cursor-zoom-in'
               )}
-              onDoubleClick={handleDoubleClick}
+              onClick={handleClick}
+              onContextMenu={handleRightClick}
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
