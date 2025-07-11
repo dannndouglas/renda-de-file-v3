@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -57,25 +58,32 @@ export function AssociacaoGallery({
   return (
     <>
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Images className="h-6 w-6" />
-            Galeria de Fotos ({galeria.length})
+        <CardHeader className="pb-6">
+          <CardTitle className="flex items-center gap-3 text-2xl">
+            <div className="rounded-lg bg-purple-100 p-2">
+              <Images className="h-6 w-6 text-purple-600" />
+            </div>
+            <span className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              Galeria
+            </span>
+            <Badge variant="secondary" className="ml-auto">
+              {galeria.length} fotos
+            </Badge>
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <CardContent className="pt-0">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {displayedImages.map((imagem, index) => {
               const imageUrl = urlForImage(imagem, {
-                width: 300,
-                height: 300,
-                quality: 80,
+                width: 400,
+                height: 400,
+                quality: 85,
               });
 
               return (
                 <div
                   key={index}
-                  className="group relative aspect-square cursor-pointer overflow-hidden rounded-lg bg-gray-100"
+                  className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                   onClick={() => openModal(index)}
                 >
                   {imageUrl && (
@@ -85,34 +93,41 @@ export function AssociacaoGallery({
                         imagem.alt || `Foto ${index + 1} da ${nomeAssociacao}`
                       }
                       fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-110"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   )}
-                  <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/20" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  
+                  {/* Hover overlay with number */}
+                  <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="rounded-full bg-white/90 px-2 py-1 text-xs font-medium text-gray-900">
+                      {index + 1} / {galeria.length}
+                    </div>
+                  </div>
                 </div>
               );
             })}
           </div>
 
           {galeria.length > 6 && !showAll && (
-            <div className="mt-6 text-center">
+            <div className="mt-8 text-center">
               <Button
                 variant="outline"
                 onClick={() => setShowAll(true)}
-                className="gap-2"
+                className="group gap-2 border-purple-200 bg-purple-50 text-purple-700 transition-all hover:bg-purple-100 hover:border-purple-300"
               >
-                <Images className="h-4 w-4" />
-                Ver todas as fotos ({galeria.length})
+                <Images className="h-4 w-4 transition-transform group-hover:scale-110" />
+                Ver todas as {galeria.length} fotos
               </Button>
             </div>
           )}
 
           {showAll && galeria.length > 6 && (
-            <div className="mt-6 text-center">
+            <div className="mt-8 text-center">
               <Button
                 variant="outline"
                 onClick={() => setShowAll(false)}
-                className="gap-2"
+                className="gap-2 border-gray-200 text-gray-600 hover:bg-gray-50"
               >
                 Mostrar menos
               </Button>

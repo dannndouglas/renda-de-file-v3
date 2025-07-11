@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import { MapPin, Users, Package } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { urlForImage } from '@/lib/images/sanity';
 import type { Associacao } from '@/lib/sanity/types';
 
@@ -14,72 +16,122 @@ export function AssociacaoHeader({ associacao }: AssociacaoHeaderProps) {
     : null;
 
   const logoUrl = associacao.logo
-    ? urlForImage(associacao.logo, { width: 120, height: 120, quality: 90 })
+    ? urlForImage(associacao.logo, { width: 160, height: 160, quality: 90 })
     : null;
 
   return (
-    <div className="relative">
-      {/* Foto de capa */}
-      <div className="relative h-48 bg-gradient-to-r from-amber-600 to-orange-600 md:h-64 lg:h-80">
+    <header className="relative overflow-hidden" role="banner">
+      {/* Hero Background */}
+      <div className="relative h-56 bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 md:h-72 lg:h-96">
         {bannerUrl && (
           <Image
             src={bannerUrl}
-            alt={`Banner da ${associacao.nome}`}
+            alt={`Banner da associação ${associacao.nome}`}
             fill
             className="object-cover"
             priority
           />
         )}
-        {/* Overlay escuro para melhor legibilidade */}
-        <div className="absolute inset-0 bg-black/40" />
+        
+        {/* Modern gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" aria-hidden="true" />
+        
+        {/* Decorative elements */}
+        <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10 blur-xl" aria-hidden="true" />
+        <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-white/5 blur-2xl" aria-hidden="true" />
       </div>
 
-      {/* Container com logo e informações */}
+      {/* Content Container */}
       <div className="container mx-auto px-4">
-        <div className="relative -mt-16 md:-mt-20">
-          <div className="flex flex-col items-center text-center md:flex-row md:items-end md:text-left">
-            {/* Logo da associação */}
+        <div className="relative -mt-16 sm:-mt-20 md:-mt-24 lg:-mt-28">
+          <div className="flex flex-col items-center space-y-4 text-center sm:space-y-6 md:flex-row md:items-end md:space-y-0 md:space-x-8 md:text-left">
+            
+            {/* Logo Circle */}
             {logoUrl && (
-              <div className="relative mb-4 h-24 w-24 md:mb-0 md:mr-6 md:h-32 md:w-32">
-                <div className="overflow-hidden rounded-full border-4 border-white bg-white shadow-lg">
-                  <Image
-                    src={logoUrl}
-                    alt={`Logo da ${associacao.nome}`}
-                    fill
-                    className="object-cover"
-                  />
+              <div className="relative">
+                <div className="relative h-24 w-24 sm:h-28 sm:w-28 md:h-36 md:w-36 lg:h-40 lg:w-40">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white to-gray-50 p-1 shadow-2xl">
+                    <div className="relative h-full w-full overflow-hidden rounded-full bg-white">
+                      <Image
+                        src={logoUrl}
+                        alt={`Logo da ${associacao.nome}`}
+                        fill
+                        className="object-cover transition-transform duration-300 hover:scale-105"
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* Floating badge */}
+                <div className="absolute -bottom-2 -right-2">
+                  <Badge className="bg-green-500 text-white shadow-lg hover:bg-green-600">
+                    Ativa
+                  </Badge>
                 </div>
               </div>
             )}
 
-            {/* Informações principais */}
-            <div className="flex-1 md:pb-6">
-              <h1 className="mb-2 text-2xl font-bold text-white md:text-4xl">
-                {associacao.nome}
-              </h1>
+            {/* Association Information */}
+            <div className="flex-1 space-y-4 md:pb-8">
+              {/* Title */}
+              <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl lg:text-5xl">
+                  {associacao.nome}
+                </h1>
+              </div>
 
-              <div className="flex flex-col items-center gap-2 text-white/90 md:flex-row md:gap-6">
-                <p className="flex items-center gap-2">
-                  📍 {associacao.endereco?.cidade || 'N/A'}/
-                  {associacao.endereco?.estado || 'N/A'}
-                </p>
+              {/* Stats Row */}
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 md:justify-start md:gap-6" role="list" aria-label="Informações da associação">
+                {associacao.endereco?.cidade && (
+                  <div className="flex items-center gap-2 rounded-full bg-white/20 px-3 py-1.5 text-sm text-white backdrop-blur-sm" role="listitem">
+                    <MapPin className="h-4 w-4" aria-hidden="true" />
+                    <span className="font-medium" aria-label={`Localização: ${associacao.endereco.cidade}, ${associacao.endereco.estado}`}>
+                      {associacao.endereco.cidade}/{associacao.endereco.estado}
+                    </span>
+                  </div>
+                )}
 
                 {associacao.numeroMembros && (
-                  <p className="flex items-center gap-2">
-                    👥 {associacao.numeroMembros} membros
-                  </p>
+                  <div className="flex items-center gap-2 rounded-full bg-white/20 px-3 py-1.5 text-sm text-white backdrop-blur-sm" role="listitem">
+                    <Users className="h-4 w-4" aria-hidden="true" />
+                    <span className="font-medium" aria-label={`Número de membros: ${associacao.numeroMembros}`}>
+                      {associacao.numeroMembros} membros
+                    </span>
+                  </div>
                 )}
 
-                {associacao.produtos && (
-                  <p className="flex items-center gap-2">
-                    📦 {associacao.produtos.length} produtos
-                  </p>
+                {associacao.produtos && associacao.produtos.length > 0 && (
+                  <div className="flex items-center gap-2 rounded-full bg-white/20 px-3 py-1.5 text-sm text-white backdrop-blur-sm" role="listitem">
+                    <Package className="h-4 w-4" aria-hidden="true" />
+                    <span className="font-medium" aria-label={`Número de produtos: ${associacao.produtos.length}`}>
+                      {associacao.produtos.length} produtos
+                    </span>
+                  </div>
                 )}
               </div>
+
+              {/* Specialties Tags */}
+              {associacao.especialidades && associacao.especialidades.length > 0 && (
+                <div className="flex flex-wrap justify-center gap-2 md:justify-start">
+                  {associacao.especialidades.slice(0, 3).map((especialidade, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
+                    >
+                      {especialidade}
+                    </Badge>
+                  ))}
+                  {associacao.especialidades.length > 3 && (
+                    <Badge variant="secondary" className="bg-white/20 text-white backdrop-blur-sm">
+                      +{associacao.especialidades.length - 3} mais
+                    </Badge>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

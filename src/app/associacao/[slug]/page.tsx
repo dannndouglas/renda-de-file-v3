@@ -103,76 +103,97 @@ export default async function AssociacaoPage({ params }: AssociacaoPageProps) {
     : 'Endereço não disponível';
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-gray-50/50">
       {/* Header com foto de capa */}
       <AssociacaoHeader associacao={associacao} />
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <div className="container mx-auto px-4 py-8 sm:py-12">
+        <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-12">
           {/* Conteúdo principal */}
-          <div className="lg:col-span-2">
+          <main className="lg:col-span-8" role="main">
             {/* Informações da associação */}
-            <Card className="mb-8">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3">
-                  <Building2 className="h-6 w-6" />
-                  Sobre a {associacao.nome}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="mb-6 leading-relaxed text-gray-700">
-                  {associacao.descricao}
-                </p>
+            <section aria-labelledby="about-section">
+              <Card className="mb-8 border-0 shadow-sm transition-shadow hover:shadow-md">
+                <CardHeader className="pb-6">
+                  <CardTitle className="flex items-center gap-3 text-2xl">
+                    <div className="rounded-lg bg-amber-100 p-2">
+                      <Building2 className="h-6 w-6 text-amber-600" aria-hidden="true" />
+                    </div>
+                    <h2 id="about-section" className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                      Sobre a {associacao.nome}
+                    </h2>
+                  </CardTitle>
+                </CardHeader>
+              <CardContent className="pt-0">
+                <div className="prose prose-gray max-w-none">
+                  <p className="text-lg leading-relaxed text-gray-700 first-letter:float-left first-letter:mr-3 first-letter:text-7xl first-letter:font-bold first-letter:text-amber-600 first-letter:leading-none">
+                    {associacao.descricao}
+                  </p>
 
-                {associacao.historia && (
-                  <div>
-                    <h3 className="mb-4 text-lg font-semibold">História</h3>
-                    <p className="leading-relaxed text-gray-700">
-                      {associacao.historia}
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                  {associacao.historia && (
+                    <div className="mt-8 border-t pt-8">
+                      <h3 className="mb-4 flex items-center gap-3 text-xl font-semibold text-gray-900">
+                        <div className="h-1 w-12 rounded bg-gradient-to-r from-amber-500 to-orange-500"></div>
+                        Nossa História
+                      </h3>
+                      <p className="leading-relaxed text-gray-700">
+                        {associacao.historia}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                </CardContent>
+              </Card>
+            </section>
 
             {/* Produtos da associação */}
             {associacao.produtos && associacao.produtos.length > 0 && (
-              <Card className="mb-8">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-3">
-                    <Package className="h-6 w-6" />
-                    Produtos ({associacao.produtos.length})
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
+              <section aria-labelledby="products-section">
+                <Card className="mb-8 border-0 shadow-sm transition-shadow hover:shadow-md">
+                  <CardHeader className="pb-6">
+                    <CardTitle className="flex items-center gap-3 text-2xl">
+                      <div className="rounded-lg bg-orange-100 p-2">
+                        <Package className="h-6 w-6 text-orange-600" aria-hidden="true" />
+                      </div>
+                      <h2 id="products-section" className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                        Nossos Produtos
+                      </h2>
+                      <Badge variant="secondary" className="ml-auto">
+                        {associacao.produtos.length} itens
+                      </Badge>
+                    </CardTitle>
+                  </CardHeader>
+                <CardContent className="pt-0">
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {associacao.produtos.slice(0, 6).map((produto) => (
                       <Link
                         key={produto._id}
                         href={`/produto/${produto.slug.current}`}
+                        className="group"
                       >
-                        <div className="group cursor-pointer overflow-hidden rounded-lg border transition-all hover:shadow-md">
+                        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                           {produto.imagens && produto.imagens[0] && (
-                            <div className="relative aspect-square bg-gray-100">
+                            <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-gray-100">
                               <Image
                                 src={
                                   urlForImage(produto.imagens[0], {
-                                    width: 300,
-                                    height: 300,
+                                    width: 400,
+                                    height: 400,
                                   }) || ''
                                 }
                                 alt={produto.nome}
                                 fill
-                                className="object-cover transition-transform group-hover:scale-105"
+                                className="object-cover transition-transform duration-500 group-hover:scale-110"
                               />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                             </div>
                           )}
-                          <div className="p-3">
-                            <h4 className="line-clamp-2 text-sm font-medium transition-colors group-hover:text-amber-600">
+                          <div className="p-4">
+                            <h4 className="line-clamp-2 text-base font-semibold text-gray-900 transition-colors group-hover:text-amber-600">
                               {produto.nome}
                             </h4>
                             {produto.preco && (
-                              <p className="mt-1 text-sm text-gray-600">
+                              <p className="mt-2 text-lg font-bold text-orange-600">
                                 R$ {produto.preco.toFixed(2)}
                               </p>
                             )}
@@ -182,52 +203,74 @@ export default async function AssociacaoPage({ params }: AssociacaoPageProps) {
                     ))}
                   </div>
                   {associacao.produtos.length > 6 && (
-                    <div className="mt-6 text-center">
-                      <Button asChild>
+                    <div className="mt-8 text-center">
+                      <Button asChild className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600">
                         <Link href={`/catalogo?associacao=${associacao._id}`}>
-                          Ver todos os produtos
+                          Ver todos os {associacao.produtos.length} produtos
                         </Link>
                       </Button>
                     </div>
                   )}
                 </CardContent>
               </Card>
+              </section>
             )}
-          </div>
+          </main>
 
           {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Informações de contato */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">
-                  Informações de Contato
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+          <aside className="lg:col-span-4" role="complementary" aria-label="Informações de contato e mapa">
+            <div className="space-y-4 sm:space-y-6 lg:sticky lg:top-8">
+              {/* Informações de contato */}
+              <Card className="border-0 shadow-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-3 text-xl">
+                    <div className="rounded-lg bg-blue-100 p-2">
+                      <Phone className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <span className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                      Contato
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4 pt-0">
                 {associacao.telefone && (
-                  <div className="flex items-center gap-3">
-                    <Phone className="h-5 w-5 text-gray-500" />
-                    <span>{associacao.telefone}</span>
+                  <div className="flex items-center gap-3 rounded-lg bg-gray-50 p-3">
+                    <div className="rounded-full bg-green-100 p-2">
+                      <Phone className="h-4 w-4 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Telefone</p>
+                      <p className="font-medium text-gray-900">{associacao.telefone}</p>
+                    </div>
                   </div>
                 )}
 
                 {associacao.email && (
-                  <div className="flex items-center gap-3">
-                    <Mail className="h-5 w-5 text-gray-500" />
-                    <a
-                      href={`mailto:${associacao.email}`}
-                      className="text-amber-600 transition-colors hover:text-amber-700"
-                    >
-                      {associacao.email}
-                    </a>
+                  <div className="flex items-center gap-3 rounded-lg bg-gray-50 p-3">
+                    <div className="rounded-full bg-blue-100 p-2">
+                      <Mail className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">E-mail</p>
+                      <a
+                        href={`mailto:${associacao.email}`}
+                        className="font-medium text-amber-600 transition-colors hover:text-amber-700"
+                      >
+                        {associacao.email}
+                      </a>
+                    </div>
                   </div>
                 )}
 
                 {associacao.numeroMembros && (
-                  <div className="flex items-center gap-3">
-                    <Users className="h-5 w-5 text-gray-500" />
-                    <span>{associacao.numeroMembros} membros</span>
+                  <div className="flex items-center gap-3 rounded-lg bg-gray-50 p-3">
+                    <div className="rounded-full bg-purple-100 p-2">
+                      <Users className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Membros</p>
+                      <p className="font-medium text-gray-900">{associacao.numeroMembros} artesãs</p>
+                    </div>
                   </div>
                 )}
 
@@ -235,8 +278,9 @@ export default async function AssociacaoPage({ params }: AssociacaoPageProps) {
                 {(associacao.redesSociais?.instagram ||
                   associacao.redesSociais?.facebook ||
                   associacao.redesSociais?.website) && (
-                  <div className="border-t pt-4">
-                    <h4 className="mb-3 text-sm font-medium text-gray-900">
+                  <div className="rounded-lg border-t bg-gradient-to-r from-gray-50 to-gray-100 p-4">
+                    <h4 className="mb-3 flex items-center gap-2 text-sm font-medium text-gray-900">
+                      <Globe className="h-4 w-4" />
                       Redes Sociais
                     </h4>
                     <div className="flex gap-3">
@@ -245,7 +289,7 @@ export default async function AssociacaoPage({ params }: AssociacaoPageProps) {
                           href={`https://instagram.com/${associacao.redesSociais.instagram.replace('@', '')}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-gray-400 transition-colors hover:text-pink-500"
+                          className="rounded-full bg-gradient-to-br from-pink-400 to-purple-500 p-3 text-white transition-transform hover:scale-110"
                           aria-label="Instagram"
                         >
                           <Instagram className="h-5 w-5" />
@@ -256,7 +300,7 @@ export default async function AssociacaoPage({ params }: AssociacaoPageProps) {
                           href={associacao.redesSociais.facebook}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-gray-400 transition-colors hover:text-blue-500"
+                          className="rounded-full bg-gradient-to-br from-blue-500 to-blue-600 p-3 text-white transition-transform hover:scale-110"
                           aria-label="Facebook"
                         >
                           <Facebook className="h-5 w-5" />
@@ -267,7 +311,7 @@ export default async function AssociacaoPage({ params }: AssociacaoPageProps) {
                           href={associacao.redesSociais.website}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-gray-400 transition-colors hover:text-gray-600"
+                          className="rounded-full bg-gradient-to-br from-gray-500 to-gray-600 p-3 text-white transition-transform hover:scale-110"
                           aria-label="Website"
                         >
                           <Globe className="h-5 w-5" />
@@ -280,9 +324,9 @@ export default async function AssociacaoPage({ params }: AssociacaoPageProps) {
                 {/* Especialidades */}
                 {associacao.especialidades &&
                   associacao.especialidades.length > 0 && (
-                    <div className="border-t pt-4">
+                    <div className="rounded-lg border-t bg-gradient-to-r from-amber-50 to-orange-50 p-4">
                       <div className="mb-3 flex items-center gap-2">
-                        <Award className="h-5 w-5 text-gray-500" />
+                        <Award className="h-5 w-5 text-amber-600" />
                         <h4 className="text-sm font-medium text-gray-900">
                           Especialidades
                         </h4>
@@ -292,8 +336,7 @@ export default async function AssociacaoPage({ params }: AssociacaoPageProps) {
                           (especialidade, index) => (
                             <Badge
                               key={index}
-                              variant="secondary"
-                              className="text-xs"
+                              className="bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600"
                             >
                               {especialidade}
                             </Badge>
@@ -305,27 +348,28 @@ export default async function AssociacaoPage({ params }: AssociacaoPageProps) {
               </CardContent>
             </Card>
 
-            {/* Botão WhatsApp */}
-            {associacao.whatsapp && (
-              <WhatsAppContactButton associacao={associacao} />
-            )}
+              {/* Botão WhatsApp */}
+              {associacao.whatsapp && (
+                <WhatsAppContactButton associacao={associacao} />
+              )}
 
-            {/* Mapa */}
-            <AssociacaoMaps
-              endereco={enderecoCompleto}
-              nomeAssociacao={associacao.nome}
-            />
-          </div>
+              {/* Mapa */}
+              <AssociacaoMaps
+                endereco={enderecoCompleto}
+                nomeAssociacao={associacao.nome}
+              />
+            </div>
+          </aside>
         </div>
 
         {/* Galeria de imagens */}
         {associacao.galeria && associacao.galeria.length > 0 && (
-          <div className="mt-12">
+          <section className="mt-12" aria-labelledby="gallery-section">
             <AssociacaoGallery
               galeria={associacao.galeria}
               nomeAssociacao={associacao.nome}
             />
-          </div>
+          </section>
         )}
       </div>
     </main>
