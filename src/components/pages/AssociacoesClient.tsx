@@ -71,10 +71,10 @@ export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
               )}
 
               <div className="mb-4 space-y-3">
-                {associacao.numeroRendeiras && (
+                {associacao.numeroMembros && (
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Users className="h-4 w-4" />
-                    <span>{associacao.numeroRendeiras} rendeiras</span>
+                    <span>{associacao.numeroMembros} membros</span>
                   </div>
                 )}
 
@@ -134,13 +134,13 @@ export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
                   </div>
                 )}
 
-              {(associacao.instagram ||
-                associacao.facebook ||
-                associacao.website) && (
+              {(associacao.redesSociais?.instagram ||
+                associacao.redesSociais?.facebook ||
+                associacao.redesSociais?.website) && (
                 <div className="mb-4 flex gap-3">
-                  {associacao.instagram && (
+                  {associacao.redesSociais?.instagram && (
                     <a
-                      href={associacao.instagram}
+                      href={`https://instagram.com/${associacao.redesSociais.instagram.replace('@', '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-400 transition-colors hover:text-gray-600"
@@ -149,9 +149,9 @@ export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
                       <Instagram className="h-4 w-4" />
                     </a>
                   )}
-                  {associacao.facebook && (
+                  {associacao.redesSociais?.facebook && (
                     <a
-                      href={associacao.facebook}
+                      href={associacao.redesSociais.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-400 transition-colors hover:text-gray-600"
@@ -160,9 +160,9 @@ export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
                       <Facebook className="h-4 w-4" />
                     </a>
                   )}
-                  {associacao.website && (
+                  {associacao.redesSociais?.website && (
                     <a
-                      href={associacao.website}
+                      href={associacao.redesSociais.website}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-400 transition-colors hover:text-gray-600"
@@ -181,18 +181,14 @@ export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
               )}
 
               <div className="flex gap-2">
-                {associacao.whatsapp && (
-                  <Button size="sm" className="flex-1 gap-2" asChild>
-                    <a
-                      href={`https://wa.me/55${associacao.whatsapp.replace(/\D/g, '')}?text=Olá! Vi a associação ${associacao.nome} no site da Renda de Filé.`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <MessageCircle className="h-4 w-4" />
-                      WhatsApp
-                    </a>
+                <Link
+                  href={`/associacao/${associacao.slug?.current || associacao._id}`}
+                  className="flex-1"
+                >
+                  <Button size="sm" className="w-full">
+                    Mais Informações
                   </Button>
-                )}
+                </Link>
                 <Link href={`/catalogo?associacao=${associacao._id}`}>
                   <Button size="sm" variant="outline">
                     Ver Produtos

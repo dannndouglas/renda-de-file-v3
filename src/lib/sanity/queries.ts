@@ -99,11 +99,7 @@ export const PRODUTO_BY_SLUG_QUERY = `*[_type == "produto" && slug.current == $s
     whatsapp,
     email,
     endereco,
-    cidade,
-    estado,
-    instagram,
-    facebook,
-    website
+    redesSociais
   },
   _createdAt
 }`;
@@ -113,16 +109,20 @@ export const ASSOCIACOES_QUERY = `*[_type == "associacao" && ativo == true] | or
   nome,
   slug,
   descricao,
-  logo,
+  "logo": logo{
+    asset->{
+      _id,
+      _type,
+      url,
+      metadata
+    },
+    alt
+  },
   endereco,
-  cidade,
-  estado,
   telefone,
-  whatsapp,
   email,
-  instagram,
-  facebook,
-  website,
+  whatsapp,
+  redesSociais,
   numeroMembros,
   especialidades,
   "produtoCount": count(*[_type == "produto" && references(^._id)])
@@ -134,20 +134,41 @@ export const ASSOCIACAO_BY_SLUG_QUERY = `*[_type == "associacao" && slug.current
   slug,
   descricao,
   historia,
-  logo,
-  banner,
+  "logo": logo{
+    asset->{
+      _id,
+      _type,
+      url,
+      metadata
+    },
+    alt
+  },
+  "banner": banner{
+    asset->{
+      _id,
+      _type,
+      url,
+      metadata
+    },
+    alt
+  },
+  "galeria": galeria[]{
+    asset->{
+      _id,
+      _type,
+      url,
+      metadata
+    },
+    alt
+  },
   endereco,
-  cidade,
-  estado,
-  cep,
   telefone,
-  whatsapp,
   email,
-  instagram,
-  facebook,
-  website,
+  whatsapp,
+  redesSociais,
   numeroMembros,
   especialidades,
+  ativo,
   "produtos": *[_type == "produto" && references(^._id)] | order(_createdAt desc) {
     _id,
     nome,

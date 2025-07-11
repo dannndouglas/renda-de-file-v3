@@ -60,25 +60,38 @@ export interface Produto {
   _createdAt: string;
 }
 
+export interface Endereco {
+  rua: string;
+  numero?: string;
+  complemento?: string;
+  bairro: string;
+  cidade: string;
+  estado: string;
+  cep?: string;
+}
+
+export interface RedesSociais {
+  instagram?: string;
+  facebook?: string;
+  youtube?: string;
+  website?: string;
+}
+
 export interface Associacao {
   _id: string;
   _type: 'associacao';
   nome: string;
   slug: SanitySlug;
   descricao: string;
-  historia?: SanityBlock[];
+  historia?: string;
   logo?: SanityImage;
   banner?: SanityImage;
-  endereco: string;
-  cidade: string;
-  estado: string;
-  cep?: string;
+  galeria?: SanityImage[];
+  endereco: Endereco;
   telefone: string;
-  whatsapp: string;
   email?: string;
-  instagram?: string;
-  facebook?: string;
-  website?: string;
+  whatsapp?: string;
+  redesSociais?: RedesSociais;
   numeroMembros?: number;
   especialidades?: string[];
   ativo: boolean;

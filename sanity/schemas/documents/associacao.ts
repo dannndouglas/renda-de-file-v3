@@ -54,6 +54,29 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'galeria',
+      title: 'Galeria de Imagens',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Texto alternativo',
+            },
+          ],
+        },
+      ],
+      options: {
+        layout: 'grid',
+      },
+    }),
+    defineField({
       name: 'endereco',
       title: 'Endereço',
       type: 'endereco',

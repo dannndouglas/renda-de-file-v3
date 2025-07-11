@@ -10,19 +10,28 @@ export const metadata: Metadata = {
     'Conheça as associações de rendeiras que mantêm viva a tradição da Renda de Filé em Jaguaribe, Ceará.',
 };
 
-const ASSOCIACOES_QUERY = `*[_type == "associacao"] | order(nome asc) {
+const ASSOCIACOES_QUERY = `*[_type == "associacao" && ativo == true] | order(nome asc) {
   _id,
   nome,
+  slug,
   descricao,
-  imagem,
-  telefone,
-  whatsapp,
+  "logo": logo{
+    asset->{
+      _id,
+      _type,
+      url,
+      metadata
+    },
+    alt
+  },
   endereco,
-  numeroRendeiras,
-  dataFundacao,
-  presidente,
-  sobre,
-  "produtosCount": count(*[_type == "produto" && references(^._id)])
+  telefone,
+  email,
+  whatsapp,
+  redesSociais,
+  numeroMembros,
+  especialidades,
+  "produtoCount": count(*[_type == "produto" && references(^._id)])
 }`;
 
 async function getAssociacoes() {
