@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Search, User } from 'lucide-react';
@@ -23,18 +23,8 @@ const navigationItems = [
 ];
 
 export function MainNavigation() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
@@ -45,9 +35,7 @@ export function MainNavigation() {
     <header
       className={cn(
         'fixed left-0 right-0 top-0 z-50 transition-all duration-300 ease-in-out',
-        isScrolled
-          ? 'border-b border-gray-200/50 bg-white/95 shadow-lg backdrop-blur-md'
-          : 'bg-white/80 backdrop-blur-sm'
+        'bg-white/80 backdrop-blur-sm'
       )}
     >
       <div className="container mx-auto px-4">
