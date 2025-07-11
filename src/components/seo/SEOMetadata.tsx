@@ -3,7 +3,7 @@ export interface SEOMetadataProps {
   description: string;
   keywords?: string[];
   ogImage?: string;
-  ogType?: 'website' | 'article' | 'product';
+  ogType?: 'website' | 'article';
   canonicalUrl?: string;
   author?: string;
   publishedTime?: string;
@@ -75,13 +75,13 @@ export function generateMetadata({
     };
   }
 
-  // Adicionar metadados específicos para produtos
-  if (ogType === 'product' && productData) {
-    metadata.openGraph.product = {
-      price: productData.price,
+  // Adicionar metadados específicos para produtos (usando type website)
+  if (productData) {
+    metadata.openGraph.price = {
+      amount: productData.price,
       currency: productData.currency || 'BRL',
-      availability: productData.availability,
     };
+    metadata.openGraph.availability = productData.availability;
   }
 
   // Schema.org structured data

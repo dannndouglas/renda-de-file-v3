@@ -1,18 +1,18 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { sanityClient } from '@/lib/sanity/client';
-import { ImageGallery } from '@/components/catalog/ImageGallery';
+import { ModernImageGallery } from '@/components/catalog/ModernImageGallery';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { MapPin, Phone, Clock, Star, Share2, Heart } from 'lucide-react';
+import { MapPin, Phone, Clock, Star, Share2 } from 'lucide-react';
 import { WhatsAppButton } from '@/components/common/WhatsAppButton';
+import { ShareButton } from '@/components/common/ShareButton';
 import { trackWhatsAppClick } from '@/lib/analytics/whatsapp';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PublicLayout } from '@/components/layouts/PublicLayout';
-import { PageHeader } from '@/components/ui/page-header';
 import { urlForImage } from '@/lib/images/sanity';
 import {
   generateMetadata as generateSEOMetadata,
@@ -107,7 +107,7 @@ export async function generateMetadata({
       ...(produto.tags || []),
     ],
     ogImage: produto.imagens?.[0]?.asset?.url,
-    ogType: 'product',
+    ogType: 'website',
     canonicalUrl: `${siteUrl}/produto/${resolvedParams.slug}`,
     productData: {
       price: produto.preco,
@@ -132,10 +132,7 @@ export default async function ProdutoPage({
 
   const { produto, relacionados } = data;
 
-  const handleWhatsAppClick = async () => {
-    'use server';
-    await trackWhatsAppClick(produto._id, 'COMPRA');
-  };
+  // WhatsApp tracking will be handled by the WhatsAppButton component itself
 
   const formatarMensagemWhatsApp = () => {
     const numero = produto.associacao?.whatsapp?.replace(/\D/g, '');
@@ -184,16 +181,6 @@ Gostaria de mais informações.`;
         dangerouslySetInnerHTML={{ __html: jsonLd }}
       />
 
-      <PageHeader
-        title={produto.nome}
-        subtitle={
-          produto.categoria?.charAt(0).toUpperCase() +
-          produto.categoria?.slice(1)
-        }
-        description={produto.descricao}
-        variant="centered"
-      />
-
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-6 text-sm">
@@ -217,7 +204,7 @@ Gostaria de mais informações.`;
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
           {/* Galeria de Imagens */}
           <div>
-            <ImageGallery images={produto.imagens} />
+            <ModernImageGallery images={produto.imagens} />
           </div>
 
           {/* Informações do Produto */}
@@ -283,15 +270,12 @@ Gostaria de mais informações.`;
                     message={formatarMensagemWhatsApp()}
                     size="lg"
                     className="flex-1"
-                    onClick={handleWhatsAppClick}
                   />
                 )}
-                <Button variant="outline" size="lg">
-                  <Heart className="h-5 w-5" />
-                </Button>
-                <Button variant="outline" size="lg">
-                  <Share2 className="h-5 w-5" />
-                </Button>
+                <ShareButton
+                  title={produto.nome}
+                  text={`Confira este produto incrível: ${produto.nome}`}
+                />
               </div>
 
               <Separator className="my-8" />
@@ -328,7 +312,7 @@ Gostaria de mais informações.`;
                       <h3 className="font-semibold text-gray-900">
                         Tempo de Produção
                       </h3>
-                      <p className="text-gray-700">{produto.tempoProducao}</p>
+                      <p className="text-gray-700">{produto.tempoProducao} dias</p>
                     </div>
                   </div>
                 )}
@@ -425,7 +409,12 @@ Gostaria de mais informações.`;
                     <div className="flex items-start gap-3">
                       <MapPin className="mt-0.5 h-5 w-5 text-gray-400" />
                       <span className="text-gray-700">
-                        {produto.associacao.endereco}
+                        {typeof produto.associacao.endereco === 'string' 
+                          ? produto.associacao.endereco
+                          : `${produto.associacao.endereco.rua}, ${produto.associacao.endereco.numero}${
+                              produto.associacao.endereco.bairro ? ` - ${produto.associacao.endereco.bairro}` : ''
+                            }, ${produto.associacao.endereco.cidade} - ${produto.associacao.endereco.estado}`
+                        }
                       </span>
                     </div>
                   )}
