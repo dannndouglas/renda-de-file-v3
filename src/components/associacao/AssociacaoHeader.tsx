@@ -20,7 +20,7 @@ export function AssociacaoHeader({ associacao }: AssociacaoHeaderProps) {
     : null;
 
   return (
-    <header className="relative overflow-hidden" role="banner">
+    <header className="relative overflow-hidden pb-4" role="banner">
       {/* Hero Background */}
       <div className="relative h-56 bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 md:h-72 lg:h-96">
         {bannerUrl && (
@@ -42,15 +42,15 @@ export function AssociacaoHeader({ associacao }: AssociacaoHeaderProps) {
       </div>
 
       {/* Content Container */}
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 relative z-10">
         <div className="relative -mt-16 sm:-mt-20 md:-mt-24 lg:-mt-28">
           <div className="flex flex-col items-center space-y-4 text-center sm:space-y-6 md:flex-row md:items-end md:space-y-0 md:space-x-8 md:text-left">
             
             {/* Logo Circle */}
             {logoUrl && (
-              <div className="relative p-4">
+              <div className="relative z-20 p-4" style={{ filter: 'drop-shadow(0 4px 6px rgb(0 0 0 / 0.1))' }}>
                 <div className="relative h-24 w-24 sm:h-28 sm:w-28 md:h-36 md:w-36 lg:h-40 lg:w-40">
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white to-gray-50 p-1 shadow-2xl">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white to-gray-50 p-1">
                     <div className="relative h-full w-full overflow-hidden rounded-full bg-white">
                       <Image
                         src={logoUrl}
@@ -62,7 +62,7 @@ export function AssociacaoHeader({ associacao }: AssociacaoHeaderProps) {
                   </div>
                 </div>
                 {/* Floating badge */}
-                <div className="absolute bottom-2 right-2">
+                <div className="absolute bottom-2 right-2 z-30">
                   <Badge className="bg-green-500 text-white shadow-lg hover:bg-green-600">
                     Ativa
                   </Badge>
@@ -71,7 +71,7 @@ export function AssociacaoHeader({ associacao }: AssociacaoHeaderProps) {
             )}
 
             {/* Association Information */}
-            <div className="flex-1 space-y-4 md:pb-8">
+            <div className="flex-1 space-y-4 pb-8 md:pb-12">
               {/* Title */}
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl lg:text-5xl">

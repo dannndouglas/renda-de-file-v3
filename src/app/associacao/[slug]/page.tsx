@@ -107,7 +107,7 @@ export default async function AssociacaoPage({ params }: AssociacaoPageProps) {
       {/* Header com foto de capa */}
       <AssociacaoHeader associacao={associacao} />
 
-      <div className="container mx-auto px-4 py-8 sm:py-12">
+      <div className="container mx-auto px-4 py-4 sm:py-6">
         <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-12">
           {/* Conteúdo principal */}
           <main className="lg:col-span-8" role="main">
