@@ -36,7 +36,7 @@ export function AnalyticsNavbar({ user }: AnalyticsNavbarProps) {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center space-x-8">
             <Link href="/" className="flex items-center space-x-2">
-              <span className="text-xl font-bold text-amber-800">
+              <span className="text-xl font-bold text-renda-800">
                 Renda de Filé
               </span>
             </Link>
@@ -44,7 +44,7 @@ export function AnalyticsNavbar({ user }: AnalyticsNavbarProps) {
             <div className="hidden items-center space-x-6 md:flex">
               <Link
                 href="/analytics"
-                className="flex items-center space-x-2 text-gray-700 hover:text-amber-800"
+                className="flex items-center space-x-2 text-gray-700 hover:text-renda-800"
               >
                 <BarChart3 className="h-4 w-4" />
                 <span>Analytics</span>
@@ -52,7 +52,7 @@ export function AnalyticsNavbar({ user }: AnalyticsNavbarProps) {
 
               <Link
                 href="/"
-                className="flex items-center space-x-2 text-gray-700 hover:text-amber-800"
+                className="flex items-center space-x-2 text-gray-700 hover:text-renda-800"
               >
                 <Home className="h-4 w-4" />
                 <span>Site</span>

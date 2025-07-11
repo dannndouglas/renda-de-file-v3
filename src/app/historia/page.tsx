@@ -56,11 +56,24 @@ async function getPaginaHistoria(): Promise<PaginaHistoria | null> {
 
 export async function generateMetadata(): Promise<Metadata> {
   const paginaHistoria = await getPaginaHistoria();
-  
+
   return {
-    title: paginaHistoria?.seo?.metaTitle || paginaHistoria?.titulo || 'História - Renda de Filé',
-    description: paginaHistoria?.seo?.metaDescription || paginaHistoria?.introducao || 'Conheça a história centenária da Renda de Filé, patrimônio cultural de Jaguaribe, Ceará.',
-    keywords: paginaHistoria?.seo?.keywords || ['renda de filé', 'história', 'jaguaribe', 'ceará', 'artesanato', 'cultura'],
+    title:
+      paginaHistoria?.seo?.metaTitle ||
+      paginaHistoria?.titulo ||
+      'História - Renda de Filé',
+    description:
+      paginaHistoria?.seo?.metaDescription ||
+      paginaHistoria?.introducao ||
+      'Conheça a história centenária da Renda de Filé, patrimônio cultural de Jaguaribe, Ceará.',
+    keywords: paginaHistoria?.seo?.keywords || [
+      'renda de filé',
+      'história',
+      'jaguaribe',
+      'ceará',
+      'artesanato',
+      'cultura',
+    ],
   };
 }
 
@@ -70,12 +83,16 @@ export default async function HistoriaPage() {
   return (
     <PublicLayout>
       <PageHeader
-        title={paginaHistoria?.titulo || "A História da Renda de Filé"}
+        title={paginaHistoria?.titulo || 'A História da Renda de Filé'}
         subtitle="Patrimônio Cultural Imaterial"
-        description={paginaHistoria?.introducao || "Mais de 300 anos de tradição, arte e cultura preservados pelas mãos habilidosas das rendeiras de Jaguaribe, Ceará"}
-        variant="centered"
+        description={
+          paginaHistoria?.introducao ||
+          'Mais de 300 anos de tradição, arte e cultura preservados pelas mãos habilidosas das rendeiras de Jaguaribe, Ceará'
+        }
+        variant="elegant"
+        pattern={true}
       >
-        <div className="flex flex-wrap justify-center gap-4 text-sm text-white/80">
+        <div className="flex flex-wrap justify-center gap-4 text-sm text-renda-100/90">
           <div className="flex items-center gap-1">
             <Calendar className="h-4 w-4" />
             <span>Desde 1700</span>

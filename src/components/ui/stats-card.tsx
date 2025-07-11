@@ -61,7 +61,9 @@ export function StatsCard({
               }}
               className={cn(
                 'mb-4 flex h-16 w-16 items-center justify-center rounded-full',
-                iconColor === 'text-orange-600' ? 'bg-orange-100' : 'bg-gray-100'
+                iconColor === 'text-orange-600'
+                  ? 'bg-orange-100'
+                  : 'bg-gray-100'
               )}
             >
               <Icon className={cn('h-8 w-8', iconColor)} />

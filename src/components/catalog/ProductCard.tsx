@@ -49,7 +49,7 @@ export function ProductCard({ produto }: ProductCardProps) {
     >
       <Card className="group h-full overflow-hidden transition-all duration-300 hover:shadow-xl">
         <Link href={`/produto/${produto.slug.current}`}>
-          <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-orange-100 to-red-50">
+          <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-renda-100 to-areia-100">
             {imageUrl ? (
               <>
                 <Image
@@ -67,7 +67,7 @@ export function ProductCard({ produto }: ProductCardProps) {
                   animate={{ scale: [1, 1.1, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  <Heart className="h-12 w-12 text-orange-300" />
+                  <Heart className="h-12 w-12 text-renda-300" />
                 </motion.div>
               </div>
             )}
@@ -77,8 +77,8 @@ export function ProductCard({ produto }: ProductCardProps) {
                 className={cn(
                   'shadow-md',
                   isDisponivel
-                    ? 'bg-green-500 text-white hover:bg-green-600'
-                    : 'bg-orange-100 text-orange-800 hover:bg-orange-200'
+                    ? 'bg-success text-success-foreground hover:bg-success/90'
+                    : 'border-warning/20 bg-warning/10 text-warning-foreground'
                 )}
               >
                 {isDisponivel ? 'Disponível' : 'Sob encomenda'}
@@ -89,13 +89,13 @@ export function ProductCard({ produto }: ProductCardProps) {
 
         <CardContent className="p-4">
           <Link href={`/produto/${produto.slug.current}`}>
-            <h3 className="mb-2 line-clamp-2 text-lg font-semibold text-gray-900 transition-colors group-hover:text-orange-600">
+            <h3 className="mb-2 line-clamp-2 text-lg font-semibold text-gray-900 transition-colors group-hover:text-renda-600">
               {produto.nome}
             </h3>
           </Link>
 
           {produto.associacao && (
-            <p className="mb-2 text-sm font-medium text-orange-600">
+            <p className="mb-2 text-sm font-medium text-renda-600">
               {produto.associacao.nome}
             </p>
           )}
@@ -115,7 +115,7 @@ export function ProductCard({ produto }: ProductCardProps) {
             )}
             <Badge
               variant="outline"
-              className="border-orange-200 text-xs text-orange-700"
+              className="border-renda-200 text-xs text-renda-700"
             >
               {produto.categoria?.charAt(0).toUpperCase() +
                 produto.categoria?.slice(1)}
@@ -127,7 +127,7 @@ export function ProductCard({ produto }: ProductCardProps) {
               <Button
                 variant="default"
                 size="sm"
-                className="flex-1 gap-2 bg-gradient-to-r from-orange-500 to-red-500 transition-all hover:from-orange-600 hover:to-red-600"
+                className="flex-1 gap-2 bg-whatsapp text-whatsapp-foreground transition-all hover:bg-success"
                 onClick={handleWhatsAppClick}
                 asChild
               >

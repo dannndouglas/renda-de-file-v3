@@ -89,6 +89,7 @@ export function CatalogoClient() {
         subtitle="Artesanato Exclusivo"
         description="Explore nossa coleção de peças únicas de Renda de Filé, criadas com dedicação e maestria pelas rendeiras de Jaguaribe"
         variant="centered"
+        pattern={true}
       />
 
       <div className="container mx-auto px-4 py-12">

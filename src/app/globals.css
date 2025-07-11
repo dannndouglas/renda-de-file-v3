@@ -24,6 +24,40 @@
     --input: 20 5.9% 90%;
     --ring: 20 14.3% 4.1%;
     --radius: 0.5rem;
+
+    /* Cores da marca Renda de Filé */
+    --renda-50: 31 100% 97%;
+    --renda-100: 31 92% 91%;
+    --renda-200: 31 87% 82%;
+    --renda-300: 31 82% 71%;
+    --renda-400: 31 77% 58%;
+    --renda-500: 24 78% 52%;
+    --renda-600: 24 78% 42%;
+    --renda-700: 24 73% 32%;
+    --renda-800: 24 68% 27%;
+    --renda-900: 24 63% 23%;
+
+    /* Cores complementares Areia */
+    --areia-50: 38 50% 99%;
+    --areia-100: 38 43% 96%;
+    --areia-200: 38 36% 92%;
+    --areia-300: 38 29% 85%;
+    --areia-400: 38 23% 76%;
+    --areia-500: 38 20% 65%;
+    --areia-600: 38 17% 54%;
+    --areia-700: 38 15% 46%;
+    --areia-800: 38 13% 39%;
+    --areia-900: 38 12% 33%;
+
+    /* Cores semânticas */
+    --success: 142 76% 36%;
+    --success-foreground: 138 62% 13%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 48 96% 89%;
+    --info: 217 91% 60%;
+    --info-foreground: 222 84% 5%;
+    --whatsapp: 142 76% 36%;
+    --whatsapp-foreground: 0 0% 100%;
   }
 
   .dark {
@@ -195,7 +229,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 0.5rem;
-    background-color: #de5f15;
+    background-color: hsl(var(--renda-600));
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
     font-weight: 500;
@@ -205,12 +239,12 @@
   }
 
   .btn-primary:hover {
-    background-color: #b84914;
+    background-color: hsl(var(--renda-700));
   }
 
   .btn-primary:focus {
     outline: none;
-    box-shadow: 0 0 0 2px #ed761f;
+    box-shadow: 0 0 0 2px hsl(var(--renda-500));
   }
 
   .btn-secondary {
@@ -234,7 +268,7 @@
 
   .btn-secondary:focus {
     outline: none;
-    box-shadow: 0 0 0 2px #ed761f;
+    box-shadow: 0 0 0 2px hsl(var(--renda-500));
   }
 
   .btn-whatsapp {
@@ -243,23 +277,23 @@
     justify-content: center;
     gap: 0.5rem;
     border-radius: 0.5rem;
-    background-color: #16a34a;
+    background-color: hsl(var(--whatsapp));
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
     font-weight: 500;
-    color: white;
+    color: hsl(var(--whatsapp-foreground));
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     transition: all 0.2s;
   }
 
   .btn-whatsapp:hover {
-    background-color: #15803d;
+    background-color: hsl(var(--success));
     transform: scale(1.05);
   }
 
   .btn-whatsapp:focus {
     outline: none;
-    box-shadow: 0 0 0 2px #22c55e;
+    box-shadow: 0 0 0 2px hsl(var(--success));
   }
 
   .card {
@@ -293,22 +327,22 @@
     display: inline-flex;
     align-items: center;
     border-radius: 9999px;
-    background-color: #dcfce7;
+    background-color: hsl(var(--success) / 0.1);
     padding: 0.125rem 0.625rem;
     font-size: 0.75rem;
     font-weight: 500;
-    color: #166534;
+    color: hsl(var(--success-foreground));
   }
 
   .badge-encomenda {
     display: inline-flex;
     align-items: center;
     border-radius: 9999px;
-    background-color: #fed7aa;
+    background-color: hsl(var(--warning) / 0.1);
     padding: 0.125rem 0.625rem;
     font-size: 0.75rem;
     font-weight: 500;
-    color: #9a3412;
+    color: hsl(var(--warning-foreground));
   }
 
   .skeleton {
@@ -360,6 +394,28 @@
     }
     to {
       opacity: 1;
+    }
+  }
+
+  @keyframes smooth-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes gentle-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(40px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
   }
 
@@ -441,6 +497,14 @@
 
   .animate-slow-zoom {
     animation: slow-zoom 20s ease-in-out infinite alternate;
+  }
+
+  .animate-smooth-fade-up {
+    animation: smooth-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .animate-gentle-slide-in {
+    animation: gentle-slide-in 1s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   /* Delays de animação */

@@ -84,37 +84,38 @@ export function StatsSection({
   };
 
   // Usar estatísticas customizadas se disponíveis, senão usar padrão
-  const stats = estatisticasCustomizadas && estatisticasCustomizadas.length > 0 
-    ? estatisticasCustomizadas.map((stat, index) => ({
-        icon: getIconComponent(stat.icone),
-        value: isVisible ? stat.numero : 0,
-        finalValue: stat.numero,
-        label: stat.label,
-        suffix: '',
-      }))
-    : [
-        {
-          icon: Users,
-          value: counts.rendeiras,
-          finalValue: rendeiras,
-          label: 'Rendeiras Ativas',
-          suffix: '+',
-        },
-        {
-          icon: Package,
-          value: counts.produtos,
-          finalValue: produtos,
-          label: 'Produtos Únicos',
-          suffix: '+',
-        },
-        {
-          icon: Calendar,
-          value: counts.anos,
-          finalValue: anosTradicao,
-          label: 'Anos de Tradição',
+  const stats =
+    estatisticasCustomizadas && estatisticasCustomizadas.length > 0
+      ? estatisticasCustomizadas.map((stat, index) => ({
+          icon: getIconComponent(stat.icone),
+          value: isVisible ? stat.numero : 0,
+          finalValue: stat.numero,
+          label: stat.label,
           suffix: '',
-        },
-      ];
+        }))
+      : [
+          {
+            icon: Users,
+            value: counts.rendeiras,
+            finalValue: rendeiras,
+            label: 'Rendeiras Ativas',
+            suffix: '+',
+          },
+          {
+            icon: Package,
+            value: counts.produtos,
+            finalValue: produtos,
+            label: 'Produtos Únicos',
+            suffix: '+',
+          },
+          {
+            icon: Calendar,
+            value: counts.anos,
+            finalValue: anosTradicao,
+            label: 'Anos de Tradição',
+            suffix: '',
+          },
+        ];
 
   return (
     <section ref={sectionRef} className="bg-white py-16">

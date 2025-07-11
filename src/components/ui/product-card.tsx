@@ -54,8 +54,8 @@ export function ProductCard({
             variant="secondary"
             className={
               isAvailable
-                ? 'bg-green-100 text-green-800'
-                : 'bg-orange-100 text-orange-800'
+                ? 'border-success/20 bg-success/10 text-success-foreground'
+                : 'border-warning/20 bg-warning/10 text-warning-foreground'
             }
           >
             {isAvailable ? 'Disponível' : 'Sob Encomenda'}

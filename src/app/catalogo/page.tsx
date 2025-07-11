@@ -6,7 +6,8 @@ import { Loader2 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Catálogo de Produtos - Renda de Filé',
-  description: 'Explore nossa coleção de peças únicas de Renda de Filé, criadas com dedicação e maestria pelas rendeiras de Jaguaribe',
+  description:
+    'Explore nossa coleção de peças únicas de Renda de Filé, criadas com dedicação e maestria pelas rendeiras de Jaguaribe',
 };
 
 export default function CatalogoPage() {

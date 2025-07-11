@@ -50,7 +50,8 @@ export default async function AssociacoesPage() {
         title="Nossas Associações"
         subtitle="Comunidade de Rendeiras"
         description="Conheça as associações de rendeiras que preservam e promovem a arte da Renda de Filé, gerando renda e mantendo viva nossa tradição centenária"
-        variant="centered"
+        variant="default"
+        pattern={true}
       />
 
       <div className="container mx-auto px-4 py-12">

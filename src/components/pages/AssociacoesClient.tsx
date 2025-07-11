@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { AnimatedCard } from '@/components/ui/animated-card';
 import { StatsCard } from '@/components/ui/stats-card';
 import { SectionTitle } from '@/components/ui/section-title';
+import { CallToActionSection } from '@/components/sections/call-to-action-section';
 import {
   MapPin,
   Phone,
@@ -76,7 +77,13 @@ export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
             {(associacao.banner || associacao.imagem) && (
               <div className="relative aspect-video bg-gray-100">
                 <Image
-                  src={urlForImage(associacao.banner || associacao.imagem, { width: 640, height: 360, quality: 85 }) || (associacao.banner || associacao.imagem)?.asset?.url}
+                  src={
+                    urlForImage(associacao.banner || associacao.imagem, {
+                      width: 640,
+                      height: 360,
+                      quality: 85,
+                    }) || (associacao.banner || associacao.imagem)?.asset?.url
+                  }
                   alt={associacao.nome}
                   fill
                   className="object-cover"
@@ -139,30 +146,39 @@ export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
                 )}
               </div>
 
-              {associacao.especialidades && associacao.especialidades.length > 0 && (
-                <div className="mb-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
-                    <Award className="h-4 w-4" />
-                    <span className="font-medium">Especialidades:</span>
+              {associacao.especialidades &&
+                associacao.especialidades.length > 0 && (
+                  <div className="mb-4">
+                    <div className="mb-2 flex items-center gap-2 text-sm text-gray-600">
+                      <Award className="h-4 w-4" />
+                      <span className="font-medium">Especialidades:</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {associacao.especialidades.map(
+                        (especialidade: string, index: number) => (
+                          <Badge
+                            key={index}
+                            variant="secondary"
+                            className="text-xs"
+                          >
+                            {especialidade}
+                          </Badge>
+                        )
+                      )}
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-1">
-                    {associacao.especialidades.map((especialidade: string, index: number) => (
-                      <Badge key={index} variant="secondary" className="text-xs">
-                        {especialidade}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              )}
+                )}
 
-              {(associacao.instagram || associacao.facebook || associacao.website) && (
+              {(associacao.instagram ||
+                associacao.facebook ||
+                associacao.website) && (
                 <div className="mb-4 flex gap-3">
                   {associacao.instagram && (
                     <a
                       href={associacao.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-gray-400 transition-colors hover:text-gray-600"
                       aria-label="Instagram"
                     >
                       <Instagram className="h-4 w-4" />
@@ -173,7 +189,7 @@ export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
                       href={associacao.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-gray-400 transition-colors hover:text-gray-600"
                       aria-label="Facebook"
                     >
                       <Facebook className="h-4 w-4" />
@@ -184,7 +200,7 @@ export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
                       href={associacao.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-gray-400 transition-colors hover:text-gray-600"
                       aria-label="Website"
                     >
                       <Globe className="h-4 w-4" />
@@ -224,18 +240,21 @@ export function AssociacoesClient({ associacoes }: AssociacoesClientProps) {
       </div>
 
       {/* Call to Action */}
-      <div className="mt-16 rounded-lg bg-white p-8 text-center shadow-sm">
-        <h2 className="mb-4 text-2xl font-bold text-gray-900">
-          Quer se tornar uma associação parceira?
-        </h2>
-        <p className="mx-auto mb-6 max-w-2xl text-gray-600">
-          Se você faz parte de uma associação de rendeiras e deseja fazer
-          parte da nossa plataforma, entre em contato conosco para saber mais
-          sobre como participar.
-        </p>
-        <Button size="lg" asChild>
-          <a href="mailto:contato@rendadefile.com.br">Entrar em Contato</a>
-        </Button>
+      <div className="mt-16">
+        <CallToActionSection
+          subtitle="Seja Nossa Parceira"
+          title="Quer se tornar uma associação parceira?"
+          description="Se você faz parte de uma associação de rendeiras e deseja fazer parte da nossa plataforma, entre em contato conosco para saber mais sobre como participar e expandir seu alcance no mercado digital."
+          variant="minimal"
+          buttons={[
+            {
+              text: 'Entrar em Contato',
+              href: 'mailto:contato@rendadefile.com.br',
+              variant: 'default',
+              icon: Mail,
+            },
+          ]}
+        />
       </div>
     </>
   );

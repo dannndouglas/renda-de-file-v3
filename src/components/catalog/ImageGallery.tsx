@@ -43,7 +43,13 @@ export function ImageGallery({ images = [] }: ImageGalleryProps) {
       {/* Imagem Principal */}
       <div className="group relative aspect-square overflow-hidden rounded-lg bg-gray-100">
         <Image
-          src={urlForImage(currentImage, { width: 800, height: 800, quality: 90 }) || currentImage.asset.url}
+          src={
+            urlForImage(currentImage, {
+              width: 800,
+              height: 800,
+              quality: 90,
+            }) || currentImage.asset.url
+          }
           alt={currentImage.alt || 'Imagem do produto'}
           fill
           className={cn(
@@ -98,7 +104,13 @@ export function ImageGallery({ images = [] }: ImageGalleryProps) {
               )}
             >
               <Image
-                src={urlForImage(image, { width: 150, height: 150, quality: 75 }) || image.asset.url}
+                src={
+                  urlForImage(image, {
+                    width: 150,
+                    height: 150,
+                    quality: 75,
+                  }) || image.asset.url
+                }
                 alt={image.alt || `Miniatura ${index + 1}`}
                 fill
                 className="object-cover"

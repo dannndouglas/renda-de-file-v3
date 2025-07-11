@@ -183,14 +183,17 @@ Gostaria de mais informações.`;
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd }}
       />
-      
+
       <PageHeader
         title={produto.nome}
-        subtitle={produto.categoria?.charAt(0).toUpperCase() + produto.categoria?.slice(1)}
+        subtitle={
+          produto.categoria?.charAt(0).toUpperCase() +
+          produto.categoria?.slice(1)
+        }
         description={produto.descricao}
         variant="centered"
       />
-      
+
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="mb-6 text-sm">
@@ -247,7 +250,8 @@ Gostaria de mais informações.`;
               <p className="mb-6 text-lg text-gray-700">{produto.descricao}</p>
 
               <div className="mb-6">
-                {produto.precoPromocional && produto.precoPromocional < produto.preco ? (
+                {produto.precoPromocional &&
+                produto.precoPromocional < produto.preco ? (
                   <div className="flex items-baseline gap-3">
                     <span className="text-3xl font-bold text-orange-600">
                       R$ {produto.precoPromocional.toFixed(2).replace('.', ',')}
@@ -256,7 +260,12 @@ Gostaria de mais informações.`;
                       R$ {produto.preco.toFixed(2).replace('.', ',')}
                     </span>
                     <Badge variant="destructive" className="ml-2">
-                      {Math.round(((produto.preco - produto.precoPromocional) / produto.preco) * 100)}% OFF
+                      {Math.round(
+                        ((produto.preco - produto.precoPromocional) /
+                          produto.preco) *
+                          100
+                      )}
+                      % OFF
                     </Badge>
                   </div>
                 ) : (
@@ -374,12 +383,14 @@ Gostaria de mais informações.`;
                     <div className="space-y-2">
                       {produto.especificacoes.tecnica && (
                         <p className="text-gray-700">
-                          <span className="font-medium">Técnica:</span> {produto.especificacoes.tecnica}
+                          <span className="font-medium">Técnica:</span>{' '}
+                          {produto.especificacoes.tecnica}
                         </p>
                       )}
                       {produto.especificacoes.observacoes && (
                         <p className="text-gray-700">
-                          <span className="font-medium">Observações:</span> {produto.especificacoes.observacoes}
+                          <span className="font-medium">Observações:</span>{' '}
+                          {produto.especificacoes.observacoes}
                         </p>
                       )}
                     </div>
@@ -443,7 +454,13 @@ Gostaria de mais informações.`;
                     <div className="relative aspect-square bg-gray-100">
                       {prod.imagens?.[0] && (
                         <Image
-                          src={urlForImage(prod.imagens[0], { width: 400, height: 400, quality: 85 }) || ''}
+                          src={
+                            urlForImage(prod.imagens[0], {
+                              width: 400,
+                              height: 400,
+                              quality: 85,
+                            }) || ''
+                          }
                           alt={prod.nome}
                           fill
                           className="object-cover"

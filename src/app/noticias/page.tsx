@@ -5,7 +5,8 @@ import { OptimizedImage } from '@/components/ui/optimized-image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PageHeader } from '@/components/ui/page-header';
-import { CalendarDays, Clock, User } from 'lucide-react';
+import { CallToActionSection } from '@/components/sections/call-to-action-section';
+import { CalendarDays, Clock, User, Users, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -54,15 +55,13 @@ export default async function NoticiasPage() {
           title="Notícias e Novidades"
           subtitle="Fique por Dentro"
           description="Em breve, novidades sobre a tradição da Renda de Filé"
-          variant="centered"
-          gradientFrom="from-amber-50"
-          gradientTo="to-orange-50"
+          variant="soft"
         />
         <div className="min-h-screen bg-gray-50 py-12">
           <div className="container mx-auto px-4">
             <Card className="mx-auto max-w-md">
               <CardContent className="p-6">
-                <div className="text-center text-amber-600">
+                <div className="text-center text-renda-600">
                   <CalendarDays className="mx-auto mb-4 h-12 w-12" />
                   <h3 className="mb-2 text-lg font-semibold">
                     Novidades em Breve
@@ -90,14 +89,14 @@ export default async function NoticiasPage() {
         title="Notícias e Novidades"
         subtitle="Fique por Dentro"
         description="Acompanhe as últimas novidades, eventos e histórias sobre a tradição da Renda de Filé do Ceará"
-        variant="centered"
+        variant="soft"
       />
       <div className="min-h-screen bg-gray-50 py-12">
         <div className="container mx-auto px-4">
           {/* Notícias em Destaque */}
           {noticiasDestaque.length > 0 && (
             <section className="mb-12">
-              <h2 className="mb-6 text-2xl font-bold text-amber-900">
+              <h2 className="mb-6 text-2xl font-bold text-renda-900">
                 Destaques
               </h2>
               <div className="grid gap-8 md:grid-cols-2">
@@ -114,18 +113,18 @@ export default async function NoticiasPage() {
                         className="object-cover"
                       />
                       {noticia.categoria && (
-                        <Badge className="absolute left-4 top-4 bg-amber-600 text-white">
+                        <Badge className="absolute left-4 top-4 bg-renda-600 text-white">
                           {noticia.categoria}
                         </Badge>
                       )}
                     </div>
                     <CardHeader>
-                      <CardTitle className="text-amber-900 transition-colors hover:text-amber-700">
+                      <CardTitle className="text-renda-900 transition-colors hover:text-renda-700">
                         <Link href={`/noticias/${noticia.slug.current}`}>
                           {noticia.titulo}
                         </Link>
                       </CardTitle>
-                      <div className="flex items-center gap-4 text-sm text-amber-600">
+                      <div className="flex items-center gap-4 text-sm text-renda-600">
                         <div className="flex items-center gap-1">
                           <User className="h-4 w-4" />
                           {noticia.autor.nome}
@@ -149,7 +148,7 @@ export default async function NoticiasPage() {
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <p className="mb-4 text-amber-700">{noticia.resumo}</p>
+                      <p className="mb-4 text-renda-700">{noticia.resumo}</p>
                       {noticia.tags && (
                         <div className="flex flex-wrap gap-2">
                           {noticia.tags.map((tag) => (
@@ -172,7 +171,7 @@ export default async function NoticiasPage() {
 
           {/* Todas as Notícias */}
           <section>
-            <h2 className="mb-6 text-2xl font-bold text-amber-900">
+            <h2 className="mb-6 text-2xl font-bold text-renda-900">
               Todas as Notícias
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -189,18 +188,18 @@ export default async function NoticiasPage() {
                       className="object-cover"
                     />
                     {noticia.categoria && (
-                      <Badge className="absolute left-4 top-4 bg-amber-600 text-white">
+                      <Badge className="absolute left-4 top-4 bg-renda-600 text-white">
                         {noticia.categoria}
                       </Badge>
                     )}
                   </div>
                   <CardHeader>
-                    <CardTitle className="text-lg text-amber-900 transition-colors hover:text-amber-700">
+                    <CardTitle className="text-lg text-renda-900 transition-colors hover:text-renda-700">
                       <Link href={`/noticias/${noticia.slug.current}`}>
                         {noticia.titulo}
                       </Link>
                     </CardTitle>
-                    <div className="flex items-center gap-4 text-sm text-amber-600">
+                    <div className="flex items-center gap-4 text-sm text-renda-600">
                       <div className="flex items-center gap-1">
                         <CalendarDays className="h-4 w-4" />
                         {formatDistanceToNow(new Date(noticia.dataPublicacao), {
@@ -217,7 +216,7 @@ export default async function NoticiasPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="line-clamp-3 text-sm text-amber-700">
+                    <p className="line-clamp-3 text-sm text-renda-700">
                       {noticia.resumo}
                     </p>
                     {noticia.tags && (
@@ -240,28 +239,27 @@ export default async function NoticiasPage() {
           </section>
 
           {/* Call to Action */}
-          <div className="mt-12 rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 p-8 text-center shadow-sm">
-            <h3 className="mb-4 text-2xl font-bold text-amber-900">
-              Quer ficar por dentro das novidades?
-            </h3>
-            <p className="mb-6 text-amber-700">
-              Acompanhe nosso trabalho e descubra mais sobre a tradição da Renda
-              de Filé
-            </p>
-            <div className="flex justify-center gap-4">
-              <Link
-                href="/associacoes"
-                className="rounded-lg bg-amber-600 px-6 py-3 text-white transition-colors hover:bg-amber-700"
-              >
-                Conhecer Associações
-              </Link>
-              <Link
-                href="/catalogo"
-                className="rounded-lg border border-amber-600 bg-white px-6 py-3 text-amber-900 transition-colors hover:bg-amber-50"
-              >
-                Ver Catálogo
-              </Link>
-            </div>
+          <div className="mt-12">
+            <CallToActionSection
+              subtitle="Fique Por Dentro"
+              title="Quer acompanhar as novidades?"
+              description="Acompanhe nosso trabalho e descubra mais sobre a tradição da Renda de Filé. Mantenha-se informado sobre eventos, técnicas e as histórias por trás desta arte única."
+              variant="gradient"
+              buttons={[
+                {
+                  text: 'Conhecer Associações',
+                  href: '/associacoes',
+                  variant: 'secondary',
+                  icon: Users,
+                },
+                {
+                  text: 'Ver Catálogo',
+                  href: '/catalogo',
+                  variant: 'outline',
+                  icon: ShoppingBag,
+                },
+              ]}
+            />
           </div>
         </div>
       </div>

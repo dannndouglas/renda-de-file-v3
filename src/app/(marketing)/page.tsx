@@ -3,8 +3,9 @@ import { sanityClient } from '@/lib/sanity/client';
 import { HeroSection } from '@/components/home/HeroSection';
 import { StatsSection } from '@/components/home/StatsSection';
 import { ProductCard } from '@/components/catalog/ProductCard';
+import { CallToActionSection } from '@/components/sections/call-to-action-section';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Users, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { urlForImage } from '@/lib/images/sanity';
@@ -166,7 +167,8 @@ async function getHomeData() {
 }
 
 export default async function HomePage() {
-  const { produtos, stats, noticias, paginaInicial, configuracoes } = await getHomeData();
+  const { produtos, stats, noticias, paginaInicial, configuracoes } =
+    await getHomeData();
 
   return (
     <main className="min-h-screen">
@@ -241,7 +243,13 @@ export default async function HomePage() {
                     {noticia.imagemPrincipal && (
                       <div className="relative aspect-video bg-gray-200">
                         <Image
-                          src={urlForImage(noticia.imagemPrincipal, { width: 640, height: 360, quality: 85 }) || ''}
+                          src={
+                            urlForImage(noticia.imagemPrincipal, {
+                              width: 640,
+                              height: 360,
+                              quality: 85,
+                            }) || ''
+                          }
                           alt={noticia.titulo}
                           fill
                           className="object-cover"
@@ -279,27 +287,28 @@ export default async function HomePage() {
       )}
 
       {/* Call to Action */}
-      <section className="bg-gradient-to-r from-gray-50 to-gray-100 py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
-            Apoie a Tradição
-          </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-gray-600">
-            Cada peça adquirida ajuda a preservar esta arte centenária e
-            sustenta famílias de rendeiras em Jaguaribe
-          </p>
-          <div className="flex flex-col justify-center gap-4 sm:flex-row">
-            <Link href="/associacoes">
-              <Button size="lg" variant="outline">
-                Conheça as Associações
-              </Button>
-            </Link>
-            <Link href="/historia">
-              <Button size="lg">Nossa História</Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <div className="container mx-auto px-4 py-16">
+        <CallToActionSection
+          subtitle="Apoie a Tradição"
+          title="Preserve uma Arte Centenária"
+          description="Cada peça adquirida ajuda a preservar esta arte centenária e sustenta famílias de rendeiras em Jaguaribe. Sua contribuição fortalece a economia local e mantém viva uma tradição de mais de 300 anos."
+          variant="geometric"
+          buttons={[
+            {
+              text: 'Conheça as Associações',
+              href: '/associacoes',
+              variant: 'outline',
+              icon: Users,
+            },
+            {
+              text: 'Nossa História',
+              href: '/historia',
+              variant: 'secondary',
+              icon: BookOpen,
+            },
+          ]}
+        />
+      </div>
     </main>
   );
 }

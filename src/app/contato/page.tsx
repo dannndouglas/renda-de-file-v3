@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { ContactInfo } from '@/components/contact/ContactInfo';
 import { PublicLayout } from '@/components/layouts/PublicLayout';
+import { PageHeader } from '@/components/ui/page-header';
 
 export const metadata: Metadata = {
   title: 'Contato | Renda de Filé',
@@ -12,22 +13,14 @@ export const metadata: Metadata = {
 export default function ContatoPage() {
   return (
     <PublicLayout>
-      <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
-        {/* Hero Section */}
-        <section className="relative py-16 md:py-24">
-          <div className="container mx-auto px-4">
-            <div className="mx-auto max-w-3xl text-center">
-              <h1 className="mb-6 text-4xl font-bold text-gray-900 md:text-5xl">
-                Fale Conosco
-              </h1>
-              <p className="text-lg text-gray-600">
-                Queremos ouvir você! Entre em contato para conhecer mais sobre a
-                Renda de Filé, fazer parcerias ou esclarecer dúvidas sobre
-                nossos produtos.
-              </p>
-            </div>
-          </div>
-        </section>
+      <PageHeader
+        title="Fale Conosco"
+        subtitle="Contato"
+        description="Queremos ouvir você! Entre em contato para conhecer mais sobre a Renda de Filé, fazer parcerias ou esclarecer dúvidas sobre nossos produtos."
+        variant="minimal"
+      />
+
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
 
         {/* Contact Content */}
         <section className="py-12 md:py-16">

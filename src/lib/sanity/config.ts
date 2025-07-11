@@ -66,7 +66,7 @@ export async function getConfiguracoesGlobais(): Promise<ConfiguracoesGlobais | 
         next: { revalidate: 3600 }, // Revalidar a cada hora
       }
     );
-    
+
     cachedConfig = config;
     return config;
   } catch (error) {

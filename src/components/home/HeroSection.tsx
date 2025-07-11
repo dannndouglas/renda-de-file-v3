@@ -26,17 +26,23 @@ interface HeroSectionProps {
 export function HeroSection({ hero }: HeroSectionProps) {
   // Valores padrão caso o Sanity não retorne dados
   const titulo = hero?.titulo || 'Renda de Filé';
-  const subtitulo = hero?.subtitulo || 'Arte secular das mãos habilidosas de Jaguaribe\n\nHá mais de 300 anos, as rendeiras de Jaguaribe preservam esta tradição única, criando peças delicadas que contam histórias e encantam gerações.';
+  const subtitulo =
+    hero?.subtitulo ||
+    'Arte secular das mãos habilidosas de Jaguaribe\n\nHá mais de 300 anos, as rendeiras de Jaguaribe preservam esta tradição única, criando peças delicadas que contam histórias e encantam gerações.';
   const ctaTexto = hero?.cta?.texto || 'Explorar Catálogo';
   const ctaLink = hero?.cta?.link || '/catalogo';
-  
+
   // Usar imagem do Sanity se disponível, senão usar a imagem padrão
-  const imagemUrl = hero?.imagem 
-    ? urlForImage(hero.imagem, { width: 2340, quality: 90 }) || hero.imagem?.asset?.url || 'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?q=80&w=2340'
+  const imagemUrl = hero?.imagem
+    ? urlForImage(hero.imagem, { width: 2340, quality: 90 }) ||
+      hero.imagem?.asset?.url ||
+      'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?q=80&w=2340'
     : 'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?q=80&w=2340';
 
   // Separar subtítulo em duas partes (primeira linha e texto adicional)
-  const [subtituloPrimeiro, ...subtituloResto] = subtitulo.split('\n').filter(Boolean);
+  const [subtituloPrimeiro, ...subtituloResto] = subtitulo
+    .split('\n')
+    .filter(Boolean);
   const subtituloTexto = subtituloResto.join(' ');
 
   return (

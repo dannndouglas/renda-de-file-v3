@@ -5,8 +5,18 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AnimatedCard } from '@/components/ui/animated-card';
 import { SectionTitle } from '@/components/ui/section-title';
+import { CallToActionSection } from '@/components/sections/call-to-action-section';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, Users, Award, Heart, Star, Package } from 'lucide-react';
+import {
+  Calendar,
+  MapPin,
+  Users,
+  Award,
+  Heart,
+  Star,
+  Package,
+  ShoppingBag,
+} from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { urlForImage } from '@/lib/images/sanity';
@@ -124,13 +134,15 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
   };
 
   // Usar dados do Sanity se disponíveis, senão usar valores padrão
-  const timelineData = paginaHistoria?.timeline && paginaHistoria.timeline.length > 0 
-    ? paginaHistoria.timeline 
-    : timelineEvents;
+  const timelineData =
+    paginaHistoria?.timeline && paginaHistoria.timeline.length > 0
+      ? paginaHistoria.timeline
+      : timelineEvents;
 
-  const tecnicasData = paginaHistoria?.tecnicas && paginaHistoria.tecnicas.length > 0
-    ? paginaHistoria.tecnicas
-    : techniques;
+  const tecnicasData =
+    paginaHistoria?.tecnicas && paginaHistoria.tecnicas.length > 0
+      ? paginaHistoria.tecnicas
+      : techniques;
   return (
     <>
       {/* Introdução */}
@@ -142,16 +154,16 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
             </h2>
             <p className="mb-4 text-gray-600">
               A Renda de Filé é mais do que uma técnica artesanal; é um
-              patrimônio cultural que conecta gerações de mulheres
-              trabalhadoras em Jaguaribe, Ceará. Esta arte delicada, que
-              combina habilidade manual com criatividade infinita, tem sido
-              transmitida de mãe para filha há mais de três séculos.
+              patrimônio cultural que conecta gerações de mulheres trabalhadoras
+              em Jaguaribe, Ceará. Esta arte delicada, que combina habilidade
+              manual com criatividade infinita, tem sido transmitida de mãe para
+              filha há mais de três séculos.
             </p>
             <p className="mb-6 text-gray-600">
               Cada peça conta uma história única, refletindo não apenas a
-              técnica apurada da rendeira, mas também suas experiências,
-              sonhos e a rica cultura local. É uma forma de resistência
-              cultural que se mantém viva e relevante na economia moderna.
+              técnica apurada da rendeira, mas também suas experiências, sonhos
+              e a rica cultura local. É uma forma de resistência cultural que se
+              mantém viva e relevante na economia moderna.
             </p>
             <Link href="/associacoes">
               <Button size="lg" className="gap-2">
@@ -163,13 +175,20 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
           <div className="relative aspect-square overflow-hidden rounded-lg">
             <Image
               src={
-                paginaHistoria?.imagemPrincipal 
-                  ? urlForImage(paginaHistoria.imagemPrincipal, { width: 800, height: 800, quality: 90 }) || 
+                paginaHistoria?.imagemPrincipal
+                  ? urlForImage(paginaHistoria.imagemPrincipal, {
+                      width: 800,
+                      height: 800,
+                      quality: 90,
+                    }) ||
                     paginaHistoria.imagemPrincipal?.asset?.url ||
-                    "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=1000"
-                  : "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=1000"
+                    'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=1000'
+                  : 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=1000'
               }
-              alt={paginaHistoria?.imagemPrincipal?.alt || "Rendeira trabalhando na Renda de Filé"}
+              alt={
+                paginaHistoria?.imagemPrincipal?.alt ||
+                'Rendeira trabalhando na Renda de Filé'
+              }
               fill
               className="object-cover"
             />
@@ -190,14 +209,20 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
 
           <div className="space-y-12">
             {timelineData.map((event: any, index: number) => {
-              const Icon = paginaHistoria?.timeline 
-                ? getIconComponent(event.icone) 
+              const Icon = paginaHistoria?.timeline
+                ? getIconComponent(event.icone)
                 : event.icon;
               const isLeft = index % 2 === 0;
               const year = paginaHistoria?.timeline ? event.ano : event.year;
-              const title = paginaHistoria?.timeline ? event.titulo : event.title;
-              const description = paginaHistoria?.timeline ? event.descricao : event.description;
-              const color = paginaHistoria?.timeline ? 'bg-orange-500' : event.color;
+              const title = paginaHistoria?.timeline
+                ? event.titulo
+                : event.title;
+              const description = paginaHistoria?.timeline
+                ? event.descricao
+                : event.description;
+              const color = paginaHistoria?.timeline
+                ? 'bg-orange-500'
+                : event.color;
 
               return (
                 <div
@@ -205,9 +230,7 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
                   className={`flex items-center ${isLeft ? 'justify-start' : 'justify-end'}`}
                 >
                   <div className={`w-1/2 ${isLeft ? 'pr-8' : 'pl-8'}`}>
-                    <Card
-                      className={`${isLeft ? 'text-right' : 'text-left'}`}
-                    >
+                    <Card className={`${isLeft ? 'text-right' : 'text-left'}`}>
                       <CardContent className="p-6">
                         <div className="mb-3 flex items-center gap-3">
                           <Badge className={`${color} text-white`}>
@@ -242,9 +265,15 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
         />
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {tecnicasData.map((technique: any, index: number) => {
-            const name = paginaHistoria?.tecnicas ? technique.nome : technique.name;
-            const description = paginaHistoria?.tecnicas ? technique.descricao : technique.description;
-            const difficulty = paginaHistoria?.tecnicas ? technique.dificuldade : technique.difficulty;
+            const name = paginaHistoria?.tecnicas
+              ? technique.nome
+              : technique.name;
+            const description = paginaHistoria?.tecnicas
+              ? technique.descricao
+              : technique.description;
+            const difficulty = paginaHistoria?.tecnicas
+              ? technique.dificuldade
+              : technique.difficulty;
 
             return (
               <AnimatedCard key={index} delay={index * 0.1}>
@@ -253,7 +282,11 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
                     <div className="relative mb-4 aspect-video overflow-hidden rounded-lg">
                       <Image
                         src={
-                          urlForImage(technique.imagem, { width: 300, height: 200, quality: 85 }) ||
+                          urlForImage(technique.imagem, {
+                            width: 300,
+                            height: 200,
+                            quality: 85,
+                          }) ||
                           technique.imagem?.asset?.url ||
                           ''
                         }
@@ -266,14 +299,13 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
                   <h3 className="mb-2 text-lg font-semibold text-gray-900">
                     {name}
                   </h3>
-                  <p className="mb-4 text-sm text-gray-600">
-                    {description}
-                  </p>
+                  <p className="mb-4 text-sm text-gray-600">{description}</p>
                   <Badge
                     variant={
                       difficulty === 'Básico' || difficulty === 'basico'
                         ? 'default'
-                        : difficulty === 'Intermediário' || difficulty === 'intermediario'
+                        : difficulty === 'Intermediário' ||
+                            difficulty === 'intermediario'
                           ? 'secondary'
                           : 'destructive'
                     }
@@ -294,13 +326,14 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
             Impacto Social e Econômico
           </h2>
           <p className="mx-auto max-w-3xl text-gray-600">
-            {paginaHistoria?.impacto?.texto || 
-             "A Renda de Filé vai muito além da arte: é uma fonte vital de renda para centenas de famílias em Jaguaribe e região"}
+            {paginaHistoria?.impacto?.texto ||
+              'A Renda de Filé vai muito além da arte: é uma fonte vital de renda para centenas de famílias em Jaguaribe e região'}
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {paginaHistoria?.impacto?.estatisticas && paginaHistoria.impacto.estatisticas.length > 0 ? (
+          {paginaHistoria?.impacto?.estatisticas &&
+          paginaHistoria.impacto.estatisticas.length > 0 ? (
             paginaHistoria.impacto.estatisticas.map((stat, index) => {
               const Icon = getIconComponent(stat.icone);
               return (
@@ -311,9 +344,7 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
                   <h3 className="mb-2 text-xl font-semibold text-gray-900">
                     {stat.numero}
                   </h3>
-                  <p className="text-gray-600">
-                    {stat.label}
-                  </p>
+                  <p className="text-gray-600">{stat.label}</p>
                 </div>
               );
             })
@@ -360,30 +391,26 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
       </section>
 
       {/* Call to Action */}
-      <section className="rounded-lg bg-gradient-to-r from-orange-500 to-red-500 p-8 text-center text-white">
-        <h2 className="mb-4 text-3xl font-bold">Faça Parte Desta História</h2>
-        <p className="mb-6 text-lg opacity-90">
-          Ao adquirir uma peça de Renda de Filé, você não apenas leva para
-          casa uma obra de arte única, mas também contribui para a preservação
-          desta tradição centenária.
-        </p>
-        <div className="flex flex-col justify-center gap-4 sm:flex-row">
-          <Link href="/catalogo">
-            <Button size="lg" variant="secondary">
-              Explorar Catálogo
-            </Button>
-          </Link>
-          <Link href="/associacoes">
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-orange-600"
-            >
-              Conhecer Rendeiras
-            </Button>
-          </Link>
-        </div>
-      </section>
+      <CallToActionSection
+        subtitle="Faça Parte Desta História"
+        title="Preserve uma Tradição Centenária"
+        description="Ao adquirir uma peça de Renda de Filé, você não apenas leva para casa uma obra de arte única, mas também contribui para a preservação desta tradição centenária e fortalece a economia das comunidades locais."
+        variant="geometric"
+        buttons={[
+          {
+            text: 'Explorar Catálogo',
+            href: '/catalogo',
+            variant: 'secondary',
+            icon: ShoppingBag,
+          },
+          {
+            text: 'Conhecer Rendeiras',
+            href: '/associacoes',
+            variant: 'outline',
+            icon: Users,
+          },
+        ]}
+      />
     </>
   );
 }
