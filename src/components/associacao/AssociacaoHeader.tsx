@@ -48,7 +48,7 @@ export function AssociacaoHeader({ associacao }: AssociacaoHeaderProps) {
             
             {/* Logo Circle */}
             {logoUrl && (
-              <div className="relative">
+              <div className="relative p-4">
                 <div className="relative h-24 w-24 sm:h-28 sm:w-28 md:h-36 md:w-36 lg:h-40 lg:w-40">
                   <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white to-gray-50 p-1 shadow-2xl">
                     <div className="relative h-full w-full overflow-hidden rounded-full bg-white">
@@ -62,7 +62,7 @@ export function AssociacaoHeader({ associacao }: AssociacaoHeaderProps) {
                   </div>
                 </div>
                 {/* Floating badge */}
-                <div className="absolute -bottom-2 -right-2">
+                <div className="absolute bottom-2 right-2">
                   <Badge className="bg-green-500 text-white shadow-lg hover:bg-green-600">
                     Ativa
                   </Badge>
