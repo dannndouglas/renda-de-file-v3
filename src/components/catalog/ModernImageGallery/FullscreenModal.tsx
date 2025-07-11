@@ -35,11 +35,18 @@ export function FullscreenModal({
   const [zoomLevel, setZoomLevel] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const [isMouseDown, setIsMouseDown] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [mouseStart, setMouseStart] = useState({ x: 0, y: 0 });
+  const [dragStartTime, setDragStartTime] = useState(0);
+  const [hasDraggedDistance, setHasDraggedDistance] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [pinchDistance, setPinchDistance] = useState<number | null>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  
+  const DRAG_THRESHOLD = 5; // pixels para considerar movimento
+  const HOLD_THRESHOLD = 200; // ms para considerar "segurar"
   
   const MIN_ZOOM = 1;
   const MAX_ZOOM = 2; // Reduzido para 200%
@@ -68,6 +75,15 @@ export function FullscreenModal({
     };
   }, [isOpen]);
 
+  // Reset zoom ao navegar entre imagens
+  useEffect(() => {
+    setZoomLevel(MIN_ZOOM);
+    setPosition({ x: 0, y: 0 });
+    setIsDragging(false);
+    setIsMouseDown(false);
+    setHasDraggedDistance(false);
+  }, [selectedIndex]);
+
   // Funções de zoom
   const handleZoomIn = useCallback(() => {
     setZoomLevel(prev => Math.min(prev + ZOOM_STEP, MAX_ZOOM));
@@ -87,40 +103,63 @@ export function FullscreenModal({
     e.stopPropagation();
     e.preventDefault();
     
-    // Clique esquerdo - ampliar
-    if (e.button === 0) {
-      if (zoomLevel < MAX_ZOOM) {
+    // Só fazer zoom se não foi um drag
+    if (!hasDraggedDistance) {
+      // Clique esquerdo - ampliar
+      if (e.button === 0 && zoomLevel < MAX_ZOOM) {
         handleZoomIn();
       }
     }
-  }, [zoomLevel, handleZoomIn]);
+  }, [zoomLevel, handleZoomIn, hasDraggedDistance]);
   
   const handleRightClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
     
-    // Clique direito - reduzir
-    if (zoomLevel > MIN_ZOOM) {
+    // Só fazer zoom se não foi um drag
+    if (!hasDraggedDistance && zoomLevel > MIN_ZOOM) {
       handleZoomOut();
     }
-  }, [zoomLevel, handleZoomOut]);
+  }, [zoomLevel, handleZoomOut, hasDraggedDistance]);
 
   // Funções de drag
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    // Apenas processar clique esquerdo para drag
+    if (e.button !== 0) return;
+    
+    e.preventDefault();
+    setIsMouseDown(true);
+    setMouseStart({ x: e.clientX, y: e.clientY });
+    setDragStartTime(Date.now());
+    setHasDraggedDistance(false);
+    
     if (zoomLevel > MIN_ZOOM) {
-      e.preventDefault();
-      setIsDragging(true);
       setDragStart({ x: e.clientX - position.x, y: e.clientY - position.y });
     }
   }, [zoomLevel, position]);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (isDragging && zoomLevel > MIN_ZOOM) {
+    if (!isMouseDown) return;
+    
+    // Detectar se houve movimento suficiente para ser considerado drag
+    const deltaX = Math.abs(e.clientX - mouseStart.x);
+    const deltaY = Math.abs(e.clientY - mouseStart.y);
+    const currentTime = Date.now();
+    const timeElapsed = currentTime - dragStartTime;
+    
+    // Só ativar drag se: tempo > threshold + movimento > threshold + zoom ativo
+    if (
+      timeElapsed > HOLD_THRESHOLD && 
+      (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD) &&
+      zoomLevel > MIN_ZOOM
+    ) {
+      setHasDraggedDistance(true);
+      setIsDragging(true);
+      
       const newX = e.clientX - dragStart.x;
       const newY = e.clientY - dragStart.y;
       
       // Calcular limites de movimento baseado no zoom e tamanho da imagem
-      // Permitir navegar até as bordas da imagem ampliada
       const rect = imageRef.current?.getBoundingClientRect();
       if (rect) {
         const scaledWidth = rect.width * zoomLevel;
@@ -134,10 +173,14 @@ export function FullscreenModal({
         });
       }
     }
-  }, [isDragging, dragStart, zoomLevel]);
+  }, [isMouseDown, mouseStart, dragStart, dragStartTime, zoomLevel]);
 
   const handleMouseUp = useCallback(() => {
+    setIsMouseDown(false);
     setIsDragging(false);
+    
+    // Reset hasDraggedDistance após um delay para que o click handler saiba se foi drag
+    setTimeout(() => setHasDraggedDistance(false), 100);
   }, []);
 
   // Zoom com scroll
@@ -171,11 +214,11 @@ export function FullscreenModal({
       setTouchStart(e.touches[0].clientX);
       
       if (zoomLevel > MIN_ZOOM) {
-        setIsDragging(true);
         setDragStart({ 
           x: e.touches[0].clientX - position.x, 
           y: e.touches[0].clientY - position.y 
         });
+        setHasDraggedDistance(false);
       }
     }
   };
@@ -195,10 +238,13 @@ export function FullscreenModal({
       }
     } else if (e.touches.length === 1) {
       // Drag quando com zoom
-      if (isDragging && zoomLevel > MIN_ZOOM) {
+      if (zoomLevel > MIN_ZOOM) {
         const touch = e.touches[0];
         const newX = touch.clientX - dragStart.x;
         const newY = touch.clientY - dragStart.y;
+        
+        setHasDraggedDistance(true);
+        setIsDragging(true);
         
         const rect = imageRef.current?.getBoundingClientRect();
         if (rect) {
@@ -253,7 +299,6 @@ export function FullscreenModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl"
-          onClick={onClose}
         >
           {/* Controles superiores */}
           <div className="absolute left-0 right-0 top-0 z-10 flex items-center justify-between p-4">
