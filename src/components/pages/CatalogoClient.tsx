@@ -9,7 +9,15 @@ import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/ui/page-header';
 import { ProductFilters } from '@/components/catalog/ProductFilters';
 import { AnimatedCard } from '@/components/ui/animated-card';
-import { Loader2, Search } from 'lucide-react';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { Badge } from '@/components/ui/badge';
+import { Loader2, Search, Filter, X } from 'lucide-react';
 import { useFilterStore } from '@/stores/use-filter-store';
 import { useSearchStore } from '@/stores/use-search-store';
 import { motion } from 'framer-motion';
@@ -82,6 +90,13 @@ export function CatalogoClient() {
 
   const totalPages = Math.ceil(produtos.length / itemsPerPage);
 
+  // Contar filtros ativos
+  const activeFiltersCount =
+    (filtros.categoria ? 1 : 0) +
+    (filtros.disponibilidade ? 1 : 0) +
+    (filtros.precoMin && filtros.precoMin > 0 ? 1 : 0) +
+    (filtros.precoMax && filtros.precoMax < 500 ? 1 : 0);
+
   return (
     <>
       <PageHeader
@@ -94,19 +109,20 @@ export function CatalogoClient() {
 
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-          {/* Filtros */}
-          <aside className="lg:col-span-1">
+          {/* Filtros Desktop */}
+          <aside className="hidden lg:col-span-1 lg:block">
             <ProductFilters />
           </aside>
 
           {/* Produtos */}
           <div className="lg:col-span-3">
-            {/* Busca */}
+            {/* Busca e Filtros Mobile */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6"
+              className="mb-6 space-y-4"
             >
+              {/* Busca */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
                 <input
@@ -116,6 +132,50 @@ export function CatalogoClient() {
                   onChange={(e) => setQuery(e.target.value)}
                   className="w-full rounded-lg border border-gray-200 bg-white py-3 pl-10 pr-4 shadow-sm transition-all focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20"
                 />
+              </div>
+
+              {/* Botão Filtros Mobile */}
+              <div className="flex items-center gap-3 lg:hidden">
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button variant="outline" className="relative gap-2">
+                      <Filter className="h-4 w-4" />
+                      Filtros
+                      {activeFiltersCount > 0 && (
+                        <Badge
+                          variant="destructive"
+                          className="absolute -right-2 -top-2 h-5 w-5 rounded-full p-0 text-xs"
+                        >
+                          {activeFiltersCount}
+                        </Badge>
+                      )}
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="left" className="w-full sm:max-w-md">
+                    <SheetHeader>
+                      <SheetTitle className="flex items-center gap-2">
+                        <Filter className="h-5 w-5" />
+                        Filtros
+                      </SheetTitle>
+                    </SheetHeader>
+                    <div className="mt-6">
+                      <ProductFilters />
+                    </div>
+                  </SheetContent>
+                </Sheet>
+
+                {/* Filtros ativos mobile */}
+                {activeFiltersCount > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={limparFiltros}
+                    className="gap-1 text-sm text-orange-600 hover:text-orange-700"
+                  >
+                    <X className="h-4 w-4" />
+                    Limpar ({activeFiltersCount})
+                  </Button>
+                )}
               </div>
             </motion.div>
 

@@ -127,7 +127,7 @@ export function ProductCard({ produto }: ProductCardProps) {
               <Button
                 variant="default"
                 size="sm"
-                className="ripple flex-1 gap-2 bg-whatsapp text-whatsapp-foreground transition-all duration-300 hover:bg-success hover:scale-105"
+                className="ripple flex-1 gap-2 bg-whatsapp text-whatsapp-foreground transition-all duration-300 hover:scale-105 hover:bg-success"
                 onClick={handleWhatsAppClick}
                 asChild
               >

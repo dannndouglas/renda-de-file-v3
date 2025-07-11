@@ -204,10 +204,13 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
           description="A evolução de uma arte que atravessa séculos e continua viva nas mãos das rendeiras"
         />
         <div className="relative">
-          {/* Linha vertical */}
-          <div className="absolute left-1/2 h-full w-0.5 -translate-x-1/2 transform bg-gray-300"></div>
+          {/* Linha vertical - oculta no mobile */}
+          <div className="absolute left-1/2 hidden h-full w-0.5 -translate-x-1/2 transform bg-gray-300 md:block"></div>
 
-          <div className="space-y-12">
+          {/* Linha vertical mobile - à esquerda */}
+          <div className="absolute left-6 h-full w-0.5 bg-gray-300 md:hidden"></div>
+
+          <div className="space-y-8 md:space-y-12">
             {timelineData.map((event: any, index: number) => {
               const Icon = paginaHistoria?.timeline
                 ? getIconComponent(event.icone)
@@ -227,12 +230,44 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
               return (
                 <div
                   key={index}
-                  className={`flex items-center ${isLeft ? 'justify-start' : 'justify-end'}`}
+                  className={`flex items-center ${isLeft ? 'md:justify-start' : 'md:justify-end'} justify-start`}
                 >
-                  <div className={`w-1/2 ${isLeft ? 'pr-8' : 'pl-8'}`}>
+                  {/* Layout Mobile */}
+                  <div className="w-full md:hidden md:w-1/2">
+                    <div className="flex items-start gap-4">
+                      {/* Ícone mobile */}
+                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border-4 border-gray-300 bg-white">
+                        <Icon className="h-6 w-6 text-gray-600" />
+                      </div>
+
+                      {/* Conteúdo mobile */}
+                      <Card className="flex-1">
+                        <CardContent className="p-4">
+                          <div className="mb-3 flex flex-col gap-2">
+                            <Badge className={`${color} w-fit text-white`}>
+                              {year}
+                            </Badge>
+                            <h3 className="text-lg font-semibold text-gray-900">
+                              {title}
+                            </h3>
+                          </div>
+                          <p className="text-sm leading-relaxed text-gray-600">
+                            {description}
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
+
+                  {/* Layout Desktop */}
+                  <div
+                    className={`hidden w-1/2 md:block ${isLeft ? 'pr-8' : 'pl-8'}`}
+                  >
                     <Card className={`${isLeft ? 'text-right' : 'text-left'}`}>
                       <CardContent className="p-6">
-                        <div className="mb-3 flex items-center gap-3">
+                        <div
+                          className={`mb-3 flex items-center gap-3 ${isLeft ? 'justify-end' : 'justify-start'}`}
+                        >
                           <Badge className={`${color} text-white`}>
                             {year}
                           </Badge>
@@ -245,8 +280,8 @@ export function HistoriaClient({ paginaHistoria }: HistoriaClientProps) {
                     </Card>
                   </div>
 
-                  {/* Ícone central */}
-                  <div className="absolute left-1/2 flex h-12 w-12 -translate-x-1/2 transform items-center justify-center rounded-full border-4 border-gray-300 bg-white">
+                  {/* Ícone central desktop */}
+                  <div className="absolute left-1/2 hidden h-12 w-12 -translate-x-1/2 transform items-center justify-center rounded-full border-4 border-gray-300 bg-white md:flex">
                     <Icon className="h-6 w-6 text-gray-600" />
                   </div>
                 </div>

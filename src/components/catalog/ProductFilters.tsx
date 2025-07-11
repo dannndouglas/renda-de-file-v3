@@ -46,7 +46,7 @@ function FilterSection({
   title,
   icon,
   children,
-  defaultOpen = true,
+  defaultOpen = false,
 }: FilterSectionProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -105,9 +105,9 @@ export function ProductFilters() {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
-      className="sticky top-24 space-y-6"
+      className="sticky top-24 space-y-6 lg:static lg:top-auto"
     >
-      <div className="rounded-lg bg-white p-6 shadow-sm">
+      <div className="rounded-lg bg-white p-4 shadow-sm lg:p-6">
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Filter className="h-5 w-5 text-orange-600" />
@@ -218,7 +218,7 @@ export function ProductFilters() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg bg-orange-50 p-4"
+          className="rounded-lg bg-orange-50 p-3 lg:p-4"
         >
           <p className="mb-2 text-sm font-medium text-orange-900">
             Filtros ativos:

@@ -9,14 +9,12 @@ interface ScrollRevealOptions {
   className?: string;
 }
 
-export function useScrollReveal(
-  options: ScrollRevealOptions = {}
-) {
+export function useScrollReveal(options: ScrollRevealOptions = {}) {
   const {
     threshold = 0.1,
     rootMargin = '0px 0px -100px 0px',
     once = true,
-    className = 'revealed'
+    className = 'revealed',
   } = options;
 
   const elementRef = useRef<HTMLDivElement>(null);
@@ -37,7 +35,7 @@ export function useScrollReveal(
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add(className);
-            
+
             if (once) {
               observer.unobserve(entry.target);
             }
@@ -70,7 +68,7 @@ export function useStaggeredScrollReveal(
     rootMargin = '0px 0px -100px 0px',
     once = true,
     className = 'revealed',
-    staggerDelay = 100
+    staggerDelay = 100,
   } = options;
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -87,11 +85,11 @@ export function useStaggeredScrollReveal(
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const index = Array.from(elements).indexOf(entry.target);
-            
+
             setTimeout(() => {
               entry.target.classList.add(className);
             }, index * staggerDelay);
-            
+
             if (once) {
               observer.unobserve(entry.target);
             }

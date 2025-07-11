@@ -25,31 +25,36 @@ export function PageHeader({
   // Definir estilos base por variante
   const variantStyles = {
     default: {
-      container: 'py-12 md:py-16 text-center bg-gradient-to-br from-renda-800 to-renda-900',
+      container:
+        'py-12 md:py-16 text-center bg-gradient-to-br from-renda-800 to-renda-900',
       subtitle: 'text-renda-200/90',
       title: 'text-white',
       description: 'text-renda-100/90',
     },
     centered: {
-      container: 'py-12 md:py-16 text-center bg-gradient-to-br from-renda-700 via-renda-800 to-renda-900',
+      container:
+        'py-12 md:py-16 text-center bg-gradient-to-br from-renda-700 via-renda-800 to-renda-900',
       subtitle: 'text-renda-200/90',
       title: 'text-white',
       description: 'text-renda-100/90',
     },
     minimal: {
-      container: 'py-8 md:py-12 text-center bg-renda-800 border-b border-renda-700',
+      container:
+        'py-8 md:py-12 text-center bg-renda-800 border-b border-renda-700',
       subtitle: 'text-renda-200',
       title: 'text-white',
       description: 'text-renda-100',
     },
     elegant: {
-      container: 'py-16 md:py-20 text-center bg-gradient-to-br from-renda-900 to-black',
+      container:
+        'py-16 md:py-20 text-center bg-gradient-to-br from-renda-900 to-black',
       subtitle: 'text-renda-200/90',
       title: 'text-white',
       description: 'text-renda-100/90',
     },
     soft: {
-      container: 'py-12 md:py-16 text-center bg-gradient-to-br from-renda-600 to-renda-800',
+      container:
+        'py-12 md:py-16 text-center bg-gradient-to-br from-renda-600 to-renda-800',
       subtitle: 'text-renda-100/90',
       title: 'text-white',
       description: 'text-renda-50/90',
@@ -92,7 +97,9 @@ export function PageHeader({
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className={cn(
             'mx-auto',
-            variant === 'centered' || variant === 'elegant' ? 'max-w-4xl' : 'max-w-6xl'
+            variant === 'centered' || variant === 'elegant'
+              ? 'max-w-4xl'
+              : 'max-w-6xl'
           )}
         >
           {/* Subtitle */}
@@ -100,7 +107,11 @@ export function PageHeader({
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                duration: 0.6,
+                delay: 0.1,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className={cn(
                 'mb-4 text-sm font-semibold uppercase tracking-wider',
                 currentVariant.subtitle
@@ -118,10 +129,10 @@ export function PageHeader({
             className={cn(
               'font-bold leading-tight tracking-tight',
               variant === 'minimal'
-                ? 'text-3xl md:text-4xl mb-4'
+                ? 'mb-4 text-3xl md:text-4xl'
                 : variant === 'elegant'
-                  ? 'text-4xl md:text-5xl lg:text-7xl mb-6'
-                  : 'text-4xl md:text-5xl lg:text-6xl mb-6',
+                  ? 'mb-6 text-4xl md:text-5xl lg:text-7xl'
+                  : 'mb-6 text-4xl md:text-5xl lg:text-6xl',
               currentVariant.title
             )}
           >
@@ -133,10 +144,16 @@ export function PageHeader({
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                duration: 0.7,
+                delay: 0.3,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className={cn(
                 'text-lg leading-relaxed',
-                variant === 'centered' || variant === 'elegant' ? 'mx-auto max-w-3xl' : 'max-w-4xl',
+                variant === 'centered' || variant === 'elegant'
+                  ? 'mx-auto max-w-3xl'
+                  : 'max-w-4xl',
                 children ? 'mb-8' : '',
                 currentVariant.description
               )}
@@ -150,10 +167,15 @@ export function PageHeader({
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                duration: 0.7,
+                delay: 0.4,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               className={cn(
                 'mt-8',
-                (variant === 'centered' || variant === 'elegant') && 'flex justify-center'
+                (variant === 'centered' || variant === 'elegant') &&
+                  'flex justify-center'
               )}
             >
               {children}

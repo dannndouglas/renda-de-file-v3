@@ -127,14 +127,16 @@ export function StatsSection({
                 style={{ transitionDelay: `${index * 150}ms` }}
               >
                 <div className="card-3d-content">
-                  <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-100 to-orange-200 shadow-lg transition-all duration-500 hover:shadow-xl group-hover:scale-125 group-hover:rotate-12">
+                  <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-100 to-orange-200 shadow-lg transition-all duration-500 hover:shadow-xl group-hover:rotate-12 group-hover:scale-125">
                     <Icon className="h-10 w-10 text-orange-600 transition-all duration-300 group-hover:text-orange-700" />
                   </div>
                   <div className="mb-3 text-5xl font-bold text-gray-900 transition-all duration-300 group-hover:text-orange-600">
                     {stat.value}
                     {stat.suffix}
                   </div>
-                  <div className="text-lg text-gray-600 transition-all duration-300 group-hover:text-gray-800">{stat.label}</div>
+                  <div className="text-lg text-gray-600 transition-all duration-300 group-hover:text-gray-800">
+                    {stat.label}
+                  </div>
                 </div>
               </div>
             );

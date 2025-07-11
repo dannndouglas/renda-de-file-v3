@@ -51,11 +51,13 @@ export function ScrollReveal({
     <div
       ref={ref}
       className={`${getAnimationClass()} ${className}`}
-      style={{
-        '--animation-delay': `${delay}ms`,
-        '--animation-duration': `${duration}s`,
-        '--animation-distance': `${distance}px`,
-      } as React.CSSProperties}
+      style={
+        {
+          '--animation-delay': `${delay}ms`,
+          '--animation-duration': `${duration}s`,
+          '--animation-distance': `${distance}px`,
+        } as React.CSSProperties
+      }
     >
       {children}
     </div>

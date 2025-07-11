@@ -1,6 +1,7 @@
 'use client';
 
 import { HeroSection } from '@/components/home/HeroSection';
+import { AboutSection } from '@/components/home/AboutSection';
 import { StatsSection } from '@/components/home/StatsSection';
 import { ProductCard } from '@/components/catalog/ProductCard';
 import { CallToActionSection } from '@/components/sections/call-to-action-section';
@@ -18,29 +19,34 @@ interface ClientHomePageProps {
 }
 
 export default function ClientHomePage({ homeData }: ClientHomePageProps) {
-  const produtosRef = useStaggeredScrollReveal({ 
+  const produtosRef = useStaggeredScrollReveal({
     staggerDelay: 150,
     threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    rootMargin: '0px 0px -50px 0px',
   });
-  const noticiasRef = useStaggeredScrollReveal({ 
+  const noticiasRef = useStaggeredScrollReveal({
     staggerDelay: 100,
     threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    rootMargin: '0px 0px -50px 0px',
   });
 
-  const { produtos, stats, noticias, paginaInicial, configuracoes } = homeData || {};
+  const { produtos, stats, noticias, paginaInicial, configuracoes } =
+    homeData || {};
 
   useEffect(() => {
     // Garante que os títulos das seções sejam sempre visíveis
-    const sectionHeaders = document.querySelectorAll('h2, h3') as NodeListOf<HTMLElement>;
+    const sectionHeaders = document.querySelectorAll(
+      'h2, h3'
+    ) as NodeListOf<HTMLElement>;
     sectionHeaders.forEach((header) => {
       header.style.opacity = '1';
       header.style.transform = 'translateY(0)';
     });
 
     // Adiciona animação apenas aos elementos que devem ser animados
-    const animatedElements = document.querySelectorAll('.card-3d, .product-card, article');
+    const animatedElements = document.querySelectorAll(
+      '.card-3d, .product-card, article'
+    );
     animatedElements.forEach((element) => {
       element.classList.add('animate-in');
     });
@@ -50,6 +56,9 @@ export default function ClientHomePage({ homeData }: ClientHomePageProps) {
     <main className="min-h-screen">
       {/* Hero Section */}
       <HeroSection hero={paginaInicial?.hero} />
+
+      {/* About Section */}
+      <AboutSection sobre={paginaInicial?.sobre} />
 
       {/* Estatísticas */}
       <StatsSection
@@ -72,12 +81,12 @@ export default function ClientHomePage({ homeData }: ClientHomePageProps) {
             </p>
           </div>
 
-          <div ref={produtosRef} className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div
+            ref={produtosRef}
+            className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          >
             {produtos?.map((produto: any, index: number) => (
-              <div
-                key={produto._id}
-                className="card-3d scroll-reveal"
-              >
+              <div key={produto._id} className="card-3d scroll-reveal">
                 <ProductCard produto={produto} />
               </div>
             ))}
@@ -85,7 +94,10 @@ export default function ClientHomePage({ homeData }: ClientHomePageProps) {
 
           <div className="text-center">
             <Link href="/catalogo">
-              <Button size="lg" className="ripple gap-2 hover:shadow-lg transition-all duration-300">
+              <Button
+                size="lg"
+                className="ripple gap-2 transition-all duration-300 hover:shadow-lg"
+              >
                 Ver Catálogo Completo
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -107,7 +119,10 @@ export default function ClientHomePage({ homeData }: ClientHomePageProps) {
               </p>
             </div>
 
-            <div ref={noticiasRef} className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div
+              ref={noticiasRef}
+              className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-3"
+            >
               {noticias.map((noticia: Noticia, index: number) => (
                 <article
                   key={noticia._id}
@@ -116,7 +131,7 @@ export default function ClientHomePage({ homeData }: ClientHomePageProps) {
                   <Link href={`/noticias/${noticia.slug.current}`}>
                     <div className="card-3d-content">
                       {noticia.imagemPrincipal && (
-                        <div className="relative aspect-video bg-gray-200 overflow-hidden">
+                        <div className="relative aspect-video overflow-hidden bg-gray-200">
                           <Image
                             src={
                               urlForImage(noticia.imagemPrincipal, {
@@ -152,7 +167,11 @@ export default function ClientHomePage({ homeData }: ClientHomePageProps) {
 
             <div className="text-center">
               <Link href="/noticias">
-                <Button variant="outline" size="lg" className="ripple gap-2 hover:shadow-lg transition-all duration-300">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="ripple gap-2 transition-all duration-300 hover:shadow-lg"
+                >
                   Ver Todas as Notícias
                   <ArrowRight className="h-4 w-4" />
                 </Button>
